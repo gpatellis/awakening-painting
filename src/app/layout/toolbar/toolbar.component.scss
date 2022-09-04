@@ -4,4 +4,16 @@
     background: $white;
     height: 64px;
     border-bottom: 2px solid $dark-blue;
+   .heading {
+    h1 {
+        font-family: 'Gill Sans', sans-serif;
+        margin-bottom: 0;
+        span:nth-child(1) {
+            color: $dark-blue;
+        }
+        span:nth-child(2) {
+            color: $light-blue;
+        }
+    }
+   }
 }
