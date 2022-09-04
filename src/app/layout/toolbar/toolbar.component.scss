@@ -1,0 +1,7 @@
+@import '../../../styles/colors.scss';
+
+.toolbar {
+    background: $white;
+    height: 64px;
+    border-bottom: 2px solid $dark-blue;
+}

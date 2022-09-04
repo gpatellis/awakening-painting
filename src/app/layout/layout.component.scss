@@ -1,0 +1,32 @@
+@import '../../styles/colors.scss';
+
+.layout-body {
+    overflow-y: hidden;
+    .temp-section {
+        background-image: url("../../assets/images/website-water-backround.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+}
+
+.temp-section::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.temp-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.temp-section::-webkit-scrollbar-thumb {
+  background: $dark-blue;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $dark-blue;
+}
