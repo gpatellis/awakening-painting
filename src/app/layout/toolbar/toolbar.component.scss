@@ -8,12 +8,19 @@
     h1 {
         font-family: 'Gill Sans', sans-serif;
         margin-bottom: 0;
+        line-height: 1.5;
         span:nth-child(1) {
             color: $dark-blue;
         }
         span:nth-child(2) {
             color: $light-blue;
         }
+       
+    }
+    .logo {
+        transform: rotate(1deg);
+        width: 143.5px;
+        height: 51px;
     }
    }
 }
