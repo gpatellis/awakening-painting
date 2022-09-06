@@ -4,6 +4,7 @@
     overflow-y: hidden;
     .temp-section {
         background-image: url("../../assets/images/website-water-backround.jpg");
+        background-color: $white;
         background-size: cover;
         background-repeat: no-repeat;
         height: 100vh;
@@ -28,5 +29,5 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $dark-blue;
+  background: rgba($dark-blue, 0.85);
 }
