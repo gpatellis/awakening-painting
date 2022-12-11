@@ -1,0 +1,10 @@
+<img class="ps-sm-3 ps-2 menu-icon" mat-button [matMenuTriggerFor]="menu" src="../../../assets/icons/hamburger-menu.png" alt="Hamburger Menu">
+<mat-menu #menu="matMenu">
+  <div *ngFor="let item of menuItems">
+    <button mat-menu-item>
+      <mat-icon>{{item.icon}}</mat-icon>
+      <span>{{item.name}}</span>
+    </button>
+  </div>
+</mat-menu>
+  

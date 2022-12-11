@@ -1,0 +1,13 @@
+.menu-icon {
+    height: 22px;
+    :hover {
+        
+    }
+}
+
+::ng-deep .mat-menu-panel {
+    width: 200px;
+    margin-top: 22px;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
