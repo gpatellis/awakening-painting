@@ -2,27 +2,28 @@
 
 .layout-body {
     overflow-y: hidden;
-    .temp-section {
+    .content {
         background-image: url("../../assets/images/website-water-backround.jpg");
         background-color: $white;
         background-size: cover;
         background-repeat: no-repeat;
         height: 100vh;
+        min-height: 100vh;
         overflow-y: scroll;
     }
 }
 
-.temp-section::-webkit-scrollbar {
+.content::-webkit-scrollbar {
   width: 11.5px;
 }
 
 /* Track */
-.temp-section::-webkit-scrollbar-track {
+.content::-webkit-scrollbar-track {
   background: transparent;
 }
 
 /* Handle */
-.temp-section::-webkit-scrollbar-thumb {
+.content::-webkit-scrollbar-thumb {
   background: $dark-blue;
   border-radius: 3px;
 }

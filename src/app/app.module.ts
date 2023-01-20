@@ -8,13 +8,17 @@ import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { HamburgerMenuComponent } from './layout/toolbar/hamburger-menu/hamburger-menu/hamburger-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GalleryComponent } from './layout/gallery/gallery.component';
+import { AboutComponent } from './layout/about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     ToolbarComponent,
-    HamburgerMenuComponent
+    HamburgerMenuComponent,
+    GalleryComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
