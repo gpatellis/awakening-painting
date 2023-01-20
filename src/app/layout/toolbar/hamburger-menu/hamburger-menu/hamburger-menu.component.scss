@@ -1,8 +1,5 @@
 .menu-icon {
     height: 22px;
-    :hover {
-        
-    }
 }
 
 ::ng-deep .mat-menu-panel {
@@ -11,4 +8,14 @@
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
+}
+
+::ng-deep .mat-menu-item {
+    font-family: "Gill Sans", sans-serif !important;
+    font-size: 16px;
+    font-weight: 400;
+    .mat-icon {
+        margin-top: -4px;
+        color: #3973AC;
+    }
 }
