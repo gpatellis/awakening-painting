@@ -10,6 +10,7 @@ import { HamburgerMenuComponent } from './layout/toolbar/hamburger-menu/hamburge
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GalleryComponent } from './layout/gallery/gallery.component';
 import { AboutComponent } from './layout/about/about.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AboutComponent } from './layout/about/about.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
