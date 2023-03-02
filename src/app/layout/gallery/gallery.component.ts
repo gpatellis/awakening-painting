@@ -1,5 +1,5 @@
-import { Component, OnInit, Sanitizer } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
+import { PaintingData } from './gallery-interfaces';
 import { PaintingImageServiceService } from './painting-image-service.service';
 
 @Component({
@@ -9,19 +9,18 @@ import { PaintingImageServiceService } from './painting-image-service.service';
 })
 export class GalleryComponent implements OnInit {
   image: any;
+  paintingImages: PaintingData[] = [];
   constructor(
-    private paintingImageService: PaintingImageServiceService,
-    private sanitizer: DomSanitizer
+    private paintingImageService: PaintingImageServiceService
     ) { }
 
   ngOnInit(): void {
-    this.getAllGalleryImages();
+    this.getPaintingData();
   }
 
-  getAllGalleryImages() {
-    this.paintingImageService.getAllGalleryImages().subscribe((picture) => {
-      let objectURL = URL.createObjectURL(picture as Blob);
-      this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  getPaintingData() {
+    this.paintingImageService.getPaintingData().subscribe((paintingData) => {
+      this.paintingImages = this.paintingImageService.populatePaintingDataWithImages(paintingData);
     });
   }
 }

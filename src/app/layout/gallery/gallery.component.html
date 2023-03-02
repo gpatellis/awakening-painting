@@ -1,2 +1,5 @@
-<p>gallery works!</p>
-<img [src]="image">
+<div *ngIf="paintingImages.length">
+    <div *ngFor="let painting of paintingImages">
+        <img class="painting-image" [src]="painting.renderedImage">
+    </div>
+</div>
