@@ -10,6 +10,7 @@ export interface PaintingData { // create enums
     DateFinished: string;
     status: string;
     renderedImage: SafeUrl;
+    objectUrl: string;
 }
 
 export interface PaintingDataResponse {
