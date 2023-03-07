@@ -40,4 +40,12 @@ export class GalleryComponent implements OnInit {
     }
   }
 
+  getImageHeight(painting: PaintingData) {
+    if (painting.aspectRatio > 2) 
+      return '150px';
+    else if ((painting.aspectRatio) < 2 && (painting.aspectRatio > 1.49))
+      return '215px';
+     else
+      return '230px';
+    }
 }
