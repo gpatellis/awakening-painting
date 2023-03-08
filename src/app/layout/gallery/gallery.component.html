@@ -2,7 +2,7 @@
     <div *ngFor="let painting of paintingData" class="col-12 col-md-6 col-xl-4 p-3">
         <section class="painting-card p-2 w-100">
             <div class="d-flex painting-image-container my-3">
-                <img [style.height]="getImageHeight(painting)" [ngStyle]="{'aspect-ratio': painting.aspectRatio}" [src]="painting.renderedImage">
+                <img [style.height]="getImageHeight(painting)" [style.width]="getImageWidth()" [ngStyle]="{'aspect-ratio': painting.aspectRatio}" [src]="painting.renderedImage">
             </div>
             <ul class>
                 <li><b>Description: </b>{{painting.name}}</li>
