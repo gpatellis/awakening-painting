@@ -12,6 +12,7 @@ export interface PaintingData { // create enums
     renderedImage: SafeUrl;
     objectUrl: string;
     aspectRatio: number;
+    price: number;
 }
 
 export interface PaintingDataResponse {

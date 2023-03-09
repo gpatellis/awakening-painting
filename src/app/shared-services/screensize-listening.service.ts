@@ -7,9 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ScreensizeListeningService {
   public isMobileView = new BehaviorSubject<boolean>(false);
+  public isTabletView = new BehaviorSubject<boolean>(false);
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.checkMobileView();
+    this.checkTabletView();
    }
 
   checkMobileView() {
@@ -20,6 +22,18 @@ export class ScreensizeListeningService {
         this.isMobileView.next(true);
       } else {
         this.isMobileView.next(false)
+      }
+    });
+  }
+
+  checkTabletView() {
+    this.breakpointObserver.observe([
+      "(max-width: 768px)", "(min-width: 577px)"
+    ]).subscribe((result: BreakpointState) => {
+      if (result.breakpoints["(max-width: 768px)"] && result.breakpoints["(min-width: 577px)"]) {
+        this.isTabletView.next(true);
+      } else {
+        this.isTabletView.next(false)
       }
     });
   }

@@ -15,6 +15,7 @@ export class GalleryComponent implements OnInit {
   paintingData: PaintingData[] = [];
   browserRefresh: boolean = false;
   isMobileView = false;
+  isTabletView = false;
 
   constructor(
     private paintingImageService: PaintingImageServiceService,
@@ -23,6 +24,7 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit(): void {
     this.listenForMobileView();
+    this.listenForTableView();
     this.testForBrowserRefresh();
     let paintingData = JSON.parse(localStorage.getItem('paintingData') as string);
     if (paintingData) {
@@ -35,6 +37,12 @@ export class GalleryComponent implements OnInit {
   listenForMobileView() {
     this.screensizeListeningService.isMobileView.subscribe((isMobileView: boolean) => {
       this.isMobileView = isMobileView;
+    });
+  }
+
+  listenForTableView() {
+    this.screensizeListeningService.isTabletView.subscribe((isTabletView: boolean) => {
+      this.isTabletView = isTabletView;
     });
   }
 
@@ -51,22 +59,4 @@ export class GalleryComponent implements OnInit {
       this.paintingImageService.removePaintingImagesFromLocalStorage();
     }
   }
-
-  getImageHeight(painting: PaintingData) {
-    if(this.isMobileView)
-      return;
-    else if (painting.aspectRatio > 2) 
-      return '150px';
-    else if ((painting.aspectRatio) < 2 && (painting.aspectRatio > 1.49))
-      return '215px';
-     else
-      return '230px';
-    } 
-    
-    getImageWidth() {
-      if(this.isMobileView) {
-        return '85%';
-      }
-      return;
-    }
 }

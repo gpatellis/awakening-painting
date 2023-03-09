@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GalleryComponent } from './layout/gallery/gallery.component';
 import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingIndicatorComponent } from './shared-components/loading-indicator/loading-indicator.component';
+import { PaintingCardComponent } from './layout/gallery/painting-card/painting-card.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     ToolbarComponent,
     HamburgerMenuComponent,
     GalleryComponent,
-    AboutComponent
+    AboutComponent,
+    LoadingIndicatorComponent,
+    PaintingCardComponent
   ],
   imports: [
     BrowserModule,

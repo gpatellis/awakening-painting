@@ -1,0 +1,20 @@
+<section class="painting-card p-2 w-100" [ngClass]="{'painting-card--border': !isMobileView && !isTabletView}">
+    <div class="my-5" *ngIf="painting.renderedImage == undefined; else displayImage">
+        <ap-loading-indicator></ap-loading-indicator>
+    </div>
+    <ng-template #displayImage>
+        <div class="d-flex painting-card__image-container my-3">
+            <img [style.height]="getImageHeight(painting)" [style.width]="getImageWidth()"
+                [ngStyle]="{'aspect-ratio': painting.aspectRatio}" [src]="painting.renderedImage">
+        </div>
+    </ng-template>
+    <div class="text-center painting-card__subinfo">
+        <h4 class="painting-card__title">{{painting.name}}</h4>
+        <div>{{painting.paintType}} painting</div>
+        <div>{{painting.dimensions}}</div>
+        <div>{{painting.price}}$</div>
+    </div>
+    <div class="text-center" *ngIf="isMobileView || isTabletView">
+        <button mat-raised-button [disabled]="!painting.renderedImage" class="my-3 painting-card__view-details">View Details</button>
+    </div>
+</section>
