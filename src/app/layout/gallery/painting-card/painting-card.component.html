@@ -3,6 +3,7 @@
         <ap-loading-indicator></ap-loading-indicator>
     </div>
     <ng-template #displayImage>
+        <div class="painting-card__status--{{painting.status}} painting-card__status px-4">{{painting.status}}</div>
         <div class="d-flex painting-card__image-container my-3">
             <img [style.height]="getImageHeight(painting)" [style.width]="getImageWidth()"
                 [ngStyle]="{'aspect-ratio': painting.aspectRatio}" [src]="painting.renderedImage">

@@ -9,7 +9,6 @@
         border: 2px solid $dark-blue;
         cursor: pointer;
     }
-    &
     &__image-container { 
         align-items: center;
         justify-content: center;
@@ -19,6 +18,23 @@
      }
      &__subinfo {
         font-size: 14px;
+     }
+
+     &__status {
+         width: fit-content;
+         border-bottom-right-radius: 3px;
+         transform: translate(-8.5px,-9px);
+         border-top-left-radius: 3px;
+         opacity: 50%;
+         &--Available {
+            background: $green;
+         }
+         &--Unavailable {
+            background: $black-4;
+         }
+         &--Sold {
+            background: $purple-8;
+         }
      }
 
      &__view-details{
