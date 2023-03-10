@@ -1,0 +1,4 @@
+<mat-dialog-content><div *ngIf="paintingModalData && paintingModalData.painting" class="painting-modal">
+    <img class="painting-modal__image" [ngClass]="{'painting-modal__image--desktop': !this.paintingModalData.isMobileView && !this.paintingModalData.isTabletView,'painting-modal__image--mobile': this.paintingModalData.isMobileView}"
+     [ngStyle]="{'aspect-ratio': paintingModalData.painting.aspectRatio}" [src]="paintingModalData.painting.renderedImage">
+</div></mat-dialog-content>

@@ -1,0 +1,12 @@
+@import "../../../../../styles/colors.scss";
+
+.painting-modal{
+    &__image{
+        &--desktop {
+            width: 70%
+        }
+        &--mobile {
+            width: 90%
+        }
+    }
+}

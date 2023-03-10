@@ -18,3 +18,9 @@ export interface PaintingData { // create enums
 export interface PaintingDataResponse {
     paintings: PaintingData[];
 }
+
+export interface PaintingModalData {
+    painting: PaintingData;
+    isMobileView: boolean;
+    isTabletView: boolean;
+}

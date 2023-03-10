@@ -1,4 +1,4 @@
-<section class="painting-card p-2 w-100" [ngClass]="{'painting-card--border': !isMobileView && !isTabletView}">
+<section class="painting-card p-2 w-100" [ngClass]="{'painting-card--border': !isMobileView && !isTabletView && painting.renderedImage}" (click)="openPaintingDetailsModal()">
     <div class="my-5" *ngIf="painting.renderedImage == undefined; else displayImage">
         <ap-loading-indicator></ap-loading-indicator>
     </div>

@@ -13,6 +13,8 @@ import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingIndicatorComponent } from './shared-components/loading-indicator/loading-indicator.component';
 import { PaintingCardComponent } from './layout/gallery/painting-card/painting-card.component';
+import { PaintingDetailsModalComponent } from './layout/gallery/painting-card/painting-details-modal/painting-details-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { PaintingCardComponent } from './layout/gallery/painting-card/painting-c
     GalleryComponent,
     AboutComponent,
     LoadingIndicatorComponent,
-    PaintingCardComponent
+    PaintingCardComponent,
+    PaintingDetailsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { PaintingCardComponent } from './layout/gallery/painting-card/painting-c
     BrowserAnimationsModule,
     MatMenuModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

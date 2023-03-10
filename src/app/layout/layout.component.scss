@@ -12,23 +12,3 @@
         overflow-y: scroll;
     }
 }
-
-.content::-webkit-scrollbar {
-  width: 11.5px;
-}
-
-/* Track */
-.content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-.content::-webkit-scrollbar-thumb {
-  background: $dark-blue;
-  border-radius: 3px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgba($dark-blue, 0.85);
-}
