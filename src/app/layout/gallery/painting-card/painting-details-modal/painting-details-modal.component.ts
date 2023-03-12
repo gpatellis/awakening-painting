@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PaintingModalData } from '../../gallery-interfaces';
+import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 
 @Component({
   selector: 'ap-painting-details-modal',
@@ -14,6 +14,26 @@ export class PaintingDetailsModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
+  }
+
+  getImageHeight(painting: PaintingData) {
+    if(painting.aspectRatio < 1) {
+      return '100%';
+    } 
+    return undefined;
+  }
+
+  getImageWidth(painting: PaintingData) {
+    if(painting.aspectRatio > 1 && painting.aspectRatio < 1.2) {
+      return '70%';
+    } else if (painting.aspectRatio >= 1.2 && painting.aspectRatio < 1.3) {
+      return '80%';
+    }else if(painting.aspectRatio >= 1.3 && painting.aspectRatio < 1.4) {
+      return '90%';
+    } else if (painting.aspectRatio >= 1.4) {
+      return '100%';
+    }
+    return undefined;
   }
 
 }

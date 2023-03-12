@@ -1,12 +1,17 @@
 @import "../../../../../styles/colors.scss";
 
-.painting-modal{
-    &__image{
-        &--desktop {
-            width: 70%
-        }
-        &--mobile {
-            width: 90%
-        }
-    }
+.painting-xlong {
+    width: 78% !important;
+}
+
+
+.mat-dialog-content {
+    max-height: fit-content;
+    height: 100%
+}
+
+::ng-deep .painting-details-modal {
+    height: 95vh;
+    width: fit-content;
+    max-width: none;
 }

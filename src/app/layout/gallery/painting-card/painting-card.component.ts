@@ -44,7 +44,8 @@ export class PaintingCardComponent implements OnInit {
             painting: this.painting,
             isMobileView: this.isMobileView,
             isTabletView: this.isTabletView
-          }
+          },
+          panelClass: 'painting-details-modal'
         });
       }
     }

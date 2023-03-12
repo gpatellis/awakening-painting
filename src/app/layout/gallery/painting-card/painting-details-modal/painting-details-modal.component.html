@@ -1,4 +1,17 @@
-<mat-dialog-content><div *ngIf="paintingModalData && paintingModalData.painting" class="painting-modal">
-    <img class="painting-modal__image" [ngClass]="{'painting-modal__image--desktop': !this.paintingModalData.isMobileView && !this.paintingModalData.isTabletView,'painting-modal__image--mobile': this.paintingModalData.isMobileView}"
-     [ngStyle]="{'aspect-ratio': paintingModalData.painting.aspectRatio}" [src]="paintingModalData.painting.renderedImage">
-</div></mat-dialog-content>
+<mat-dialog-content>
+    <div *ngIf="paintingModalData && paintingModalData.painting" class="painting-modal h-100">
+        <div class="d-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
+            <img [style.height]="getImageHeight(paintingModalData.painting)" [style.width]="getImageWidth(paintingModalData.painting)" 
+            [ngStyle]="{'aspect-ratio': paintingModalData.painting.aspectRatio}" [ngClass]="{'painting-xlong': paintingModalData.painting.aspectRatio > 2}" [src]="paintingModalData.painting.renderedImage">
+        <ul class="" >
+        <li><b>Description: </b>{{paintingModalData.painting.name}}</li>
+        <li><b>Paint Type: </b>{{paintingModalData.painting.paintType}}</li>
+        <li><b>Dimensions: </b>{{paintingModalData.painting.dimensions}}</li>
+        <li><b>Edges Painted: </b>{{paintingModalData.painting.edgesPainted}}</li>
+        <li><b>Surface Type: </b>{{paintingModalData.painting.surfaceType}}</li>
+        <li><b>Date Finished: </b>{{paintingModalData.painting.DateFinished}}</li>
+        <li><b>Status: </b>{{paintingModalData.painting.status}}</li>
+        </ul>
+        </div>
+    </div>
+</mat-dialog-content>
