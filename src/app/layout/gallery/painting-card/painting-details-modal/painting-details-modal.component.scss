@@ -11,7 +11,9 @@
 }
 
 ::ng-deep .painting-details-modal {
-    height: 95vh;
-    width: fit-content;
-    max-width: none;
+    height: fit-content;
+    width: 80vw;
+    max-width: 90vw !important;
+    max-height: 90vh;
+    overflow-y: scroll;
 }

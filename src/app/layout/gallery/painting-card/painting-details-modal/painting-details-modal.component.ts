@@ -1,5 +1,6 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 
 @Component({
@@ -9,31 +10,29 @@ import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 })
 export class PaintingDetailsModalComponent implements OnInit {
   public paintingModalData!: PaintingModalData;
+  isMobileView: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
+  private screensizeListeningService: ScreensizeListeningService) { }
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-  }
-
-  getImageHeight(painting: PaintingData) {
-    if(painting.aspectRatio < 1) {
-      return '100%';
-    } 
-    return undefined;
+    this.screensizeListeningService.isMobileView.subscribe((value) => {
+      this.isMobileView = value;
+    })
   }
 
   getImageWidth(painting: PaintingData) {
-    if(painting.aspectRatio > 1 && painting.aspectRatio < 1.2) {
-      return '70%';
-    } else if (painting.aspectRatio >= 1.2 && painting.aspectRatio < 1.3) {
-      return '80%';
-    }else if(painting.aspectRatio >= 1.3 && painting.aspectRatio < 1.4) {
-      return '90%';
-    } else if (painting.aspectRatio >= 1.4) {
-      return '100%';
-    }
-    return undefined;
-  }
+    if (this.isMobileView) //work here and on modal width
+      return '68vw'
+    else if(painting.aspectRatio < 0.9)
+      return '35vw';
+    else if (painting.aspectRatio >= 0.9 && painting.aspectRatio < 1.4)
+      return '45vw';
+    else if (painting.aspectRatio >= 1.4)
+      return '50vw';
+    else
+      return '45vw';
+  } 
 
 }
