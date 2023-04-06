@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,34 +8,34 @@ import { BehaviorSubject } from 'rxjs';
 export class ScreensizeListeningService {
   public isMobileView = new BehaviorSubject<boolean>(false);
   public isTabletView = new BehaviorSubject<boolean>(false);
+  public isMobileOrTabletView = new BehaviorSubject<boolean>(false);
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.checkMobileView();
     this.checkTabletView();
+    this.checkTabletOrMobileView();
    }
 
   checkMobileView() {
     this.breakpointObserver.observe([
       "(max-width: 576px)"
     ]).subscribe((result: BreakpointState) => {
-      if (result.matches) {
-        this.isMobileView.next(true);
-      } else {
-        this.isMobileView.next(false)
-      }
+      (result.matches) ?  this.isMobileView.next(true): this.isMobileView.next(false);
     });
   }
 
   checkTabletView() {
     this.breakpointObserver.observe([
-      "(max-width: 768px)", "(min-width: 577px)"
+      "(max-width: 992px)", "(min-width: 577px)"
     ]).subscribe((result: BreakpointState) => {
-      if (result.breakpoints["(max-width: 768px)"] && result.breakpoints["(min-width: 577px)"]) {
-        this.isTabletView.next(true);
-      } else {
-        this.isTabletView.next(false)
-      }
+      (result.breakpoints["(max-width: 992px)"] && result.breakpoints["(min-width: 577px)"]) ? this.isTabletView.next(true): this.isTabletView.next(false);
     });
+  }
+
+  checkTabletOrMobileView() {
+    combineLatest([this.isMobileView, this.isTabletView]).subscribe(([isMobileViewValue, isTabletViewValue]) => {
+      (isMobileViewValue || isTabletViewValue) ? this.isMobileOrTabletView.next(true): this.isMobileOrTabletView.next(false);
+    })
   }
   
 }

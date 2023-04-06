@@ -21,6 +21,9 @@
         transform: rotate(1deg);
         width: 143.5px;
         height: 51px;
+        @media  screen and (max-width: 576px) {
+            height: 40px !important;
+        }
     }
    }
 }

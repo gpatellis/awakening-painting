@@ -10,21 +10,21 @@ import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 })
 export class PaintingDetailsModalComponent implements OnInit {
   public paintingModalData!: PaintingModalData;
-  isMobileView: boolean = false;
+  isMobileOrTabletView: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService) { }
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-    this.screensizeListeningService.isMobileView.subscribe((value) => {
-      this.isMobileView = value;
+    this.screensizeListeningService.isMobileOrTabletView.subscribe((value) => {
+      this.isMobileOrTabletView = value;
     })
   }
 
   getImageWidth(painting: PaintingData) {
-    if (this.isMobileView) //work here and on modal width
-      return '68vw'
+    if (this.isMobileOrTabletView){
+      return '100%'}
     else if(painting.aspectRatio < 0.9)
       return '35vw';
     else if (painting.aspectRatio >= 0.9 && painting.aspectRatio < 1.4)

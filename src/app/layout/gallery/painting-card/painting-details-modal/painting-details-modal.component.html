@@ -1,6 +1,6 @@
 <mat-dialog-content>
     <div *ngIf="paintingModalData && paintingModalData.painting" class="h-100">
-        <div class="d-md-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
+        <div class="d-lg-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
             <img [style.height]="'fit-content'" [style.width]="getImageWidth(paintingModalData.painting)" 
             [ngStyle]="{'aspect-ratio': paintingModalData.painting.aspectRatio}" [src]="paintingModalData.painting.renderedImage">
             <ul>
