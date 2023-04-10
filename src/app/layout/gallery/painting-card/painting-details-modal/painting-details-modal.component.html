@@ -1,4 +1,5 @@
 <mat-dialog-content>
+    <mat-icon class="close-button mb-2 mb-lg-0" (click)="closePaintingDetailsModal()">close</mat-icon>
     <div *ngIf="paintingModalData && paintingModalData.painting" class="h-100">
         <div class="d-lg-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
             <img [style.height]="'fit-content'" [style.width]="getImageWidth(paintingModalData.painting)" 

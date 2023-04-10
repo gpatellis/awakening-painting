@@ -10,12 +10,22 @@
     height: 100%
 }
 
+.close-button {
+    float: right;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 ::ng-deep .painting-details-modal {
     height: fit-content;
     width: 80vw; 
     @media screen and (max-width: 992px){
         max-width: 91vw !important;
         width: 91vw !important;
+        mat-dialog-container {
+            padding-top: 10px !important;
+        }
     }
     max-width: 90vw !important;
     max-height: 90vh;

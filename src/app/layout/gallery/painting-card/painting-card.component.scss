@@ -5,10 +5,14 @@
     background-color: $white;
     border-radius: 3px;
     min-height: 375px;
-    &--border:hover {
-        border: 2px solid $dark-blue;
-        cursor: pointer;
-    }
+    &--border{
+      border: 2px solid transparent;
+      &:hover {
+         border: 2px solid $dark-blue !important;
+         cursor: pointer;
+      }
+   }
+    
     &__image-container { 
         align-items: center;
         justify-content: center;

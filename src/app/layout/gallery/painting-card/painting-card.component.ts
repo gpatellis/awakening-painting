@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PaintingData } from '../gallery-interfaces';
 import { PaintingDetailsModalComponent } from './painting-details-modal/painting-details-modal.component';
+import { PaintingDetailsModalService } from './painting-details-modal/painting-details-modal.service';
 
 @Component({
   selector: 'ap-painting-card',
@@ -14,9 +15,14 @@ export class PaintingCardComponent implements OnInit {
   painting!: PaintingData;
   @Input() isMobileView: boolean = false;
   @Input()isTabletView: boolean = false;
-  constructor(public dialog: MatDialog) { }
+  paintingDetailsDialogRef!: MatDialogRef<PaintingDetailsModalComponent>;
+
+  constructor(
+    public dialog: MatDialog,
+    private paintingDetailsModalService: PaintingDetailsModalService) { }
 
   ngOnInit(): void {
+    this.listenForPaintingDetailsModalClose();
   }
 
   getImageHeight(painting: PaintingData) {
@@ -37,18 +43,30 @@ export class PaintingCardComponent implements OnInit {
       return;
     }
 
-    openPaintingDetailsModal() {
-      if(this.painting.renderedImage) {
-        let dialogRef = this.dialog.open(PaintingDetailsModalComponent, {
-          data: { 
-            painting: this.painting,
-            isMobileView: this.isMobileView,
-            isTabletView: this.isTabletView
-          },
-          id: 'painting-details-modal',
-          panelClass: 'painting-details-modal'
-        });
+    checkToOpenModal(fromViewDetailsButton: boolean) {
+      if(this.painting.renderedImage && !(this.isMobileView || this.isTabletView) && !fromViewDetailsButton) {
+        this.openPaintingDetailsModal();
+      } else if(this.painting.renderedImage && fromViewDetailsButton) {
+        this.openPaintingDetailsModal();
       }
+    }
+
+    openPaintingDetailsModal() {
+      this.paintingDetailsDialogRef = this.dialog.open(PaintingDetailsModalComponent, {
+        data: { 
+          painting: this.painting,
+          isMobileView: this.isMobileView,
+          isTabletView: this.isTabletView
+        },
+        panelClass: 'painting-details-modal'
+      });
+    }
+
+    listenForPaintingDetailsModalClose() {
+      this.paintingDetailsModalService.closePaintingDetailsModal.subscribe((closeModal) => {
+        if (closeModal && this.paintingDetailsDialogRef)
+          this.paintingDetailsDialogRef.close();
+      });
     }
 
 }

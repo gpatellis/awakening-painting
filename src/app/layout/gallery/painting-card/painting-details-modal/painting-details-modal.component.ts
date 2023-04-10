@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
+import { PaintingDetailsModalService } from './painting-details-modal.service';
 
 @Component({
   selector: 'ap-painting-details-modal',
@@ -13,7 +14,8 @@ export class PaintingDetailsModalComponent implements OnInit {
   isMobileOrTabletView: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
-  private screensizeListeningService: ScreensizeListeningService) { }
+  private screensizeListeningService: ScreensizeListeningService,
+  private paintingDetailsModalService: PaintingDetailsModalService) { }
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
@@ -34,5 +36,9 @@ export class PaintingDetailsModalComponent implements OnInit {
     else
       return '45vw';
   } 
+
+  closePaintingDetailsModal() {
+    this.paintingDetailsModalService.closePaintingDetailsModal.next(true);
+  }
 
 }

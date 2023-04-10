@@ -1,4 +1,4 @@
-<section class="painting-card p-2 w-100" [ngClass]="{'painting-card--border': !isMobileView && !isTabletView && painting.renderedImage}" (click)="openPaintingDetailsModal()">
+<section class="painting-card p-2 w-100" [ngClass]="{'painting-card--border': !isMobileView && !isTabletView && painting.renderedImage}" (click)="checkToOpenModal(false)">
     <div class="my-5" *ngIf="painting.renderedImage == undefined; else displayImage">
         <ap-loading-indicator></ap-loading-indicator>
     </div>
@@ -16,6 +16,6 @@
         <div>{{painting.price}}$</div>
     </div>
     <div class="text-center" *ngIf="isMobileView || isTabletView">
-        <button mat-raised-button [disabled]="!painting.renderedImage" class="my-3 painting-card__view-details">View Details</button>
+        <button mat-raised-button [disabled]="!painting.renderedImage" class="my-3 painting-card__view-details"  (click)="checkToOpenModal(true)">View Details</button>
     </div>
 </section>
