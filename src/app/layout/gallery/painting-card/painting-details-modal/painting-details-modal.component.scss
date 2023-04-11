@@ -12,14 +12,48 @@
 
 .close-button {
     float: right;
+    transform: translateY(-5px);
+    @media screen and (max-width: 992px){
+        transform: translateX(5px) !important;
+    }
     &:hover {
         cursor: pointer;
     }
 }
 
+.buy-painting-button {
+    background-color: $orange;
+    border: none !important;
+    border-radius: 3px;
+    padding: 9px 18px 9px 18px;
+    color: $white;
+    &:focus-visible {
+        outline:none;
+    }
+    &:disabled {
+        background-color: rgba($black, 0.3) !important;
+        color: $black-4;
+    }
+    @media screen and (min-width: 992px) {
+        margin-left: 36px !important;
+    }
+}
+
+.details-section {
+    width: fit-content;
+    font-weight: 100;
+    @media screen and (min-width: 992px) {
+        margin-left: -16px !important;
+    }
+    &__price {
+        font-weight: 400;
+    }
+}
+
 ::ng-deep .painting-details-modal {
     height: fit-content;
-    width: 80vw; 
+    min-width: 56vw;
+    width: fit-content;
     @media screen and (max-width: 992px){
         max-width: 91vw !important;
         width: 91vw !important;

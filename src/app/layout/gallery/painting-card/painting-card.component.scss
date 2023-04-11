@@ -27,9 +27,13 @@
      &__status {
          width: fit-content;
          border-bottom-right-radius: 3px;
-         transform: translate(-8.5px,-9px);
+         transform: translate(-10px,-10px);
          border-top-left-radius: 3px;
          opacity: 50%;
+
+         @media screen and (max-width: 992px) {
+            transform: translate(-8px,-8px) !important;
+         }
          &--Available {
             background: $green;
          }
@@ -45,9 +49,9 @@
         background-color: $light-blue;
         border: none;
         border-radius: 3px;
-        color: $black-7;
+        color: $white;
         font-weight: 500;
-        padding: 10px;
+        padding: 10px 20px 10px 20px;
         &:disabled {
             background-color: rgba($black, 0.3) !important;
             color: $black-4;

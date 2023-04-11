@@ -4,15 +4,19 @@
         <div class="d-lg-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
             <img [style.height]="'fit-content'" [style.width]="getImageWidth(paintingModalData.painting)" 
             [ngStyle]="{'aspect-ratio': paintingModalData.painting.aspectRatio}" [src]="paintingModalData.painting.renderedImage">
-            <ul>
-            <li><b>Description: </b>{{paintingModalData.painting.name}}</li>
-            <li><b>Paint Type: </b>{{paintingModalData.painting.paintType}}</li>
-            <li><b>Dimensions: </b>{{paintingModalData.painting.dimensions}}</li>
-            <li><b>Edges Painted: </b>{{paintingModalData.painting.edgesPainted}}</li>
-            <li><b>Surface Type: </b>{{paintingModalData.painting.surfaceType}}</li>
-            <li><b>Date Finished: </b>{{paintingModalData.painting.DateFinished}}</li>
-            <li><b>Status: </b>{{paintingModalData.painting.status}}</li>
-            </ul>
+            <div class="mt-4 details-section">
+                <ul class="ps-3 ps-lg-5">
+                    <li><b>Description: </b>{{paintingModalData.painting.name}}</li>
+                    <li><b>Paint Type: </b>{{paintingModalData.painting.paintType}}</li>
+                    <li><b>Dimensions: </b>{{paintingModalData.painting.dimensions}}</li>
+                    <li><b>Edges Painted: </b>{{paintingModalData.painting.edgesPainted}}</li>
+                    <li><b>Surface Type: </b>{{paintingModalData.painting.surfaceType}}</li>
+                    <li><b>Date Finished: </b>{{paintingModalData.painting.DateFinished}}</li>
+                    <li><b>Status: </b>{{paintingModalData.painting.status}}</li>
+                </ul>
+                <div class="details-section__price ps-0 ps-lg-5">${{paintingModalData.painting.price}}</div>
+                <button [disabled]="(paintingModalData.painting.status !== 'Available')" class="my-3 buy-painting-button"  (click)="buyPaintingClicked()">Buy Painting</button>
+            </div>
         </div>
     </div>
 </mat-dialog-content>

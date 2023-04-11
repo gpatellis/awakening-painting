@@ -13,7 +13,7 @@
         <h4 class="painting-card__title">{{painting.name}}</h4>
         <div>{{painting.paintType}} painting</div>
         <div>{{painting.dimensions}}</div>
-        <div>{{painting.price}}$</div>
+        <div>${{painting.price}}</div>
     </div>
     <div class="text-center" *ngIf="isMobileView || isTabletView">
         <button mat-raised-button [disabled]="!painting.renderedImage" class="my-3 painting-card__view-details"  (click)="checkToOpenModal(true)">View Details</button>

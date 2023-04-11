@@ -27,9 +27,15 @@ export class PaintingDetailsModalComponent implements OnInit {
   getImageWidth(painting: PaintingData) {
     if (this.isMobileOrTabletView){
       return '100%'}
-    else if(painting.aspectRatio < 0.9)
+    else if(painting.aspectRatio <= 0.5)
+      return '19vw';
+    else if(painting.aspectRatio > 0.5 && painting.aspectRatio <= 0.74)
+      return '25vw';
+    else if(painting.aspectRatio > 0.74 && painting.aspectRatio < 0.9)
+      return '30vw';
+    else if(painting.aspectRatio > 0.9 && painting.aspectRatio < 1.05)
       return '35vw';
-    else if (painting.aspectRatio >= 0.9 && painting.aspectRatio < 1.4)
+    else if (painting.aspectRatio >= 1.05 && painting.aspectRatio < 1.4)
       return '45vw';
     else if (painting.aspectRatio >= 1.4)
       return '50vw';
@@ -39,6 +45,10 @@ export class PaintingDetailsModalComponent implements OnInit {
 
   closePaintingDetailsModal() {
     this.paintingDetailsModalService.closePaintingDetailsModal.next(true);
+  }
+
+  buyPaintingClicked() {
+    console.log('clicked');
   }
 
 }
