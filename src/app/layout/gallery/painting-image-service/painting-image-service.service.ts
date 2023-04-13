@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { PaintingData, PaintingDataResponse } from './gallery-interfaces';
+import { PaintingData, PaintingDataResponse } from '../gallery-interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({

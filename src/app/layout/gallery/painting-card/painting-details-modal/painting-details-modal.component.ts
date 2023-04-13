@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 import { PaintingDetailsModalService } from './painting-details-modal.service';
@@ -15,7 +16,8 @@ export class PaintingDetailsModalComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService,
-  private paintingDetailsModalService: PaintingDetailsModalService) { }
+  private paintingDetailsModalService: PaintingDetailsModalService,
+  private router: Router) { }
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
@@ -48,7 +50,8 @@ export class PaintingDetailsModalComponent implements OnInit {
   }
 
   buyPaintingClicked() {
-    console.log('clicked');
+    this.closePaintingDetailsModal();
+    this.router.navigate(['/','checkout']);
   }
 
 }

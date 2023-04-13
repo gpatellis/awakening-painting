@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaintingData } from './gallery-interfaces';
-import { PaintingImageServiceService } from './painting-image-service.service';
+import { PaintingImageServiceService } from './painting-image-service/painting-image-service.service';
 import { browserRefresh } from '../../app.component';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 

@@ -7,3 +7,10 @@
 .gallery-title{
     color: $dark-blue;
 }
+
+.painting-card-col-xxl {
+    @media screen and (min-width: 1800px) {
+        flex: 0 0 auto !important;
+        width: 25% !important;
+    }
+}

@@ -8,13 +8,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { HamburgerMenuComponent } from './layout/toolbar/hamburger-menu/hamburger-menu/hamburger-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GalleryComponent } from './layout/gallery/gallery.component';
 import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LoadingIndicatorComponent } from './shared-components/loading-indicator/loading-indicator.component';
-import { PaintingCardComponent } from './layout/gallery/painting-card/painting-card.component';
-import { PaintingDetailsModalComponent } from './layout/gallery/painting-card/painting-details-modal/painting-details-modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -22,11 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     LayoutComponent,
     ToolbarComponent,
     HamburgerMenuComponent,
-    GalleryComponent,
-    AboutComponent,
-    LoadingIndicatorComponent,
-    PaintingCardComponent,
-    PaintingDetailsModalComponent
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserAnimationsModule,
     MatMenuModule,
     MatIconModule,
-    HttpClientModule,
-    MatDialogModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
