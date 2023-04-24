@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Injectable({
   providedIn: 'root'
 })
-export class PaintingImageServiceService {
+export class PaintingImageService {
   constructor(
     private httpClient: HttpClient,
     private sanitizer: DomSanitizer) 

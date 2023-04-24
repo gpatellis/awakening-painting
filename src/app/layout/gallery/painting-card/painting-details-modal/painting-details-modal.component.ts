@@ -50,6 +50,7 @@ export class PaintingDetailsModalComponent implements OnInit {
   }
 
   buyPaintingClicked() {
+    this.paintingDetailsModalService.paintingChosenForPurchase.next(this.paintingModalData);
     this.closePaintingDetailsModal();
     this.router.navigate(['/','checkout']);
   }

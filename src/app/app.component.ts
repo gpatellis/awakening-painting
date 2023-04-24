@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-export let browserRefresh = false;
+import { PaintingImageService } from './layout/gallery/painting-image-service/painting-image.service';
 
 @Component({
   selector: 'ap-root',
@@ -11,11 +11,15 @@ export let browserRefresh = false;
 export class AppComponent {
   title = 'awakening-painting';
   subscription: Subscription;
+  browserRefresh: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private paintingImageService: PaintingImageService ) {
     this.subscription = router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
-          browserRefresh = !router.navigated;
+          this.browserRefresh = !router.navigated;
+          if(this.browserRefresh) {
+            this.paintingImageService.removePaintingImagesFromLocalStorage();
+          }
         }
     });
   }

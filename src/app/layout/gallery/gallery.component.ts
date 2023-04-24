@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaintingData } from './gallery-interfaces';
-import { PaintingImageServiceService } from './painting-image-service/painting-image-service.service';
-import { browserRefresh } from '../../app.component';
+import { PaintingImageService } from './painting-image-service/painting-image.service';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 
 
@@ -18,14 +17,13 @@ export class GalleryComponent implements OnInit {
   isTabletView = false;
 
   constructor(
-    private paintingImageService: PaintingImageServiceService,
+    private paintingImageService: PaintingImageService,
     private screensizeListeningService: ScreensizeListeningService
     ) { }
 
   ngOnInit(): void {
     this.listenForMobileView();
     this.listenForTableView();
-    this.testForBrowserRefresh();
     let paintingData = JSON.parse(localStorage.getItem('paintingData') as string);
     if (paintingData) {
       this.paintingData = this.paintingImageService.getPaintingImagesFromStorage();
@@ -53,10 +51,4 @@ export class GalleryComponent implements OnInit {
     });
   }
 
-  testForBrowserRefresh() {
-    this.browserRefresh = browserRefresh;
-    if(this.browserRefresh) {
-      this.paintingImageService.removePaintingImagesFromLocalStorage();
-    }
-  }
 }
