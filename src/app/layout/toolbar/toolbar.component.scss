@@ -4,20 +4,21 @@
     background: $white;
     height: 64px;
     border-bottom: 2px solid $dark-blue;
-   .heading {
+   &__heading {
     h1 {
         font-family: 'Gill Sans', sans-serif;
         margin-bottom: 0;
         line-height: 1.5;
+        cursor: pointer;
         span:nth-child(1) {
             color: $dark-blue;
         }
         span:nth-child(2) {
             color: $light-blue;
         }
-       
     }
-    .logo {
+   }
+   &__logo {
         transform: rotate(1deg);
         width: 143.5px;
         height: 51px;
@@ -25,5 +26,4 @@
             height: 40px !important;
         }
     }
-   }
 }
