@@ -1,0 +1,22 @@
+@import '../../../../styles/colors.scss';
+
+.ordering-status {
+    border-radius: 6px;
+    background: $white;
+    text-align: center;
+    width: fit-content;
+    padding: 0px 16px 0px 16px;
+    height: 50px;
+    border: $dark-blue solid 1.5px;
+
+    &__indicators {
+        transform: translateY(-3px);
+        color: rgba($dark-blue, 0.4);
+        &--active {
+            color: rgba($dark-blue, 1);
+        }
+    }
+    mat-icon {
+        transform: translateY(6.4px);
+    }
+}

@@ -1,0 +1,13 @@
+<div class="d-flex">
+    <section class="ordering-status m-auto mt-5 d-flex">
+        <div class="m-auto ordering-status__indicators">
+            <span [ngClass]="{'ordering-status__indicators--active': orderingStatus == ORDERING_STATUS.shipping}">Shipping
+                <mat-icon class="ms-3 me-3">keyboard_double_arrow_right</mat-icon>
+            </span>
+            <span [ngClass]="{'ordering-status__indicators--active': orderingStatus == ORDERING_STATUS.payment}">Payment
+                <mat-icon class="ms-3">keyboard_double_arrow_right</mat-icon>
+            </span>
+            <span [ngClass]="{'ordering-status__indicators--active': orderingStatus == ORDERING_STATUS.confirmation}"class="ms-3">Confirmation</span>
+        </div>
+    </section>
+</div>
