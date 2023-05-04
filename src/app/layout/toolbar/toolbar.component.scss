@@ -16,6 +16,10 @@
         span:nth-child(2) {
             color: $light-blue;
         }
+        @media screen and (max-width: 280px) {
+            font-size: 21px;
+            transform: translateY(3px);
+        }
     }
    }
    &__logo {
@@ -24,6 +28,9 @@
         height: 51px;
         @media  screen and (max-width: 576px) {
             height: 40px !important;
+        }
+        @media screen and (max-width: 280px) {
+            height: 26px !important;
         }
     }
 }
