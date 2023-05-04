@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { map, Observable, startWith } from 'rxjs';
   styleUrls: ['./shipping.component.scss']
 })
 export class ShippingComponent implements OnInit {
-  myControl = new FormControl('');
+  myControl = new UntypedFormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
