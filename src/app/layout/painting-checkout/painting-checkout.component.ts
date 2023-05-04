@@ -9,7 +9,7 @@ import { PaintingDetailsModalService } from '../gallery/painting-card/painting-d
   styleUrls: ['./painting-checkout.component.scss']
 })
 export class PaintingCheckoutComponent implements OnInit {
-  paintingData: PaintingData;
+  paintingData: PaintingData | undefined;
   
   constructor(
     public paintingDetailsModalService: PaintingDetailsModalService,
