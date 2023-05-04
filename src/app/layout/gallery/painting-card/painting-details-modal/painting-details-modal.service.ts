@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { PaintingData } from '../../gallery-interfaces';
 
 @Injectable({
@@ -7,8 +7,8 @@ import { PaintingData } from '../../gallery-interfaces';
 })
 export class PaintingDetailsModalService {
 
-  public closePaintingDetailsModal = new BehaviorSubject<boolean>(false);
-  public paintingChosenForPurchase = new Subject<PaintingData>();
+  public closePaintingDetailsModal$ = new BehaviorSubject<boolean>(false);
+  public paintingChosenForPurchase: PaintingData;
 
   constructor() { }
 }

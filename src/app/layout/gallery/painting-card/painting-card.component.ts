@@ -63,7 +63,7 @@ export class PaintingCardComponent implements OnInit {
     }
 
     listenForPaintingDetailsModalClose() {
-      this.paintingDetailsModalService.closePaintingDetailsModal.subscribe((closeModal) => {
+      this.paintingDetailsModalService.closePaintingDetailsModal$.subscribe((closeModal) => {
         if (closeModal && this.paintingDetailsDialogRef)
           this.paintingDetailsDialogRef.close();
       });

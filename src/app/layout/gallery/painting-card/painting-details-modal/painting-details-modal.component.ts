@@ -21,7 +21,7 @@ export class PaintingDetailsModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-    this.screensizeListeningService.isMobileOrTabletView.subscribe((value) => {
+    this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
       this.isMobileOrTabletView = value;
     })
   }
@@ -46,11 +46,11 @@ export class PaintingDetailsModalComponent implements OnInit {
   } 
 
   closePaintingDetailsModal() {
-    this.paintingDetailsModalService.closePaintingDetailsModal.next(true);
+    this.paintingDetailsModalService.closePaintingDetailsModal$.next(true);
   }
 
   buyPaintingClicked() {
-    this.paintingDetailsModalService.paintingChosenForPurchase.next(this.paintingModalData.painting);
+    this.paintingDetailsModalService.paintingChosenForPurchase = this.paintingModalData.painting;
     this.closePaintingDetailsModal();
     this.router.navigate(['/checkout','shipping']);
   }

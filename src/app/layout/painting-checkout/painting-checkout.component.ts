@@ -9,17 +9,11 @@ import { PaintingDetailsModalService } from '../gallery/painting-card/painting-d
   styleUrls: ['./painting-checkout.component.scss']
 })
 export class PaintingCheckoutComponent implements OnInit {
-  paintingData: PaintingData | undefined;
+  paintingData: PaintingData = this.paintingDetailsModalService.paintingChosenForPurchase;;
   
   constructor(
-    public paintingDetailsModalService: PaintingDetailsModalService,
-    private cd: ChangeDetectorRef) { }
+    public paintingDetailsModalService: PaintingDetailsModalService) { }
 
   ngOnInit(): void {
-    this.paintingDetailsModalService.paintingChosenForPurchase.subscribe((paintingData: PaintingData) => {
-      this.paintingData = paintingData;
-      console.log(this.paintingData);
-    });
   }
-
 }

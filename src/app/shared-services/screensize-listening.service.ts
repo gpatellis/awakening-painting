@@ -6,9 +6,9 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
   providedIn: 'root'
 })
 export class ScreensizeListeningService {
-  public isMobileView = new BehaviorSubject<boolean>(false);
-  public isTabletView = new BehaviorSubject<boolean>(false);
-  public isMobileOrTabletView = new BehaviorSubject<boolean>(false);
+  public isMobileView$ = new BehaviorSubject<boolean>(false);
+  public isTabletView$ = new BehaviorSubject<boolean>(false);
+  public isMobileOrTabletView$ = new BehaviorSubject<boolean>(false);
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.checkMobileView();
@@ -20,7 +20,7 @@ export class ScreensizeListeningService {
     this.breakpointObserver.observe([
       "(max-width: 576px)"
     ]).subscribe((result: BreakpointState) => {
-      (result.matches) ?  this.isMobileView.next(true): this.isMobileView.next(false);
+      (result.matches) ?  this.isMobileView$.next(true): this.isMobileView$.next(false);
     });
   }
 
@@ -28,13 +28,13 @@ export class ScreensizeListeningService {
     this.breakpointObserver.observe([
       "(max-width: 992px)", "(min-width: 577px)"
     ]).subscribe((result: BreakpointState) => {
-      (result.breakpoints["(max-width: 992px)"] && result.breakpoints["(min-width: 577px)"]) ? this.isTabletView.next(true): this.isTabletView.next(false);
+      (result.breakpoints["(max-width: 992px)"] && result.breakpoints["(min-width: 577px)"]) ? this.isTabletView$.next(true): this.isTabletView$.next(false);
     });
   }
 
   checkTabletOrMobileView() {
-    combineLatest([this.isMobileView, this.isTabletView]).subscribe(([isMobileViewValue, isTabletViewValue]) => {
-      (isMobileViewValue || isTabletViewValue) ? this.isMobileOrTabletView.next(true): this.isMobileOrTabletView.next(false);
+    combineLatest([this.isMobileView$, this.isTabletView$]).subscribe(([isMobileViewValue, isTabletViewValue]) => {
+      (isMobileViewValue || isTabletViewValue) ? this.isMobileOrTabletView$.next(true): this.isMobileOrTabletView$.next(false);
     })
   }
   

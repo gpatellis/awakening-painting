@@ -33,13 +33,13 @@ export class GalleryComponent implements OnInit {
   }
 
   listenForMobileView() {
-    this.screensizeListeningService.isMobileView.subscribe((isMobileView: boolean) => {
+    this.screensizeListeningService.isMobileView$.subscribe((isMobileView: boolean) => {
       this.isMobileView = isMobileView;
     });
   }
 
   listenForTableView() {
-    this.screensizeListeningService.isTabletView.subscribe((isTabletView: boolean) => {
+    this.screensizeListeningService.isTabletView$.subscribe((isTabletView: boolean) => {
       this.isTabletView = isTabletView;
     });
   }

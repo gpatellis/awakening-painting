@@ -11,12 +11,7 @@ export class MiniPaintingCardComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef) { }
 
-  @Input() paintingData: undefined | PaintingData;
-  // public set paintingData(paintingData: PaintingData) {
-  //   console.log('input', paintingData);
-  //   this._paintingData = paintingData;
-  //   this.cd.detectChanges();
-  // }
+  @Input() paintingData: PaintingData;
 
 
   ngOnInit(): void {
