@@ -1,1 +1,21 @@
-<div>{{paintingData?.name}}</div>
+<section class="mpc-container d-flex m-auto p-2">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header class="p-3">
+          <mat-panel-title class="d-flex">
+            <div class="m-auto">
+                <div>{{paintingData?.name}}</div>
+                <div>{{paintingData?.paintType}} painting</div>
+            </div> 
+            <img class="mpc-container__painting-image m-auto" [src]="paintingData.renderedImage">
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul class="p-3 mb-0 text-start">
+            <li><b>Price: </b>${{paintingData?.price}}</li>
+            <li><b>Dimensions: </b>{{paintingData?.dimensions}}</li>
+            <li><b>Edges Painted: </b>{{paintingData?.edgesPainted}}</li>
+            <li><b>Surface Type: </b>{{paintingData?.surfaceType}}</li>
+            <li><b>Date Finished: </b>{{paintingData?.DateFinished}}</li>
+        </ul>
+      </mat-expansion-panel>
+</section>
+

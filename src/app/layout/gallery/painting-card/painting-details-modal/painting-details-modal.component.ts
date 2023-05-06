@@ -27,8 +27,8 @@ export class PaintingDetailsModalComponent implements OnInit {
   }
 
   getImageWidth(painting: PaintingData) {
-    if (this.isMobileOrTabletView){
-      return '100%'}
+    if (this.isMobileOrTabletView)
+      return '100%'
     else if(painting.aspectRatio <= 0.5)
       return '19vw';
     else if(painting.aspectRatio > 0.5 && painting.aspectRatio <= 0.74)

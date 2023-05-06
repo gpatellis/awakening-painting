@@ -1,0 +1,31 @@
+@import '../../../../styles/colors.scss';
+
+:host {
+    display: flex;
+    margin-top: 20px;
+}
+
+.mpc-container {
+    width: fit-content;
+    border-radius: 6px;
+    text-align: center;
+    &__painting-image {
+        width: 50px;
+    }
+   
+    mat-expansion-panel-header {
+        height: fit-content;
+        min-width: 350px;
+        padding: 10px !important;
+        @media screen and (max-width: 360px) {
+            max-width: 338px;
+            min-width: 0px !important;
+        }
+    }
+}
+
+::ng-deep .mat-expansion-panel-content {
+    background-color: $black-1;
+    font-weight: 300;
+
+}
