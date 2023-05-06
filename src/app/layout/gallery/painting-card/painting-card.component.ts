@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { PaintingData } from '../gallery-interfaces';
 import { PaintingDetailsModalComponent } from './painting-details-modal/painting-details-modal.component';
 import { PaintingDetailsModalService } from './painting-details-modal/painting-details-modal.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'ap-painting-card',

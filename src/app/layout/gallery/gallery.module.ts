@@ -5,8 +5,8 @@ import { LoadingIndicatorComponent } from 'src/app/shared-components/loading-ind
 import { PaintingCardComponent } from './painting-card/painting-card.component';
 import { PaintingDetailsModalComponent } from './painting-card/painting-details-modal/painting-details-modal.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterModule, Routes } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const galleryRoute: Routes = [
   {
