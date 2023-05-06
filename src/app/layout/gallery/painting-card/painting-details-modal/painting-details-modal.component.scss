@@ -1,10 +1,18 @@
 @import "../../../../../styles/colors.scss";
 
+:host {
+    mat-dialog-content {
+        scroll-behavior: smooth;
+    }
+}
+
 .painting-xlong {
     width: 78% !important;
 }
 
-
+#top {
+    transform: translateY(-30px);
+}
 .mat-dialog-content {
     max-height: fit-content;
     height: 100%

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './painting-details-modal.component.html',
   styleUrls: ['./painting-details-modal.component.scss']
 })
-export class PaintingDetailsModalComponent implements OnInit {
+export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
 
@@ -23,7 +23,21 @@ export class PaintingDetailsModalComponent implements OnInit {
     this.paintingModalData = this.data;
     this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
       this.isMobileOrTabletView = value;
-    })
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollToTop();
+  }
+
+  scrollToTop() {
+    setTimeout(() => {
+      let top = document.getElementById('top');
+      if (top !== null) {
+        top.scrollIntoView();
+        top = null;
+      }
+    }, 150);
   }
 
   getImageWidth(painting: PaintingData) {
