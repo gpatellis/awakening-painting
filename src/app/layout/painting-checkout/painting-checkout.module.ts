@@ -6,9 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { OrderingStatusComponent } from './ordering-status/ordering-status.component';
 import { ShippingComponent } from './ordering-steps/shipping/shipping.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from "@angular/material/legacy-autocomplete";
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MiniPaintingCardComponent } from './mini-painting-card/mini-painting-card.component';
 
 const paintingCheckoutRoute: Routes = [
