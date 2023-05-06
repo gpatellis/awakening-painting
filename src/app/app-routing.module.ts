@@ -12,7 +12,8 @@ const routes: Routes = [
     loadChildren: () => import('./layout/painting-checkout/painting-checkout.module').then(m => m.PaintingCheckoutModule) 
   },
   { path: 'about', component: AboutComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'gallery' }
+  { path: '', pathMatch: 'full', redirectTo: 'gallery' },
+  { path: '**', redirectTo: 'gallery' }
 ];
 
 @NgModule({

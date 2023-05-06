@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { PaintingData } from '../../gallery/gallery-interfaces';
 
 @Component({
@@ -9,7 +8,7 @@ import { PaintingData } from '../../gallery/gallery-interfaces';
 })
 export class MiniPaintingCardComponent implements OnInit {
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor() { }
 
   @Input() paintingData: PaintingData;
 

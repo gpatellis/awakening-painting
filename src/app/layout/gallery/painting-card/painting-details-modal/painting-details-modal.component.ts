@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 import { PaintingDetailsModalService } from './painting-details-modal.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'ap-painting-details-modal',
