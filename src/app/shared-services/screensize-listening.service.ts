@@ -16,7 +16,7 @@ export class ScreensizeListeningService {
     this.checkTabletOrMobileView();
    }
 
-  checkMobileView() {
+  checkMobileView(): void {
     this.breakpointObserver.observe([
       "(max-width: 576px)"
     ]).subscribe((result: BreakpointState) => {
@@ -24,7 +24,7 @@ export class ScreensizeListeningService {
     });
   }
 
-  checkTabletView() {
+  checkTabletView(): void {
     this.breakpointObserver.observe([
       "(max-width: 992px)", "(min-width: 577px)"
     ]).subscribe((result: BreakpointState) => {
@@ -32,7 +32,7 @@ export class ScreensizeListeningService {
     });
   }
 
-  checkTabletOrMobileView() {
+  checkTabletOrMobileView(): void {
     combineLatest([this.isMobileView$, this.isTabletView$]).subscribe(([isMobileViewValue, isTabletViewValue]) => {
       (isMobileViewValue || isTabletViewValue) ? this.isMobileOrTabletView$.next(true): this.isMobileOrTabletView$.next(false);
     })

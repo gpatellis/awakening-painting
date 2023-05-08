@@ -6,14 +6,11 @@ import { ORDERING_STATUS } from '../painting-checkout.model';
   templateUrl: './ordering-status.component.html',
   styleUrls: ['./ordering-status.component.scss']
 })
-export class OrderingStatusComponent implements OnInit {
+export class OrderingStatusComponent {
 
   @Input() orderingStatus: ORDERING_STATUS = ORDERING_STATUS.shipping;
   ORDERING_STATUS = ORDERING_STATUS;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

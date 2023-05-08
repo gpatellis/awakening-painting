@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaintingData } from './gallery-interfaces';
 import { PaintingImageService } from './painting-image-service/painting-image.service';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,8 +14,8 @@ export class GalleryComponent implements OnInit {
   image: any;
   paintingData: PaintingData[] = [];
   browserRefresh: boolean = false;
-  isMobileView = false;
-  isTabletView = false;
+  isMobileView$: Observable<boolean>;
+  isTabletView$: Observable<boolean>;
 
   constructor(
     private paintingImageService: PaintingImageService,
@@ -32,19 +33,15 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  listenForMobileView() {
-    this.screensizeListeningService.isMobileView$.subscribe((isMobileView: boolean) => {
-      this.isMobileView = isMobileView;
-    });
+  listenForMobileView(): void {
+    this.isMobileView$ = this.screensizeListeningService.isMobileView$.asObservable();
   }
 
-  listenForTableView() {
-    this.screensizeListeningService.isTabletView$.subscribe((isTabletView: boolean) => {
-      this.isTabletView = isTabletView;
-    });
+  listenForTableView(): void {
+    this.isTabletView$ =  this.screensizeListeningService.isTabletView$.asObservable();
   }
 
-  getPaintingData() {
+  getPaintingData(): void {
     this.paintingImageService.getPaintingData().subscribe((paintingData) => {
       this.paintingData = paintingData;
       this.paintingImageService.populatePaintingDataWithImages(this.paintingData);

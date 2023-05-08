@@ -20,7 +20,7 @@ export class PaintingCheckoutComponent implements OnInit {
     this.checkForPaintingData();
   }
 
-  checkForPaintingData() {
+  checkForPaintingData(): void {
     if(!this.paintingData) {
       this.router.navigate(['/gallery']);
     }

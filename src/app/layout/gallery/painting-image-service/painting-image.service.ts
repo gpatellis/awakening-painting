@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { PaintingData, PaintingDataResponse } from '../gallery-interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ export class PaintingImageService {
     private sanitizer: DomSanitizer) 
   { }
 
-  getPaintingData() {
+  getPaintingData(): Observable<PaintingData[]> {
     return this.httpClient.get(
       `https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=paintingData.json`, { responseType: 'json' }
       ).pipe(
@@ -25,7 +25,7 @@ export class PaintingImageService {
       )
   }
 
-  populatePaintingDataWithImages(paintingData: PaintingData[]) {
+  populatePaintingDataWithImages(paintingData: PaintingData[]): void {
     paintingData.forEach(paintingDataSet => {
       this.httpClient.get(
         `https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=${paintingDataSet.image}`, { responseType: 'blob' }
@@ -43,11 +43,11 @@ export class PaintingImageService {
       )});       
   }
 
-  storePaintingImagesInStorage(paintingImages: PaintingData[]) {
+  storePaintingImagesInStorage(paintingImages: PaintingData[]): void {
     localStorage.setItem('paintingData', JSON.stringify(paintingImages));
   }
 
-  getPaintingImagesFromStorage() {
+  getPaintingImagesFromStorage(): PaintingData[] {
     let paintingData = JSON.parse(localStorage.getItem('paintingData') as string);
     paintingData.forEach((painting: PaintingData) => {
       painting.renderedImage =  this.sanitizer.bypassSecurityTrustResourceUrl(painting.objectUrl);
@@ -55,7 +55,7 @@ export class PaintingImageService {
     return paintingData;
   }
 
-  removePaintingImagesFromLocalStorage() {
+  removePaintingImagesFromLocalStorage(): void {
     localStorage.removeItem('paintingData');
   }
 }

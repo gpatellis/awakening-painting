@@ -1,21 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PaintingData } from '../gallery-interfaces';
 import { PaintingDetailsModalComponent } from './painting-details-modal/painting-details-modal.component';
 import { PaintingDetailsModalService } from './painting-details-modal/painting-details-modal.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ap-painting-card',
   templateUrl: './painting-card.component.html',
   styleUrls: ['./painting-card.component.scss']
 })
-export class PaintingCardComponent implements OnInit {
+export class PaintingCardComponent implements OnInit, OnDestroy {
 
   @Input()
   painting!: PaintingData;
-  @Input() isMobileView: boolean = false;
-  @Input()isTabletView: boolean = false;
+  @Input() isMobileView: boolean | null = false;
+  @Input()isTabletView: boolean | null = false;
   paintingDetailsDialogRef!: MatDialogRef<PaintingDetailsModalComponent>;
+  closePaintingDetailsModalSubscrption: Subscription;
 
   constructor(
     public dialog: MatDialog,
@@ -25,7 +27,7 @@ export class PaintingCardComponent implements OnInit {
     this.listenForPaintingDetailsModalClose();
   }
 
-  getImageHeight(painting: PaintingData) {
+  getImageHeight(painting: PaintingData): string | void {
     if(this.isMobileView)
       return;
     else if (painting.aspectRatio > 2) 
@@ -43,7 +45,7 @@ export class PaintingCardComponent implements OnInit {
       return;
     }
 
-    checkToOpenModal(fromViewDetailsButton: boolean) {
+    checkToOpenModal(fromViewDetailsButton: boolean): void {
       if(this.painting.renderedImage && !(this.isMobileView || this.isTabletView) && !fromViewDetailsButton) {
         this.openPaintingDetailsModal();
       } else if(this.painting.renderedImage && fromViewDetailsButton) {
@@ -51,7 +53,7 @@ export class PaintingCardComponent implements OnInit {
       }
     }
 
-    openPaintingDetailsModal() {
+    openPaintingDetailsModal(): void {
       this.paintingDetailsDialogRef = this.dialog.open(PaintingDetailsModalComponent, {
         data: { 
           painting: this.painting,
@@ -62,11 +64,15 @@ export class PaintingCardComponent implements OnInit {
       });
     }
 
-    listenForPaintingDetailsModalClose() {
-      this.paintingDetailsModalService.closePaintingDetailsModal$.subscribe((closeModal) => {
+    listenForPaintingDetailsModalClose(): void {
+      this.closePaintingDetailsModalSubscrption = this.paintingDetailsModalService.closePaintingDetailsModal$.subscribe((closeModal) => {
         if (closeModal && this.paintingDetailsDialogRef)
           this.paintingDetailsDialogRef.close();
       });
+    }
+
+    ngOnDestroy(): void {
+      this.closePaintingDetailsModalSubscrption.unsubscribe();
     }
 
 }

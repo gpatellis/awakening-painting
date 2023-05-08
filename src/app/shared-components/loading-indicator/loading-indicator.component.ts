@@ -5,11 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './loading-indicator.component.html',
   styleUrls: ['./loading-indicator.component.scss']
 })
-export class LoadingIndicatorComponent implements OnInit {
+export class LoadingIndicatorComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PaintingImageService } from './layout/gallery/painting-image-service/painting-image.service';
@@ -8,13 +8,13 @@ import { PaintingImageService } from './layout/gallery/painting-image-service/pa
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy{
   title = 'awakening-painting';
-  subscription: Subscription;
+  regfreshSubscription: Subscription;
   browserRefresh: boolean = false;
 
   constructor(private router: Router, private paintingImageService: PaintingImageService ) {
-    this.subscription = router.events.subscribe((event) => {
+    this.regfreshSubscription = router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           this.browserRefresh = !router.navigated;
           if(this.browserRefresh) {
@@ -22,5 +22,9 @@ export class AppComponent {
           }
         }
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.regfreshSubscription.unsubscribe();
   }
 }

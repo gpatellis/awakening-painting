@@ -6,14 +6,10 @@ import { PaintingData } from '../../gallery/gallery-interfaces';
   templateUrl: './mini-painting-card.component.html',
   styleUrls: ['./mini-painting-card.component.scss']
 })
-export class MiniPaintingCardComponent implements OnInit {
+export class MiniPaintingCardComponent {
 
   constructor() { }
 
   @Input() paintingData: PaintingData;
-
-
-  ngOnInit(): void {
-  }
 
 }

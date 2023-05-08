@@ -1,18 +1,20 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 import { PaintingDetailsModalService } from './painting-details-modal.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ap-painting-details-modal',
   templateUrl: './painting-details-modal.component.html',
   styleUrls: ['./painting-details-modal.component.scss']
 })
-export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
+export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
+  isMobileOrTabletViewSubscription: Subscription;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService,
@@ -21,7 +23,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-    this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
+    this.isMobileOrTabletViewSubscription = this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
       this.isMobileOrTabletView = value;
     });
   }
@@ -30,7 +32,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
     this.scrollToTop();
   }
 
-  scrollToTop() {
+  scrollToTop(): void {
     setTimeout(() => {
       let top = document.getElementById('top');
       if (top !== null) {
@@ -40,7 +42,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
     }, 150);
   }
 
-  getImageWidth(painting: PaintingData) {
+  getImageWidth(painting: PaintingData): string {
     if (this.isMobileOrTabletView)
       return '100%'
     else if(painting.aspectRatio <= 0.5)
@@ -59,14 +61,18 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit {
       return '45vw';
   } 
 
-  closePaintingDetailsModal() {
+  closePaintingDetailsModal(): void {
     this.paintingDetailsModalService.closePaintingDetailsModal$.next(true);
   }
 
-  buyPaintingClicked() {
+  buyPaintingClicked(): void {
     this.paintingDetailsModalService.paintingChosenForPurchase = this.paintingModalData.painting;
     this.closePaintingDetailsModal();
     this.router.navigate(['/checkout','shipping']);
+  }
+
+  ngOnDestroy(): void {
+    this.isMobileOrTabletViewSubscription.unsubscribe();
   }
 
 }
