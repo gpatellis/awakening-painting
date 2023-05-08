@@ -5,12 +5,13 @@ import { PaintingCheckoutComponent } from './painting-checkout.component';
 import { MatIconModule } from '@angular/material/icon';
 import { OrderingStatusComponent } from './ordering-status/ordering-status.component';
 import { ShippingComponent } from './ordering-steps/shipping/shipping.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MiniPaintingCardComponent } from './mini-painting-card/mini-painting-card.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { AdressTypeaheadComponent } from './ordering-steps/shipping/adress-typeahead/adress-typeahead.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -30,7 +31,8 @@ const paintingCheckoutRoute: Routes = [
     PaintingCheckoutComponent,
     OrderingStatusComponent,
     ShippingComponent,
-    MiniPaintingCardComponent
+    MiniPaintingCardComponent,
+    AdressTypeaheadComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ const paintingCheckoutRoute: Routes = [
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FormsModule
   ]
 })
 export class PaintingCheckoutModule { }
