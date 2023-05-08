@@ -3,6 +3,7 @@
 :host {
     mat-dialog-content {
         scroll-behavior: smooth;
+        display: inline-table;
     }
 }
 
@@ -12,10 +13,6 @@
 
 #top {
     transform: translateY(-30px);
-}
-.mat-dialog-content {
-    max-height: fit-content;
-    height: 100%
 }
 
 .close-button {
@@ -61,8 +58,8 @@
 
 ::ng-deep .painting-details-modal {
     height: fit-content;
-    min-width: 56vw;
     width: fit-content;
+    // overflow-y: hidden;
     @media screen and (max-width: 992px){
         max-width: 91vw !important;
         width: 91vw !important;
@@ -72,5 +69,4 @@
     }
     max-width: 90vw !important;
     max-height: 90vh;
-    overflow-y: scroll;
 }
