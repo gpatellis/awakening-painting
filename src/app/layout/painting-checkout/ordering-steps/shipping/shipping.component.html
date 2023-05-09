@@ -1,5 +1,5 @@
 <section class="address-input col">
-<ap-adress-typeahead></ap-adress-typeahead>
+<ap-adress-typeahead (setAddress)="populateAddressInfo($event)"></ap-adress-typeahead>
 <form [formGroup]="shippingForm" class="row justify-content-center gx-3">
     <mat-form-field class="pt-4 mt-3 col-6 me-3">
         <mat-label for="address">Address </mat-label>
@@ -18,8 +18,12 @@
         <input matInput id="state" type="text" formControlName="state">
     </mat-form-field>
     <mat-form-field class="pt-4 mt-3 col-6 me-3">
-        <mat-label for="state">State: </mat-label>
-        <input matInput id="state" type="text" formControlName="state">
+        <mat-label for="zip">Postal / ZIP: </mat-label>
+        <input matInput id="zip" type="text" formControlName="zip">
+    </mat-form-field>
+    <mat-form-field class="pt-4 mt-3 col-6 me-3">
+        <mat-label for="country">Country: </mat-label>
+        <input matInput id="country" type="text" formControlName="country">
     </mat-form-field>
     <mat-form-field class="pt-4 mt-3 col-6 me-3">
         <mat-label for="phone">Phone: </mat-label>

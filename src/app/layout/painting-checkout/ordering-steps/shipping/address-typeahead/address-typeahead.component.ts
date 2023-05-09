@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import {} from "googlemaps";
+import { GOOGLE_ADDRESS_RESPONSE } from '../../../painting-checkout.model';
 
 @Component({
   selector: 'ap-adress-typeahead',
@@ -7,9 +8,9 @@ import {} from "googlemaps";
   styleUrls: ['./address-typeahead.component.scss']
 })
 export class AddressTypeaheadComponent implements AfterViewInit {
-  adressType: string = 'address';
-  @Output() setAddress: EventEmitter<any> = new EventEmitter();
-  @ViewChild('addresstext') addresstext: any;
+  addressType: string = 'address';
+  @Output() setAddress: EventEmitter<GOOGLE_ADDRESS_RESPONSE> = new EventEmitter();
+  @ViewChild('addresstext') addresstext: ElementRef;
 
   autocompleteInput: string;
   queryWait: boolean;
@@ -25,15 +26,15 @@ export class AddressTypeaheadComponent implements AfterViewInit {
       const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement,
           {
               componentRestrictions: { country: 'US' },
-              types: [this.adressType]  // 'establishment' / 'address' / 'geocode'
+              types: [this.addressType]  // 'establishment' / 'address' / 'geocode'
           });
       google.maps.event.addListener(autocomplete, 'place_changed', () => {
-          const place = autocomplete.getPlace();
-          this.invokeEvent(place);
+          const address = autocomplete.getPlace();
+          this.invokeEvent(address);
       });
   }
 
-  invokeEvent(place: Object) {
-      this.setAddress.emit(place);
+  invokeEvent(address: Object) {
+      this.setAddress.emit(address as GOOGLE_ADDRESS_RESPONSE);
   }
 }
