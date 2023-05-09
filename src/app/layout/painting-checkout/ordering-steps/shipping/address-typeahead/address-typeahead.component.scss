@@ -1,0 +1,10 @@
+@import '../../../../../../styles/colors.scss';
+@import '../../../../../../styles.scss';
+
+.address-typeahead {
+    mat-form-field {
+        @include input-field;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}

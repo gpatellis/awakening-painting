@@ -45,3 +45,11 @@ $awakening-painting-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 html, body { height: 100%; font-family: "Gill Sans", sans-serif !important; }
 body { margin: 0; font-family: "Gill Sans", sans-serif !important; }
+
+@mixin input-field {
+  background-color: $white;
+  overflow: visible;
+  border-radius: 6px;
+  width: 400px;
+  height: 60px;
+}

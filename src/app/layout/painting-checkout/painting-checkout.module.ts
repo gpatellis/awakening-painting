@@ -11,7 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AdressTypeaheadComponent } from './ordering-steps/shipping/adress-typeahead/adress-typeahead.component';
+import { AddressTypeaheadComponent } from './ordering-steps/shipping/address-typeahead/address-typeahead.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -32,7 +32,7 @@ const paintingCheckoutRoute: Routes = [
     OrderingStatusComponent,
     ShippingComponent,
     MiniPaintingCardComponent,
-    AdressTypeaheadComponent
+    AddressTypeaheadComponent
   ],
   imports: [
     CommonModule,

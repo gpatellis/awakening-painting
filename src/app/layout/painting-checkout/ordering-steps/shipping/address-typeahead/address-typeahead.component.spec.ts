@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdressTypeaheadComponent } from './adress-typeahead.component';
+import { AddressTypeaheadComponent } from './address-typeahead.component';
 
 describe('AdressTypeaheadComponent', () => {
-  let component: AdressTypeaheadComponent;
-  let fixture: ComponentFixture<AdressTypeaheadComponent>;
+  let component: AddressTypeaheadComponent;
+  let fixture: ComponentFixture<AddressTypeaheadComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdressTypeaheadComponent]
+      declarations: [AddressTypeaheadComponent]
     });
-    fixture = TestBed.createComponent(AdressTypeaheadComponent);
+    fixture = TestBed.createComponent(AddressTypeaheadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

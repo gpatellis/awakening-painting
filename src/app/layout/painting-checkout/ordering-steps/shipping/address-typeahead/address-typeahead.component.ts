@@ -1,24 +1,20 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import {} from "googlemaps";
 
 @Component({
   selector: 'ap-adress-typeahead',
-  templateUrl: './adress-typeahead.component.html',
-  styleUrls: ['./adress-typeahead.component.scss']
+  templateUrl: './address-typeahead.component.html',
+  styleUrls: ['./address-typeahead.component.scss']
 })
-export class AdressTypeaheadComponent {
-  adressType: string = 'geocode';
+export class AddressTypeaheadComponent implements AfterViewInit {
+  adressType: string = 'address';
   @Output() setAddress: EventEmitter<any> = new EventEmitter();
   @ViewChild('addresstext') addresstext: any;
-  addressToShow: string;
 
   autocompleteInput: string;
   queryWait: boolean;
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -39,6 +35,5 @@ export class AdressTypeaheadComponent {
 
   invokeEvent(place: Object) {
       this.setAddress.emit(place);
-      this.addressToShow = place.toString();
   }
 }

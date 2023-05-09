@@ -1,0 +1,19 @@
+@import '../../../../../styles/colors.scss';
+@import '../../../../../styles.scss';
+
+.address-input {
+    text-align: center;
+    display: block;
+    mat-form-field {
+        @include input-field;
+    }
+}
+
+::ng-deep {
+    .mdc-text-field{
+        overflow: visible !important;
+    }
+    .mdc-floating-label {
+        top: 20% !important;
+    }
+}
