@@ -1,5 +1,5 @@
-import {  Component, OnInit} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 
 
@@ -10,18 +10,19 @@ import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 })
 export class ShippingComponent implements OnInit {
   shippingForm = new FormGroup({
-    address: new FormControl(''),
+    address: new FormControl('', Validators.required),
     aptSuite: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    zip: new FormControl(''),
-    country: new FormControl(''),
-    phone: new FormControl(''),
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    emailAddress: new FormControl('')
-  }); //consider adding enumerator in html ngfor
-  constructor() {
+    city: new FormControl('', Validators.required),
+    state: new FormControl('', Validators.required),
+    zip: new FormControl('', Validators.required),
+    country: new FormControl('', Validators.required),
+    phone: new FormControl('', Validators.required),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    emailAddress: new FormControl('', [Validators.required, Validators.email])
+  }); //move to service
+
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -41,6 +42,14 @@ export class ShippingComponent implements OnInit {
       lastName: '',
       emailAddress: ''
     });
+    this.cd.detectChanges();
+  }
+
+  getErrorMessage(formControlName: string, label: string) {
+    if (this.shippingForm.get(formControlName) && (this.shippingForm.get(formControlName)?.hasError)) {
+      return `You must enter ${label}`;
+    } else 
+      return;
   }
 
 }

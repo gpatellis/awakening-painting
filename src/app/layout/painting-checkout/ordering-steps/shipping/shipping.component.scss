@@ -16,4 +16,20 @@
     .mdc-floating-label {
         top: 20% !important;
     }
+    mat-label {
+        font-weight: 100;;
+    }
+    .mat-mdc-form-field-error-wrapper {
+        font-size: 12px;
+        color: $red;
+        margin-top: -5px;
+    }
+
+    .mat-mdc-form-field-required-marker {
+        color: $red;
+    }
+
+    .mdc-text-field--invalid {
+        color: $red;
+    }
 }
