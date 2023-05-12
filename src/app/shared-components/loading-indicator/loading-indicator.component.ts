@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ap-loading-indicator',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./loading-indicator.component.scss']
 })
 export class LoadingIndicatorComponent {
+
+  @Input() fullPageLoad: boolean = false;
 
   constructor() { }
 
