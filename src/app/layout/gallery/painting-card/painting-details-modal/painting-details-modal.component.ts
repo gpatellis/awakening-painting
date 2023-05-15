@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening.service';
+import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening/screensize-listening.service';
 import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 import { PaintingDetailsModalService } from './painting-details-modal.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';

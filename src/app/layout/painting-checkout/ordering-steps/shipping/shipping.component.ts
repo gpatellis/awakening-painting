@@ -2,6 +2,7 @@ import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 import { ShippingService } from './shipping.service';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 
 
 @Component({
@@ -12,7 +13,10 @@ import { ShippingService } from './shipping.service';
 export class ShippingComponent implements OnInit {
   shippingForm: FormGroup = this.shippingService.getShippingFormGroup();
 
-  constructor(private cd: ChangeDetectorRef, private shippingService: ShippingService) {
+  constructor(
+    private cd: ChangeDetectorRef, 
+    private shippingService: ShippingService,
+    private loadingIndicatorService: LoadingIndicatorService) {
   }
 
   ngOnInit() {
@@ -43,6 +47,7 @@ export class ShippingComponent implements OnInit {
   }
 
   submitShippingForm() {
+    this.loadingIndicatorService.show();
   }
 
 }

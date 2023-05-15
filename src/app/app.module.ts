@@ -10,6 +10,7 @@ import { HamburgerMenuComponent } from './layout/toolbar/hamburger-menu/hamburge
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingIndicatorModule } from './shared-components/loading-indicator/loading-indicator/loading-indicator.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     LayoutComponent,
     ToolbarComponent,
     HamburgerMenuComponent,
-    AboutComponent
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatMenuModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    LoadingIndicatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
