@@ -52,3 +52,15 @@ body { margin: 0; font-family: "Gill Sans", sans-serif !important; }
   border-radius: 6px;
   height: 60px;
 }
+
+@mixin generic-button {
+  background-color: $light-blue;
+  border: none;
+  border-radius: 3px;
+  color: $white;
+  font-weight: 500;
+  &:disabled {
+      background-color: rgba($black, 0.3) !important;
+      color: $black-4;
+  }
+}

@@ -1,4 +1,4 @@
-<section class="address-input container">
+<section class="address-form container">
 <ap-adress-typeahead (setAddress)="populateAddressInfo($event)"></ap-adress-typeahead>
 <form [formGroup]="shippingForm" class="row justify-content-center gx-3">
     <mat-form-field class="pt-4 mt-3 col-11 col-xxl-3 col-md-5 mx-0 mx-md-2">
@@ -51,4 +51,5 @@
         <mat-error *ngIf="shippingForm.get('address')?.invalid">{{getErrorMessage('address', 'a valid email address')}}</mat-error>
     </mat-form-field>
   </form>
+  <button mat-raised-button [disabled]="!shippingForm.valid" (click)="submitShippingForm()" class="mt-5 address-form__next-button">Next</button>
 </section>

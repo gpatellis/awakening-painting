@@ -1,6 +1,7 @@
 import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
+import { ShippingService } from './shipping.service';
 
 
 @Component({
@@ -9,20 +10,9 @@ import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
   styleUrls: ['./shipping.component.scss']
 })
 export class ShippingComponent implements OnInit {
-  shippingForm = new FormGroup({
-    address: new FormControl('', Validators.required),
-    aptSuite: new FormControl(''),
-    city: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
-    zip: new FormControl('', Validators.required),
-    country: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    emailAddress: new FormControl('', [Validators.required, Validators.email])
-  }); //move to service
+  shippingForm: FormGroup = this.shippingService.getShippingFormGroup();
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private cd: ChangeDetectorRef, private shippingService: ShippingService) {
   }
 
   ngOnInit() {
@@ -50,6 +40,9 @@ export class ShippingComponent implements OnInit {
       return `You must enter ${label}`;
     } else 
       return;
+  }
+
+  submitShippingForm() {
   }
 
 }

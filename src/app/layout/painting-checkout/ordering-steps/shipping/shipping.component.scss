@@ -1,11 +1,16 @@
 @import '../../../../../styles/colors.scss';
 @import '../../../../../styles.scss';
 
-.address-input {
+.address-form {
     text-align: center;
     display: block;
     mat-form-field {
         @include input-field;
+    }
+
+    &__next-button{
+        @include generic-button;
+        padding: 10px 30px 10px 30px;
     }
 }
 
