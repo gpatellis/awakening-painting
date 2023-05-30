@@ -30,7 +30,7 @@ export class ShippingComponent implements OnInit {
       city: `${addressComponents[2].long_name}`,
       state: `${addressComponents[4].long_name}`,
       zip: `${addressComponents[6].long_name}`,
-      country: `${addressComponents[5].long_name}`,
+      country: `${addressComponents[5].short_name}`,
       phone: '',
       firstName: '',
       lastName: '',
@@ -48,6 +48,9 @@ export class ShippingComponent implements OnInit {
 
   submitShippingForm() {
     this.loadingIndicatorService.show();
+    this.shippingService.validateAddress(this.shippingForm).subscribe((response) => {
+      console.log(response);
+    });
   }
 
 }

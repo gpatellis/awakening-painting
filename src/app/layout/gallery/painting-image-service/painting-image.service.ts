@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { PaintingData, PaintingDataResponse } from '../gallery-interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class PaintingImageService {
 
   getPaintingData(): Observable<PaintingData[]> {
     return this.httpClient.get(
-      `https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=paintingData.json`, { responseType: 'json' }
+      `${environment.getImagesFromS3Endpoint}paintingData.json`, { responseType: 'json' }
       ).pipe(
         map((paintingData) => ((paintingData as PaintingDataResponse).paintings) as PaintingData[]),
         catchError( error => {
@@ -28,7 +29,7 @@ export class PaintingImageService {
   populatePaintingDataWithImages(paintingData: PaintingData[]): void {
     paintingData.forEach(paintingDataSet => {
       this.httpClient.get(
-        `https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=${paintingDataSet.image}`, { responseType: 'blob' }
+        `${environment.getImagesFromS3Endpoint}${paintingDataSet.image}`, { responseType: 'blob' }
         ).pipe(
           map((imageResponse) => imageResponse),
           catchError( error => {
