@@ -51,5 +51,5 @@
         <mat-error *ngIf="shippingForm.get('address')?.invalid">{{getErrorMessage('address', 'a valid email address')}}</mat-error>
     </mat-form-field>
   </form>
-  <button mat-raised-button [disabled]="!shippingForm.valid" (click)="submitShippingForm()" class="mt-5 address-form__next-button">Next</button>
+  <button mat-raised-button [disabled]="!shippingForm.valid" (click)="submitShippingForm()" class="mt-5 address-form__next-button mb-5">Next</button>
 </section>

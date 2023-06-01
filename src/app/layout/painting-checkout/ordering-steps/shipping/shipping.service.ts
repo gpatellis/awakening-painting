@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, map, pipe, throwError } from 'rxjs';
@@ -36,8 +36,10 @@ export class ShippingService {
         "country_code": "${shippingForm.get('country')?.value}"
       }
     ]`);
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post(
-      environment.getAddressValidationEndpoint, requestBody).pipe(
+      environment.getAddressValidationEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
           return response;
         }),
