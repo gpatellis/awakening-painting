@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, pipe, throwError } from 'rxjs';
+import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ADDRESS_VALIDATION_RESPONSE } from './shipping.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class ShippingService {
     }); 
   }
 
-  validateAddress(shippingForm: FormGroup) {
+  validateAddress(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
     const requestBody =  JSON.parse(`[
       {
         "address_line1": "${shippingForm.get('address')?.value}",
@@ -41,7 +42,7 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getAddressValidationEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          return response;
+          return response as ADDRESS_VALIDATION_RESPONSE;
         }),
         catchError( error => {
           return throwError(() => error)

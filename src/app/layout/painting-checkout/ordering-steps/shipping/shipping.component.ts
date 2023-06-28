@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 import { ShippingService } from './shipping.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { ADDRESS_VALIDATION_RESPONSE } from './shipping.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class ShippingComponent implements OnInit {
   constructor(
     private cd: ChangeDetectorRef, 
     private shippingService: ShippingService,
-    private loadingIndicatorService: LoadingIndicatorService) {
+    private loadingIndicatorService: LoadingIndicatorService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -48,8 +51,11 @@ export class ShippingComponent implements OnInit {
 
   submitShippingForm() {
     this.loadingIndicatorService.show();
-    this.shippingService.validateAddress(this.shippingForm).subscribe((response) => {
-      console.log(response);
+    this.shippingService.validateAddress(this.shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_RESPONSE) => {
+      if (addressValidationResponse.body[0].status = "verified") {
+        this.router.navigate(['/checkout','payment']);
+        this.loadingIndicatorService.hide();
+      }
     });
   }
 

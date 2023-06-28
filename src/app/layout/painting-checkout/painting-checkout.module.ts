@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AddressTypeaheadComponent } from './ordering-steps/shipping/address-typeahead/address-typeahead.component';
+import { PaymentComponent } from './ordering-steps/payment/payment.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -21,6 +22,10 @@ const paintingCheckoutRoute: Routes = [
       {
         path: 'shipping', 
         component: ShippingComponent, 
+      },
+      {
+        path: 'payment', 
+        component: PaymentComponent, 
       }
     ]
   }
@@ -32,7 +37,8 @@ const paintingCheckoutRoute: Routes = [
     OrderingStatusComponent,
     ShippingComponent,
     MiniPaintingCardComponent,
-    AddressTypeaheadComponent
+    AddressTypeaheadComponent,
+    PaymentComponent
   ],
   imports: [
     CommonModule,
