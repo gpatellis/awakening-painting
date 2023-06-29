@@ -5,6 +5,7 @@ import { PaintingData, PaintingModalData } from '../../gallery-interfaces';
 import { PaintingDetailsModalService } from './painting-details-modal.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ap-painting-details-modal',
@@ -15,6 +16,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
   isMobileOrTabletViewSubscription: Subscription;
+  showBuyPaintingButton = environment.allowOnlineCheckout;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService,

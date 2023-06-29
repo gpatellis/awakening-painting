@@ -16,7 +16,7 @@
                     <li><b>Status: </b>{{paintingModalData.painting.status}}</li>
                 </ul>
                 <div class="details-section__price ps-0 ps-lg-5">${{paintingModalData.painting.price}}</div>
-                <button [disabled]="(paintingModalData.painting.status !== 'Available')" class="my-3 buy-painting-button"  (click)="buyPaintingClicked()">Buy Painting</button>
+                <button *ngIf="showBuyPaintingButton" [disabled]="(paintingModalData.painting.status !== 'Available')" class="my-3 buy-painting-button"  (click)="buyPaintingClicked()">Buy Painting</button>
             </div>
         </div>
     </div>

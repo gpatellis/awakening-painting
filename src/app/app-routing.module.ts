@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './layout/about/about.component';
+import { paintingCheckoutGuard } from './layout/painting-checkout/painting-checkout.guard';
 
 const routes: Routes = [
   { 
@@ -9,7 +10,8 @@ const routes: Routes = [
   },
   { 
     path: 'checkout',
-    loadChildren: () => import('./layout/painting-checkout/painting-checkout.module').then(m => m.PaintingCheckoutModule) 
+    loadChildren: () => import('./layout/painting-checkout/painting-checkout.module').then(m => m.PaintingCheckoutModule),
+    canActivate: [paintingCheckoutGuard]
   },
   { path: 'about', component: AboutComponent },
   { path: '', pathMatch: 'full', redirectTo: 'gallery' },
