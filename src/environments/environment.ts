@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  getAddressValidationEndpoint: 'https://jl4sndyu624e6rjhttpp5zgnse0xxflg.lambda-url.us-east-1.on.aws/',
-  getImagesFromS3Endpoint: 'https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file='
+  getAddressValidationEndpoint: 'https://0ivmlfk9z0.execute-api.us-east-1.amazonaws.com/v1/',
+  getImagesFromS3Endpoint: 'https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=',
+  allowOnlineCheckout: false
 };
 
 /*
