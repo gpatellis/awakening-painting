@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingIndicatorModule } from './shared-components/loading-indicator/loading-indicator/loading-indicator.module';
+import { ContactComponent } from './layout/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LoadingIndicatorModule } from './shared-components/loading-indicator/lo
     ToolbarComponent,
     HamburgerMenuComponent,
     AboutComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

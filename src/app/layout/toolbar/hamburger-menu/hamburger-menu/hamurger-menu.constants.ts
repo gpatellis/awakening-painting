@@ -10,5 +10,10 @@ export const menuItems: MENU_ITEMS[] = [
         icon: "person",
         name: "About",
         route: "about"
+    },
+    {
+        icon: "contact_mail",
+        name: "Contact",
+        route: "contact"
     }
 ]
