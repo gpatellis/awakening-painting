@@ -1,0 +1,31 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles.scss';
+
+:host {
+    .artist-note {
+        background: $white;
+        padding: 10px 20px 10px 20px;
+        border-radius: 3px;
+        width: 50%;
+        @include box-shadow;
+
+        @media screen and (max-width: 768px) {
+            width: 90%;
+        }
+    }
+    .artist {
+        @include box-shadow;
+        padding: 10px;
+        margin: auto;
+        background: $white;
+        border-radius: 3px;
+        width: fit-content;
+        img {
+            height: 300px;
+        }
+        &__name {
+            text-align: center;
+        }
+    }
+
+}
