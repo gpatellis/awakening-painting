@@ -1,6 +1,18 @@
 @import '../../../styles/colors.scss';
+@import '../../../styles/bootstrap.scss';
 :host {
     .contact {
+        @include media-breakpoint-down(sm){
+            width: fit-content !important;
+            max-width: 95%;
+        }
+
+        @include media-breakpoint-down(md){
+            width: 75%;
+        }
+        @include  media-breakpoint-up(md){
+            width: 50%;
+        }
         background-color: $white;
         border-radius: 3px;
         &__email {
