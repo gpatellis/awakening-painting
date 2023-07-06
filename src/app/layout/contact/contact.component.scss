@@ -1,0 +1,13 @@
+@import '../../../styles/colors.scss';
+:host {
+    .contact {
+        background-color: $white;
+        border-radius: 3px;
+        &__email {
+            color: $light-blue;
+        }
+        &__email:hover {
+            color: $dark-blue;
+        }
+    }
+}

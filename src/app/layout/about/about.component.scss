@@ -1,5 +1,7 @@
 @import '../../../styles/colors.scss';
-@import '../../../styles.scss';
+@import '../../../styles/mixins.scss';
+@import '../../../styles/bootstrap.scss';
+
 
 :host {
     .artist-note {
@@ -9,7 +11,11 @@
         width: 50%;
         @include box-shadow;
 
-        @media screen and (max-width: 768px) {
+        @include media-breakpoint-down(lg) {
+            width: 75%;
+        }
+     
+        @include media-breakpoint-down(sm) {
             width: 90%;
         }
     }
@@ -22,6 +28,10 @@
         width: fit-content;
         img {
             height: 300px;
+            @include media-breakpoint-down(sm) {
+                height: 250px;
+            }
+          
         }
         &__name {
             text-align: center;

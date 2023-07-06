@@ -1,5 +1,6 @@
 @import '../../../../styles/colors.scss';
-@import '../../../../styles.scss';
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/bootstrap.scss';
 
 .painting-card {
    background-color: $white;
@@ -33,7 +34,7 @@
          border-top-left-radius: 3px;
          opacity: 50%;
 
-         @media screen and (max-width: 992px) {
+         @include media-breakpoint-down(lg) {
             transform: translate(-8px,-8px) !important;
          }
          &--Available {

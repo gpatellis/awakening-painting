@@ -1,4 +1,5 @@
 @import '../../../styles/colors.scss';
+@import '../../../styles/bootstrap.scss';
 
 .toolbar {
     background: $white;
@@ -26,7 +27,7 @@
         transform: rotate(1deg);
         width: 143.5px;
         height: 51px;
-        @media  screen and (max-width: 576px) {
+        @include media-breakpoint-down(sm) {
             height: 40px !important;
         }
         @media screen and (max-width: 280px) {
