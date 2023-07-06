@@ -1,8 +1,8 @@
-<img class="ps-sm-3 ps-2 menu-icon" mat-button [matMenuTriggerFor]="menu" src="../../../assets/icons/hamburger-menu.png" alt="Hamburger Menu">
+<img class="ps-sm-3 ps-2 menu-icon" aria-label="Open Menu" mat-button [matMenuTriggerFor]="menu" src="../../../assets/icons/hamburger-menu.png" alt="Hamburger Menu">
 <mat-menu #menu="matMenu">
   <div *ngFor="let item of menuItems">
   <div routerLink={{item.route}} routerLinkActive="active" ariaCurrentWhenActive="page">
-    <button mat-menu-item>
+    <button mat-menu-item aria-label="item.name">
       <mat-icon>{{item.icon}}</mat-icon>
       <span>{{item.name}}</span>
     </button>

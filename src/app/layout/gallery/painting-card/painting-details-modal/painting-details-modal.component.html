@@ -1,6 +1,6 @@
 <mat-dialog-content>
     <div id="top"></div>
-    <mat-icon class="close-button mb-2 mb-lg-0" (click)="closePaintingDetailsModal()">close</mat-icon>
+    <mat-icon aria-label="Close Modal" class="close-button mb-2 mb-lg-0" (click)="closePaintingDetailsModal()">close</mat-icon>
     <div *ngIf="paintingModalData && paintingModalData.painting" class="h-100">
         <div class="d-lg-flex" [ngClass]="{'h-100': paintingModalData.painting.aspectRatio < 2}">
             <img [style.height]="'fit-content'" [style.width]="getImageWidth(paintingModalData.painting)" 
@@ -16,7 +16,7 @@
                     <li><b>Status: </b>{{paintingModalData.painting.status}}</li>
                 </ul>
                 <div *ngIf="showBuyPaintingButtonAndPrice"class="details-section__price ps-0 ps-lg-5">${{paintingModalData.painting.price}}</div>
-                <button *ngIf="showBuyPaintingButtonAndPrice" [disabled]="(paintingModalData.painting.status !== 'Available')" class="my-3 buy-painting-button"  (click)="buyPaintingClicked()">Buy Painting</button>
+                <button aria-label="Buy Painting" *ngIf="showBuyPaintingButtonAndPrice" [disabled]="(paintingModalData.painting.status !== 'Available')" class="my-3 buy-painting-button"  (click)="buyPaintingClicked()">Buy Painting</button>
             </div>
         </div>
     </div>
