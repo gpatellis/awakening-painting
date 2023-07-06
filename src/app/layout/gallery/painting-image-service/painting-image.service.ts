@@ -19,7 +19,7 @@ export class PaintingImageService {
     return this.httpClient.get(
       `${environment.getImagesFromS3Endpoint}paintingData.json`, { responseType: 'json' }
       ).pipe(
-        map((paintingData) => ((paintingData as PaintingDataResponse).paintings) as PaintingData[]),
+        map((paintingData) => ((paintingData as PaintingDataResponse).paintings).reverse() as PaintingData[]),
         catchError( error => {
           return throwError(() => error)
         })

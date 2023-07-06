@@ -4,6 +4,7 @@ import { PaintingDetailsModalComponent } from './painting-details-modal/painting
 import { PaintingDetailsModalService } from './painting-details-modal/painting-details-modal.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ap-painting-card',
@@ -18,6 +19,7 @@ export class PaintingCardComponent implements OnInit, OnDestroy {
   @Input()isTabletView: boolean | null = false;
   paintingDetailsDialogRef!: MatDialogRef<PaintingDetailsModalComponent>;
   closePaintingDetailsModalSubscrption: Subscription;
+  showPaintingPrice = environment.allowOnlineCheckout;
 
   constructor(
     public dialog: MatDialog,

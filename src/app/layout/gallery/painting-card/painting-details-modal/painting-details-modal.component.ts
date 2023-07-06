@@ -16,7 +16,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
   isMobileOrTabletViewSubscription: Subscription;
-  showBuyPaintingButton = environment.allowOnlineCheckout;
+  showBuyPaintingButtonAndPrice = environment.allowOnlineCheckout;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService,

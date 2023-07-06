@@ -60,7 +60,7 @@
 ::ng-deep .painting-details-modal {
     height: fit-content;
     width: fit-content;
-    // overflow-y: hidden;
+
     @include media-breakpoint-down(lg) {
         max-width: 91vw !important;
         width: 91vw !important;
