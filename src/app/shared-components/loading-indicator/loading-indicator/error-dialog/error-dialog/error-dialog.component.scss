@@ -1,0 +1,24 @@
+@import "../../../../../../styles/colors.scss";
+
+:host {
+    .error-dialog {
+        background-color: rgba($red, 0.8);
+        &__message {
+            width: fit-content;
+            height: fit-content;
+            margin-bottom: 0px !important;
+        }
+        &__close {
+            transform: translate(15px, -5px);
+            float: right;
+            cursor: pointer;
+        }
+    }
+   
+}
+
+::ng-deep {
+    .mdc-dialog .mdc-dialog__content {
+        padding: 10px 20px 10px 20px;    
+    }
+}

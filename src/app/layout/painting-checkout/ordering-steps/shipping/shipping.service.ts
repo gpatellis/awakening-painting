@@ -3,14 +3,21 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ADDRESS_VALIDATION_RESPONSE } from './shipping.model';
+import { ADDRESS_VALIDATION_RESPONSE, SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from './shipping.model';
+import { Router } from '@angular/router';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShippingService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private loadingIndicatorService: LoadingIndicatorService,
+    private errorDialogService: ErrorDialogService) { }
 
   getShippingFormGroup(): FormGroup {
     return new FormGroup({
@@ -27,7 +34,7 @@ export class ShippingService {
     }); 
   }
 
-  validateAddress(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
+  getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
     const requestBody =  JSON.parse(`[
       {
         "address_line1": "${shippingForm.get('address')?.value}",
@@ -45,8 +52,23 @@ export class ShippingService {
           return response as ADDRESS_VALIDATION_RESPONSE;
         }),
         catchError( error => {
+          this.loadingIndicatorService.hide();
+          this.errorDialogService.open(SHIPPING_SERVICE_ERROR)
           return throwError(() => error)
         })
       )
+  }
+  validateAddress(shippingForm: FormGroup) {
+    this.loadingIndicatorService.show();
+    this.getAddressValidation(shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_RESPONSE) => {
+      if (addressValidationResponse.body[0].status == "verified") {
+        this.router.navigate(['/checkout','payment']);
+        this.loadingIndicatorService.hide();
+      } else if (addressValidationResponse.body[0].status == "unverified") {
+        console.log('entered');
+        this.loadingIndicatorService.hide();
+        this.errorDialogService.open(SHIPPING_SERVICE_INVALID_ADDRESS);
+      }
+    });
   }
 }

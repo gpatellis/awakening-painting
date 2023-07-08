@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   getAddressValidationEndpoint: 'https://0ivmlfk9z0.execute-api.us-east-1.amazonaws.com/v1/',
   getImagesFromS3Endpoint: 'https://dn8tovvtki.execute-api.us-east-1.amazonaws.com/v1/paintingimages?file=',
-  allowOnlineCheckout: false
+  allowOnlineCheckout: true
 };
 
 /*

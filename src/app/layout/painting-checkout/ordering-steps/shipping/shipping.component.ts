@@ -50,13 +50,8 @@ export class ShippingComponent implements OnInit {
   }
 
   submitShippingForm() {
-    this.loadingIndicatorService.show();
-    this.shippingService.validateAddress(this.shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_RESPONSE) => {
-      if (addressValidationResponse.body[0].status = "verified") {
-        this.router.navigate(['/checkout','payment']);
-        this.loadingIndicatorService.hide();
-      }
-    });
+    this.shippingService.validateAddress(this.shippingForm);
+   
   }
 
 }

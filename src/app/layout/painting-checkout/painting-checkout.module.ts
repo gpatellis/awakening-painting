@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AddressTypeaheadComponent } from './ordering-steps/shipping/address-typeahead/address-typeahead.component';
 import { PaymentComponent } from './ordering-steps/payment/payment.component';
+import { ErrorDialogModule } from 'src/app/shared-components/loading-indicator/loading-indicator/error-dialog/error-dialog/error-dialog.module';
+import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
+import { ShippingService } from './ordering-steps/shipping/shipping.service';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -49,7 +52,12 @@ const paintingCheckoutRoute: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatExpansionModule,
-    FormsModule
+    FormsModule,
+    ErrorDialogModule
+  ],
+  providers: [
+    ErrorDialogService,
+    ShippingService
   ]
 })
 export class PaintingCheckoutModule { }
