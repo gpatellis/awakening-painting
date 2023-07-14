@@ -17,7 +17,7 @@ export class PaintingImageService {
 
   getPaintingData(): Observable<PaintingData[]> {
     return this.httpClient.get(
-      `${environment.getImagesFromS3Endpoint}paintingData.json`, { responseType: 'json' }
+      `${environment.getImagesFromCloudFrontS3}paintingData.json`, { responseType: 'json' }
       ).pipe(
         map((paintingData) => ((paintingData as PaintingDataResponse).paintings).reverse() as PaintingData[]),
         catchError( error => {
@@ -29,7 +29,7 @@ export class PaintingImageService {
   populatePaintingDataWithImages(paintingData: PaintingData[]): void {
     paintingData.forEach(paintingDataSet => {
       this.httpClient.get(
-        `${environment.getImagesFromS3Endpoint}${paintingDataSet.image}`, { responseType: 'blob' }
+        `${environment.getImagesFromCloudFrontS3}${paintingDataSet.image}`, { responseType: 'blob' }
         ).pipe(
           map((imageResponse) => imageResponse),
           catchError( error => {
