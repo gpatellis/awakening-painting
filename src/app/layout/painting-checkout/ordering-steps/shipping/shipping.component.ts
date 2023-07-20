@@ -1,9 +1,8 @@
 import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 import { ShippingService } from './shipping.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
-import { ADDRESS_VALIDATION_RESPONSE } from './shipping.model';
 import { Router } from '@angular/router';
 
 
@@ -17,9 +16,7 @@ export class ShippingComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef, 
-    private shippingService: ShippingService,
-    private loadingIndicatorService: LoadingIndicatorService,
-    private router: Router) {
+    private shippingService: ShippingService) {
   }
 
   ngOnInit() {
@@ -51,7 +48,6 @@ export class ShippingComponent implements OnInit {
 
   submitShippingForm() {
     this.shippingService.validateAddress(this.shippingForm);
-   
   }
 
 }

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ORDERING_STATUS } from '../painting-checkout.model';
+import { OrderingStatusService } from './ordering-status.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ap-ordering-status',
@@ -8,9 +10,8 @@ import { ORDERING_STATUS } from '../painting-checkout.model';
 })
 export class OrderingStatusComponent {
 
-  @Input() orderingStatus: ORDERING_STATUS = ORDERING_STATUS.shipping;
+  orderingStatus: Observable<ORDERING_STATUS> = this.orderingStatusService.OrderingStatus$;
   ORDERING_STATUS = ORDERING_STATUS;
 
-  constructor() { }
-
+  constructor(private orderingStatusService: OrderingStatusService) { }
 }

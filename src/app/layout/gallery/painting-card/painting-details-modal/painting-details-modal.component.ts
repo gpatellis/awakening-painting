@@ -68,7 +68,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   }
 
   buyPaintingClicked(): void {
-    this.paintingDetailsModalService.paintingChosenForPurchase = this.paintingModalData.painting;
+    this.paintingDetailsModalService.storePaintingSelectedForPurchaseToSessionStorage(this.paintingModalData.painting);
     this.closePaintingDetailsModal();
     this.router.navigate(['/checkout','shipping']);
   }

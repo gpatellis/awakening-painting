@@ -13,6 +13,12 @@ export interface PaintingData { // create enums
     objectUrl: string;
     aspectRatio: number;
     price: number;
+    length:	number;
+    width:	number;
+    height:	number;
+    distanceUnit: string;
+    weight:	number;
+    weightUnit:	string;
 }
 
 export interface PaintingDataResponse {

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./painting-checkout.component.scss']
 })
 export class PaintingCheckoutComponent implements OnInit {
-  paintingData: PaintingData = this.paintingDetailsModalService.paintingChosenForPurchase;;
+  paintingData: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
   
   constructor(
     public paintingDetailsModalService: PaintingDetailsModalService,

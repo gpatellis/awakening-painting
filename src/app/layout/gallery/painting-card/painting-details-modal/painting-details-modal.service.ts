@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PaintingData } from '../../gallery-interfaces';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,17 @@ import { PaintingData } from '../../gallery-interfaces';
 export class PaintingDetailsModalService {
 
   public closePaintingDetailsModal$ = new BehaviorSubject<boolean>(false);
-  public paintingChosenForPurchase: PaintingData;
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
+
+  storePaintingSelectedForPurchaseToSessionStorage(painting: PaintingData) {
+    sessionStorage.setItem('paintingData', JSON.stringify(painting));
+  }
+
+  getPaintingSelectedForPurchaseFromSessionStorage() {
+    let paintingDataString = sessionStorage.getItem('paintingData');
+    let paintingData: PaintingData = JSON.parse(paintingDataString as string);
+    paintingData.renderedImage = this.sanitizer.bypassSecurityTrustResourceUrl(paintingData.objectUrl);
+    return paintingData;
+  }
 }
