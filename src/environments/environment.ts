@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  getAddressValidationEndpoint: 'https://0ivmlfk9z0.execute-api.us-east-1.amazonaws.com/v1/',
+  getAddressValidationEndpoint: 'https://w3bxzjfsxg.execute-api.us-east-1.amazonaws.com/v1/checkaddressvalidation/dev',
+  getCarrierRatesEndpoint: 'https://is7633u508.execute-api.us-east-1.amazonaws.com/v1/getcarrierrates/dev',
   getImagesFromCloudFrontS3: 'https://dnxr70io2hu9r.cloudfront.net/',
   allowOnlineCheckout: true
 };
