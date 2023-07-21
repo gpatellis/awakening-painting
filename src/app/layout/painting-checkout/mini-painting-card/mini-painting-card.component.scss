@@ -37,10 +37,16 @@
 
 ::ng-deep {
     .mat-expansion-panel-content {
-    background-color: $black-1;
-    font-weight: 300;
+        background-color: $black-1;
+        font-weight: 300;
+    }
+    .mat-expansion-panel-body {
+        padding: 0 24px 0px !important;
     }
     .mat-mdc-progress-spinner {
         width: 30px !important;
+    }
+    .mat-expansion-indicator {
+        margin-right: 10px;
     }
 }
