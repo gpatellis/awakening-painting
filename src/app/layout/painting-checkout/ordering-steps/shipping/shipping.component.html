@@ -28,7 +28,7 @@
     <mat-form-field class="pt-4 mt-3 col-11 col-xxl-3 col-md-5 mx-0 mx-md-2">
         <mat-label for="country">Country </mat-label>
         <input matInput id="country" type="text" formControlName="country" required>
-        <mat-error *ngIf="shippingForm.get('address')?.invalid">{{getErrorMessage('address', 'a country')}}</mat-error>
+        <mat-hint>*Currently only shipping within the US</mat-hint>
     </mat-form-field>
     <mat-form-field class="pt-4 mt-3 col-11 col-xxl-3 col-md-5 mx-0 mx-md-2">
         <mat-label for="phone">Phone </mat-label>

@@ -5,6 +5,12 @@ export interface ADDRESS_VALIDATION_RESPONSE {
 }
 
 export interface CARRIER_RATES_RESPONSE {
+    statusCode: number,
+    shipEngineStatusCode: number,
+    body: CARRIER_RATE[]
+}
+
+export interface CARRIER_RATE {
     rate_id: string,
     rate_type: string,
     carrier_id: string,

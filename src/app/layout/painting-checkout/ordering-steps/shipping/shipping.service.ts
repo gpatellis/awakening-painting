@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ADDRESS, ADDRESS_VALIDATION_RESPONSE, CARRIER_RATES_RESPONSE, SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from './shipping.model';
+import { ADDRESS, ADDRESS_VALIDATION_RESPONSE, CARRIER_RATE, CARRIER_RATES_RESPONSE, SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from './shipping.model';
 import { Router } from '@angular/router';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
@@ -36,7 +36,7 @@ export class ShippingService {
     city: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
     zip: new FormControl('', Validators.required),
-    country: new FormControl('', Validators.required),
+    country: new FormControl({value: 'US', disabled: true}, Validators.required),
     phone: new FormControl('', Validators.required),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -89,7 +89,7 @@ export class ShippingService {
     this.loadingIndicatorService.hide();
   }
 
-  getCarrierRates(): Observable<CARRIER_RATES_RESPONSE[]> {
+  getCarrierRates(): Observable<CARRIER_RATE[]> {
     const requestBody = JSON.parse(`
       {
         "ship_to": {
@@ -120,8 +120,7 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          console.log('response', response);
-          return response as CARRIER_RATES_RESPONSE[];
+          return (response as CARRIER_RATES_RESPONSE).body;
         }),
         catchError( error => {
           this.errorDialogService.open(SHIPPING_SERVICE_ERROR)
