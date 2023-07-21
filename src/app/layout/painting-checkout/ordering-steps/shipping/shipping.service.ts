@@ -83,16 +83,33 @@ export class ShippingService {
   }
 
   navigateToPaymentPage(matchedAddress: ADDRESS): void {
+    this.storeShippingAddressInSessionStorage(matchedAddress);
     this.router.navigate(['/checkout','payment']);
     this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment);
     this.matchedAdress = matchedAddress;
+  }
+
+  storeShippingAddressInSessionStorage(shippingAddress: ADDRESS) {
+    shippingAddress.name = `${this.shippingFormGroup.get('firstName')?.value} ${this.shippingFormGroup.get('lastName')?.value}`;
+    shippingAddress.phone = `${this.shippingFormGroup.get('phone')?.value}`
+    sessionStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+  }
+
+  getShippingAddressFromSessionStorage() {
+    let shippingAddressString = sessionStorage.getItem('shippingAddress');
+    if(shippingAddressString?.length) {
+      let shippingAddress = JSON.parse(shippingAddressString as string);
+      this.matchedAdress = shippingAddress as ADDRESS;
+      return true;
+    }
+    return false;
   }
 
   getCarrierRates(): Observable<CARRIER_RATE[]> {
     const requestBody = JSON.parse(`
       {
         "ship_to": {
-          "name": "${this.shippingFormGroup.get('firstName')?.value} ${this.shippingFormGroup.get('lastName')?.value}",
+          "name": "${this.matchedAdress.name} ",
           "address_line1": "${this.matchedAdress.address_line1}",
           "city_locality": "${this.matchedAdress.city_locality}",
           "state_province": "${this.matchedAdress.state_province}",

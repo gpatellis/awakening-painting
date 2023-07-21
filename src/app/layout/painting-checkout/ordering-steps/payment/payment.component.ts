@@ -16,7 +16,7 @@ export class PaymentComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    if(!this.shippingService.shippingFormGroup) {
+    if(!this.shippingService.getShippingAddressFromSessionStorage()) {
       this.router.navigate(['/checkout','shipping']);
       return;
     }
