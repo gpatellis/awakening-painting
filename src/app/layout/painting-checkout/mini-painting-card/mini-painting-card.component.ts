@@ -10,6 +10,6 @@ export class MiniPaintingCardComponent {
 
   constructor() { }
 
-  @Input() paintingData: PaintingData;
+  @Input() paintingData: PaintingData | null;
 
 }

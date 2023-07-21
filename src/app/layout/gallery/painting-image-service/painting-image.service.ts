@@ -44,6 +44,22 @@ export class PaintingImageService {
       )});       
   }
 
+  getSinglePaintingImage(painting: PaintingData): Observable<PaintingData> {
+    return this.httpClient.get(
+      `${environment.getImagesFromCloudFrontS3}${painting.image}`, { responseType: 'blob' }
+      ).pipe(
+        map((imageResponse) => {
+          let objectURL = URL.createObjectURL(imageResponse as Blob);
+          painting.objectUrl = objectURL;
+          painting.renderedImage = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          return painting;
+        }),
+        catchError( error => {
+          return throwError(() => error)
+        })
+      )
+  };       
+
   storePaintingImagesInStorage(paintingImages: PaintingData[]): void {
     localStorage.setItem('paintingData', JSON.stringify(paintingImages));
   }

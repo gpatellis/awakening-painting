@@ -86,7 +86,6 @@ export class ShippingService {
     this.router.navigate(['/checkout','payment']);
     this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment);
     this.matchedAdress = matchedAddress;
-    this.loadingIndicatorService.hide();
   }
 
   getCarrierRates(): Observable<CARRIER_RATE[]> {
@@ -120,6 +119,7 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
+          this.loadingIndicatorService.hide();
           return (response as CARRIER_RATES_RESPONSE).body;
         }),
         catchError( error => {

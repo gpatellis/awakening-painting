@@ -16,6 +16,7 @@ import { PaymentComponent } from './ordering-steps/payment/payment.component';
 import { ErrorDialogModule } from 'src/app/shared-components/loading-indicator/loading-indicator/error-dialog/error-dialog/error-dialog.module';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { ShippingService } from './ordering-steps/shipping/shipping.service';
+import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator/loading-indicator.module';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -53,7 +54,8 @@ const paintingCheckoutRoute: Routes = [
     MatInputModule,
     MatExpansionModule,
     FormsModule,
-    ErrorDialogModule
+    ErrorDialogModule,
+    LoadingIndicatorModule
   ],
   providers: [
     ErrorDialogService,

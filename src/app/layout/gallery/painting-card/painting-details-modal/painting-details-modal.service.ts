@@ -19,7 +19,6 @@ export class PaintingDetailsModalService {
   getPaintingSelectedForPurchaseFromSessionStorage() {
     let paintingDataString = sessionStorage.getItem('paintingData');
     let paintingData: PaintingData = JSON.parse(paintingDataString as string);
-    paintingData.renderedImage = this.sanitizer.bypassSecurityTrustResourceUrl(paintingData.objectUrl);
     return paintingData;
   }
 }

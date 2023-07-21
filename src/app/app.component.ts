@@ -18,11 +18,14 @@ export class AppComponent implements OnDestroy, OnInit{
   isLoadingIndicatorShowingSubscription: Subscription;
   showLoadingIndicator: boolean;
 
-  constructor(private router: Router, public paintingImageService: PaintingImageService,
+  constructor(
+    private router: Router, 
+    public paintingImageService: PaintingImageService,
     private loadingIndicatorService: LoadingIndicatorService,
     private cd: ChangeDetectorRef,
     private titleService: Title,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document
+    ) {
       this.handleRouteEvents();
       this.refreshSubscription = router.events.subscribe((event) => {
           if (event instanceof NavigationStart) {
