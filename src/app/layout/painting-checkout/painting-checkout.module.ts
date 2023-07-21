@@ -17,6 +17,7 @@ import { ErrorDialogModule } from 'src/app/shared-components/loading-indicator/l
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { ShippingService } from './ordering-steps/shipping/shipping.service';
 import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator/loading-indicator.module';
+import { ShippingOptionsComponent } from './ordering-steps/payment/shipping-options/shipping-options.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -42,7 +43,8 @@ const paintingCheckoutRoute: Routes = [
     ShippingComponent,
     MiniPaintingCardComponent,
     AddressTypeaheadComponent,
-    PaymentComponent
+    PaymentComponent,
+    ShippingOptionsComponent
   ],
   imports: [
     CommonModule,

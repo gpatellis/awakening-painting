@@ -1,7 +1,2 @@
-<div *ngIf="(carrierRates$ | async)">
-<div *ngFor="let rate of (carrierRates$ | async)">
-    <div>{{rate.estimated_delivery_date}}</div>
-    <div>{{rate.service_type}}</div>
-    <div>${{rate.shipping_amount}}</div>
-</div>
-</div>
+
+<ap-shipping-options [carrierRates]="(carrierRates$ | async)"></ap-shipping-options>

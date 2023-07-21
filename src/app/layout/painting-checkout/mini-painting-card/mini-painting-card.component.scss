@@ -19,6 +19,9 @@
         @include box-shadow;
         background: $white;
         border-radius: 6px;
+        ::ng-deep .mat-mdc-progress-spinner {
+            width: 30px !important;
+        }
         @media screen and (max-width: 360px) {
             width: 90vw;
         }
@@ -43,9 +46,7 @@
     .mat-expansion-panel-body {
         padding: 0 24px 0px !important;
     }
-    .mat-mdc-progress-spinner {
-        width: 30px !important;
-    }
+    
     .mat-expansion-indicator {
         margin-right: 10px;
     }

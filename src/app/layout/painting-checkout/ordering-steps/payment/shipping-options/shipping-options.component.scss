@@ -1,0 +1,8 @@
+@import "../../../../../../styles/colors.scss";
+@import "../../../../../../styles/mixins.scss";
+
+.shipping-options {
+    text-align: center;
+    background: $white;
+    @include box-shadow;
+}

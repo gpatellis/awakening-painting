@@ -1,0 +1,9 @@
+<section class="shipping-options">
+    <div *ngIf="carrierRates">
+        <div *ngFor="let rate of carrierRates">
+            <div>{{rate.estimated_delivery_date}}</div>
+            <div>{{rate.service_type}}</div>
+            <div>${{rate.shipping_amount.amount}}</div>
+        </div>
+    </div>
+</section>
