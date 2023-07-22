@@ -25,12 +25,12 @@ export class ShippingComponent implements OnInit {
   populateAddressInfo(addressResponse: GOOGLE_ADDRESS_RESPONSE) {
     let addressComponents = addressResponse.address_components;
     this.shippingForm.setValue({
-      address: `${addressComponents[0].long_name} ${addressComponents[1].long_name}`,
-      aptSuite: '',
-      city: `${addressComponents[2].long_name}`,
-      state: `${addressComponents[4].long_name}`,
-      zip: `${addressComponents[6].long_name}`,
-      country: `${addressComponents[5].short_name}`,
+      address: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'street_number')?.long_name} ${addressComponents.find((addressComponent) => addressComponent.types[0] == 'route')?.long_name}`,
+      address_line2: '',
+      city: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'locality')?.long_name}`,
+      state: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'administrative_area_level_1')?.long_name}`,
+      zip: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'postal_code')?.long_name}`,
+      country: `US`,
       phone: '',
       firstName: '',
       lastName: '',

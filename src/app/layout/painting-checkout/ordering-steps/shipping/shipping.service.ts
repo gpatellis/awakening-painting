@@ -16,7 +16,7 @@ import { ORDERING_STATUS } from '../../painting-checkout.model';
   providedIn: 'root'
 })
 export class ShippingService {
-  matchedAdress: ADDRESS;
+  matchedAddress: ADDRESS;
   shippingFormGroup: FormGroup;
   paintingChosenForPurchase: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
 
@@ -32,7 +32,7 @@ export class ShippingService {
   getShippingFormGroup(): FormGroup {
     this.shippingFormGroup = new FormGroup({
     address: new FormControl('', Validators.required),
-    aptSuite: new FormControl(''),
+    address_line2: new FormControl(''),
     city: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
     zip: new FormControl('', Validators.required),
@@ -48,7 +48,7 @@ export class ShippingService {
   getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
     const requestBody =  JSON.parse(`[
       {
-        "address_line1": "${shippingForm.get('address')?.value}",
+        "address_line1": "${shippingForm.get('address')?.value} ${shippingForm.get('address_line2')?.value}",
         "city_locality": "${shippingForm.get('city')?.value}",
         "state_province": "${shippingForm.get('state')?.value}",
         "postal_code": "${shippingForm.get('zip')?.value}",
@@ -86,7 +86,7 @@ export class ShippingService {
     this.storeShippingAddressInSessionStorage(matchedAddress);
     this.router.navigate(['/checkout','payment']);
     this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment);
-    this.matchedAdress = matchedAddress;
+    this.matchedAddress = matchedAddress;
   }
 
   storeShippingAddressInSessionStorage(shippingAddress: ADDRESS) {
@@ -99,7 +99,7 @@ export class ShippingService {
     let shippingAddressString = sessionStorage.getItem('shippingAddress');
     if(shippingAddressString?.length) {
       let shippingAddress = JSON.parse(shippingAddressString as string);
-      this.matchedAdress = shippingAddress as ADDRESS;
+      this.matchedAddress = shippingAddress as ADDRESS;
       return true;
     }
     return false;
@@ -109,12 +109,12 @@ export class ShippingService {
     const requestBody = JSON.parse(`
       {
         "ship_to": {
-          "name": "${this.matchedAdress.name} ",
-          "address_line1": "${this.matchedAdress.address_line1}",
-          "city_locality": "${this.matchedAdress.city_locality}",
-          "state_province": "${this.matchedAdress.state_province}",
-          "postal_code": "${this.matchedAdress.postal_code}",
-          "country_code": "${this.matchedAdress.country_code}"
+          "name": "${this.matchedAddress.name} ",
+          "address_line1": "${this.matchedAddress.address_line1} ${this.matchedAddress.address_line2}",
+          "city_locality": "${this.matchedAddress.city_locality}",
+          "state_province": "${this.matchedAddress.state_province}",
+          "postal_code": "${this.matchedAddress.postal_code}",
+          "country_code": "${this.matchedAddress.country_code}"
         },
         "packages": [
           {

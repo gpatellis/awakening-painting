@@ -7,8 +7,8 @@
         <mat-error *ngIf="shippingForm.get('address')?.invalid">{{getErrorMessage('address', 'an address')}}</mat-error>
     </mat-form-field>
     <mat-form-field class="pt-4 mt-3 col-11 col-xxl-3 col-md-5 mx-0 mx-md-2">
-        <mat-label for="aptSuite">Apartment, Suite (optional) </mat-label>
-        <input matInput id="aptSuite" type="text" formControlName="aptSuite">
+        <mat-label for="address_line2">Address Line 2 (optional) </mat-label>
+        <input matInput id="address_line2" type="text" formControlName="address_line2">
     </mat-form-field>
     <mat-form-field class="pt-4 mt-3 col-11 col-xxl-3 col-md-5 mx-0 mx-md-2">
         <mat-label for="city">City: </mat-label>
