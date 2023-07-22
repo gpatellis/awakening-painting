@@ -2,7 +2,37 @@
 @import "../../../../../../styles/mixins.scss";
 
 .shipping-options {
-    text-align: center;
+    text-align: center !important;
     background: $white;
     @include box-shadow;
+    margin: auto;
+    width: fit-content;
+    border-radius: 6px;
+    font-weight: normal;
+    &__option {
+        cursor: pointer;
+        width: 100%;
+        align-items: center;
+        border-bottom: 1px solid $black-4;
+        &-deliver-date {
+            margin-left: 41px;
+            font-size: 14px;
+            color: $black-7;
+        }
+        &--last {
+            border-bottom: none;
+        }
+        &--selected {
+            background: $black-1;
+        }
+        &--first {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+        ::ng-deep{
+            .mat-mdc-radio-button {
+                color: $light-blue;
+            }
+        }
+    }
 }

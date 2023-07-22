@@ -137,6 +137,7 @@ export class ShippingService {
       environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
           this.loadingIndicatorService.hide();
+          this.massageCarrierRatesTimeAndDay((response as CARRIER_RATES_RESPONSE).body);
           return (response as CARRIER_RATES_RESPONSE).body;
         }),
         catchError( error => {
@@ -144,5 +145,12 @@ export class ShippingService {
           return throwError(() => error)
         })
       )
+  }
+
+  massageCarrierRatesTimeAndDay(carrierRates: CARRIER_RATE[]) {
+    carrierRates.forEach((rate) => {
+      const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+      rate.estimated_delivery_date = new Date(rate.estimated_delivery_date).toLocaleDateString('en-us', options);
+    });
   }
 }

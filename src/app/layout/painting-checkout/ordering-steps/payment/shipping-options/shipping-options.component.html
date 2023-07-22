@@ -1,9 +1,17 @@
-<section class="shipping-options">
-    <div *ngIf="carrierRates">
-        <div *ngFor="let rate of carrierRates">
-            <div>{{rate.estimated_delivery_date}}</div>
-            <div>{{rate.service_type}}</div>
-            <div>${{rate.shipping_amount.amount}}</div>
-        </div>
+<section class="shipping-options mt-4">
+    <div *ngIf="carrierRates" [formGroup]="shippingOptionsFormGroup">
+        <mat-radio-group formControlName="shippingOptionSelected">
+            <div *ngFor="let rate of carrierRates; let last = last, let first = first" (click)="shippingOptionChange(rate)"
+            class=" p-2 shipping-options__option" [ngClass]="{'shipping-options__option--last': last, 
+            'shipping-options__option--selected': getShippingOptionSelected() == rate.rate_id,
+            'shipping-options__option--first': first}">
+                <span class="d-flex align-items-center">
+                    <mat-radio-button [value]="rate.rate_id" (change)="shippingOptionChange(rate)"></mat-radio-button>
+                    <div class="pe-2">{{rate.service_type}}</div>
+                    <div class="pe-2">${{rate.shipping_amount.amount}}</div>
+                </span>
+                <div class="shipping-options__option-deliver-date">Estimated Delivery Date:&nbsp;&nbsp;{{rate.estimated_delivery_date}}</div>
+            </div>
+        </mat-radio-group>
     </div>
 </section>
