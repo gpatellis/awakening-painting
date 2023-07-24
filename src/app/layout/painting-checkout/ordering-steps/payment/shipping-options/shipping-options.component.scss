@@ -9,6 +9,9 @@
     width: fit-content;
     border-radius: 6px;
     font-weight: normal;
+    @media screen and (max-width: 360px){
+        min-width: 268px;
+    }
     min-width: 355px;
     min-height: 215px;
     &__option {
@@ -16,6 +19,9 @@
         width: 100%;
         align-items: center;
         border-bottom: 1px solid $black-4;
+        @media screen and (max-width: 360px){
+            padding: 5px;
+        }
         padding: 5px 20px 5px 10px;
         &-deliver-date {
             margin-left: 41px;
