@@ -109,7 +109,7 @@ export class ShippingService {
     const requestBody = JSON.parse(`
       {
         "ship_to": {
-          "name": "${this.matchedAddress.name} ",
+          "name": "${this.matchedAddress.name}",
           "address_line1": "${this.matchedAddress.address_line1} ${this.matchedAddress.address_line2}",
           "city_locality": "${this.matchedAddress.city_locality}",
           "state_province": "${this.matchedAddress.state_province}",
@@ -141,7 +141,8 @@ export class ShippingService {
           return (response as CARRIER_RATES_RESPONSE).body;
         }),
         catchError( error => {
-          this.errorDialogService.open(SHIPPING_SERVICE_ERROR)
+          this.errorDialogService.open(SHIPPING_SERVICE_ERROR);
+          this.router.navigate(['/checkout','shipping']);
           return throwError(() => error)
         })
       )
