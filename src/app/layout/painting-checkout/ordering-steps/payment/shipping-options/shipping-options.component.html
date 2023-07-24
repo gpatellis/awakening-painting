@@ -1,8 +1,8 @@
 <section class="shipping-options mt-4">
-    <div *ngIf="carrierRates" [formGroup]="shippingOptionsFormGroup">
+    <div *ngIf="carrierRates; else loadingIndicator" [formGroup]="shippingOptionsFormGroup">
         <mat-radio-group formControlName="shippingOptionSelected">
             <div *ngFor="let rate of carrierRates; let last = last, let first = first" (click)="shippingOptionChange(rate)"
-            class=" p-2 shipping-options__option" [ngClass]="{'shipping-options__option--last': last, 
+            class="shipping-options__option" [ngClass]="{'shipping-options__option--last': last, 
             'shipping-options__option--selected': getShippingOptionSelected() == rate.rate_id,
             'shipping-options__option--first': first}">
                 <span class="d-flex align-items-center">
@@ -14,4 +14,9 @@
             </div>
         </mat-radio-group>
     </div>
+    <ng-template #loadingIndicator>
+        <div class="shipping-options__loading-indicator">
+            <ap-loading-indicator></ap-loading-indicator>
+        </div>
+    </ng-template>
 </section>

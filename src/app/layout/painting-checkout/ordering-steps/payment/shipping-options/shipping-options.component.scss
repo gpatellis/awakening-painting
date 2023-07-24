@@ -9,11 +9,14 @@
     width: fit-content;
     border-radius: 6px;
     font-weight: normal;
+    min-width: 355px;
+    min-height: 215px;
     &__option {
         cursor: pointer;
         width: 100%;
         align-items: center;
         border-bottom: 1px solid $black-4;
+        padding: 5px 20px 5px 10px;
         &-deliver-date {
             margin-left: 41px;
             font-size: 14px;
@@ -33,6 +36,12 @@
             .mat-mdc-radio-button {
                 color: $light-blue;
             }
+        }
+    }
+    &__loading-indicator {
+        transform: translateY(150%);
+        ::ng-deep .mat-mdc-progress-spinner {
+            width: 30px !important;
         }
     }
 }
