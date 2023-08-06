@@ -2,8 +2,6 @@ import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 import { ShippingService } from './shipping.service';
-import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
-import { Router } from '@angular/router';
 
 
 @Component({

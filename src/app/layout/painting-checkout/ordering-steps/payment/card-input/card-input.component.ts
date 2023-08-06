@@ -34,7 +34,13 @@ export class CardInputComponent implements OnInit{
       clientSecret: clientSecret,
       appearance: {/*...*/},
     };
-    const billingOptions = { mode: 'billing' }
+    const billingOptions = { 
+      mode: 'billing',
+      autocomplete: {
+        mode: 'google_maps_api',
+        apiKey: 'AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE' 
+      }
+    }
     let stripe = await loadStripe(environment.stripe.publicKey);
     this.elements = stripe?.elements(paymentOptions);
 
