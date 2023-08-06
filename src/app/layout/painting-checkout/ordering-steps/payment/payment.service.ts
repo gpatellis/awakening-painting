@@ -21,13 +21,13 @@ export class PaymentService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post(
-      environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
+      environment.createPaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
           return (response as CREATE_PAYMENT_INTENT_RESPONSE).body.client_secret;
         }),
         catchError( error => {
           return throwError(() => error)
         })
-  }
+    )};
 
 }
