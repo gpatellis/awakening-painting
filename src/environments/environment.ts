@@ -7,7 +7,11 @@ export const environment = {
   getAddressValidationEndpoint: 'https://w3bxzjfsxg.execute-api.us-east-1.amazonaws.com/v1/checkaddressvalidation/dev',
   getCarrierRatesEndpoint: 'https://is7633u508.execute-api.us-east-1.amazonaws.com/v1/getcarrierrates/dev',
   getImagesFromCloudFrontS3: 'https://dnxr70io2hu9r.cloudfront.net/',
-  allowOnlineCheckout: true
+  createPaymentIntentEndpoint: "https://bjdx3cog18.execute-api.us-east-1.amazonaws.com/v1/createpaymentintent/dev",
+  allowOnlineCheckout: true,
+  stripe: {
+    publicKey: 'pk_test_51NXQnKAFGO2wW8pWFNwPdMIGFRwXIHFRsKqOThn95bOAuxNsSuKBS6h3o7rSs7SSoS7NTPimqmKTdaJYVqVzcwG800GZh6hL3a',
+  }
 };
 
 /*

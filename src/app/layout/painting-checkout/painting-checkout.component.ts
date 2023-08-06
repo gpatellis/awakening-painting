@@ -11,9 +11,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./painting-checkout.component.scss']
 })
 export class PaintingCheckoutComponent implements OnInit {
+  
   paintingDataWithoutImage: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
   paintingDataWithImage$: Observable<PaintingData>;
   paintingImagePopulated: boolean;
+
   constructor(
     public paintingDetailsModalService: PaintingDetailsModalService,
     private router: Router,
