@@ -2,9 +2,8 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core'
 import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 import { PaymentService } from '../payment.service';
-import {StripeElements, StripePaymentElement, StripeShippingAddressElement, loadStripe} from '@stripe/stripe-js';
+import { StripePaymentElement, StripeShippingAddressElement, loadStripe} from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 
 @Component({
@@ -15,7 +14,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 export class CardInputComponent implements OnInit{
   paintingData: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
   elements: any;
-  isBillingAddressSameAsShipping: boolean;
+  isBillingAddressSameAsShipping: boolean = false;
   cardInputElement: StripePaymentElement;
   addressElement: StripeShippingAddressElement;
 
@@ -57,12 +56,8 @@ export class CardInputComponent implements OnInit{
     this.addressElement.mount('#address-element');
   }
 
-  listenForBillingAddressSlideToggle(event: MatSlideToggleChange) {
-    if(event.checked) {
-      this.isBillingAddressSameAsShipping = true;
-    } else {
-      this.isBillingAddressSameAsShipping = false;
-    }
+  listenForBillingAddressSlideToggle() {
+    this.isBillingAddressSameAsShipping = !this.isBillingAddressSameAsShipping;
   }
 
 }

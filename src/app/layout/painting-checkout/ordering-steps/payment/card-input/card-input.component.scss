@@ -2,8 +2,7 @@
 @import '../../../../../../styles/bootstrap.scss';
 @import '../../../../../../styles/colors.scss';
 
-#payment-form {
-    padding: 20px;
+@mixin stripe-form {
     text-align: center;
     margin: auto;
     width: 50%;
@@ -11,18 +10,29 @@
     @include  media-breakpoint-down(lg) {
         width: 100% !important;
     }
+}
 
-    ::ng-deep {
-        .submit {
-            @include generic-button;
-            padding: 10px 30px;
-            margin-top: 28px;
-        }
-        #card-element {
-            margin-top: 15px;
-        }
+.payment {
+    padding: 20px;
+    &__card-input {
+        @include stripe-form;
+        margin-top: 24px !important;
     }
 
+    &__billing-address-toggle--off {
+        float: left;
+    }
+
+    &__billing-address {
+        @include stripe-form;
+        margin-top: 0 !important;
+    }
+
+    &__next-button {
+        @include generic-button;
+        padding: 10px 30px 10px 30px;
+        margin: auto;
+    }
 }
 
 ::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::before {
