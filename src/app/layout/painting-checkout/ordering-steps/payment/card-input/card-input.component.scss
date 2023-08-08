@@ -1,5 +1,6 @@
 @import '../../../../../../styles/mixins.scss';
 @import '../../../../../../styles/bootstrap.scss';
+@import '../../../../../../styles/colors.scss';
 
 #payment-form {
     padding: 20px;
@@ -14,11 +15,24 @@
     ::ng-deep {
         .submit {
             @include generic-button;
-            padding: 10px 18px;
+            padding: 10px 30px;
             margin-top: 28px;
         }
         #card-element {
             margin-top: 15px;
         }
     }
+
+}
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::before {
+    background: $black-2 !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::after {
+    background: $light-blue !important;
+}
+
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+    background-color: $dark-blue !important;
 }

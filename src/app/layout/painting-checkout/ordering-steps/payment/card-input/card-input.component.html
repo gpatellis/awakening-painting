@@ -6,15 +6,17 @@
         <div id="card-element">
             <!-- Payment Element will be inserted here. -->
         </div>
-        <!-- Used to display form errors -->
+            <!-- Used to display form errors -->
         <div id="card-errors" role="alert"></div>
         <form id="address-form" class="mt-4">
-            <label>Billing Address</label>
-            <div id="address-element">
+            <label>Billing Address</label><br>
+            <mat-slide-toggle (change)="listenForBillingAddressSlideToggle($event)" class="mt-4">Same as Shipping</mat-slide-toggle>
+            <div id="address-element" [ngClass]="{'d-none': isBillingAddressSameAsShipping}">
               <!-- Address elements will create form elements here -->
             </div>
         </form>
+
     </div>
     
-    <input type="submit" class="submit" value="Submit Payment">
+    <input type="submit" class="submit" value="Next">
 </form>

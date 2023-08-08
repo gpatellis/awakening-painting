@@ -18,8 +18,9 @@ import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-d
 import { ShippingService } from './ordering-steps/shipping/shipping.service';
 import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator/loading-indicator.module';
 import { ShippingOptionsComponent } from './ordering-steps/payment/shipping-options/shipping-options.component';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { CardInputComponent } from './ordering-steps/payment/card-input/card-input.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -61,7 +62,8 @@ const paintingCheckoutRoute: Routes = [
     FormsModule,
     ErrorDialogModule,
     LoadingIndicatorModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   providers: [
     ErrorDialogService,
