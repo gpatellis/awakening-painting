@@ -28,11 +28,6 @@
         margin-top: 0 !important;
     }
 
-    &__next-button {
-        @include generic-button;
-        padding: 10px 30px 10px 30px;
-        margin: auto;
-    }
 }
 
 ::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::before {

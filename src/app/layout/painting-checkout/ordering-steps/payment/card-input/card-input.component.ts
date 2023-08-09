@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 import { PaymentService } from '../payment.service';
@@ -41,9 +41,8 @@ export class CardInputComponent implements OnInit{
       mode: 'billing',
       autocomplete: {
         mode: 'google_maps_api',
-        apiKey: 'AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE' 
-      },
-      disabled: true
+        apiKey: 'AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE' //extract to env
+      }
     }
     
     let stripe = await loadStripe(environment.stripe.publicKey);
@@ -54,10 +53,26 @@ export class CardInputComponent implements OnInit{
 
     this.cardInputElement.mount('#card-element');
     this.addressElement.mount('#address-element');
+
+    this.listenForAddressElementComplete();
+    this.listenForCardInputElementComplete();
   }
 
   listenForBillingAddressSlideToggle() {
     this.isBillingAddressSameAsShipping = !this.isBillingAddressSameAsShipping;
+    this.paymentService.isAddressElementComplete$.next(this.isBillingAddressSameAsShipping);
+  }
+
+  listenForAddressElementComplete() {
+    this.addressElement.on('change', (event) => {
+      this.paymentService.isAddressElementComplete$.next(event.complete);
+    });
+  }
+
+  listenForCardInputElementComplete() {
+    this.cardInputElement.on('change', (event) => {
+      this.paymentService.isCardInputElementComplete$.next(event.complete);
+    });
   }
 
 }

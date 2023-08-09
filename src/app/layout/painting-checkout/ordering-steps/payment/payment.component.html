@@ -1,3 +1,7 @@
-
-<ap-shipping-options [carrierRates]="(carrierRates$ | async)" ></ap-shipping-options>
-<ap-card-input class="w-50"></ap-card-input>
+<section class="text-center">
+    <ap-shipping-options [carrierRates]="(carrierRates$ | async)"
+        (carrierOptionSelected)='listenForCarrierOptionSelected($event)'></ap-shipping-options>
+    <ap-card-input class="w-50"></ap-card-input>
+    <button aria-label="Next to Payment" mat-raised-button [disabled]="!isPaymentFormComplete"
+        class="mt-4 mb-5 next-button">Next</button>
+</section>
