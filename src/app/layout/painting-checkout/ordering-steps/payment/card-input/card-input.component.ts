@@ -61,6 +61,7 @@ export class CardInputComponent implements OnInit{
   listenForBillingAddressSlideToggle() {
     this.isBillingAddressSameAsShipping = !this.isBillingAddressSameAsShipping;
     this.paymentService.isAddressElementComplete$.next(this.isBillingAddressSameAsShipping);
+    this.addressElement.clear();
   }
 
   listenForAddressElementComplete() {
