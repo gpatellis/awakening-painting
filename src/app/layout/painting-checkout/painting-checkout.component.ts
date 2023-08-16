@@ -4,6 +4,7 @@ import { PaintingDetailsModalService } from '../gallery/painting-card/painting-d
 import { Router } from '@angular/router';
 import { PaintingImageService } from '../gallery/painting-image-service/painting-image.service';
 import { Observable } from 'rxjs';
+import { StripeService } from './stripe/stripe.service';
 
 @Component({
   selector: 'ap-painting-checkout',
@@ -19,10 +20,12 @@ export class PaintingCheckoutComponent implements OnInit {
   constructor(
     public paintingDetailsModalService: PaintingDetailsModalService,
     private router: Router,
-    private paintingImageService: PaintingImageService) { }
+    private paintingImageService: PaintingImageService,
+    private stripeService: StripeService) { }
 
   ngOnInit(): void {
     this.checkForPaintingData();
+    this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
     this.paintingDataWithImage$ = this.paintingImageService.getSinglePaintingImage(this.paintingDataWithoutImage);
   }
 

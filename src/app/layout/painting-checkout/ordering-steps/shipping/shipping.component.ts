@@ -1,7 +1,9 @@
-import {  ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {  ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { GOOGLE_ADDRESS_RESPONSE } from '../../painting-checkout.model';
 import { ShippingService } from './shipping.service';
+import { StripeService } from '../../stripe/stripe.service';
+import { StripeAddressElement, StripeAddressElementChangeEvent, StripeElements } from '@stripe/stripe-js';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -9,47 +11,78 @@ import { ShippingService } from './shipping.service';
   templateUrl: './shipping.component.html',
   styleUrls: ['./shipping.component.scss']
 })
-export class ShippingComponent implements OnInit {
+export class ShippingComponent implements OnInit, OnDestroy {
   shippingForm: FormGroup = this.shippingService.getShippingFormGroup();
-  addressLine1Selected: boolean;
+  shippingAddressElement: StripeAddressElement;
 
   constructor(
     private cd: ChangeDetectorRef, 
-    private shippingService: ShippingService) {
+    private shippingService: ShippingService,
+    private stripeService: StripeService) {
   }
 
   ngOnInit() {
+    this.loadStripeShippingAddressElement();
   }
 
-  populateAddressInfo(addressResponse: GOOGLE_ADDRESS_RESPONSE) {
-    let addressComponents = addressResponse.address_components;
+  loadStripeShippingAddressElement(): void {
+    this.stripeService.stripeElements$.subscribe((elements: any) => {
+      if(elements) {
+        let shippingOptions = { 
+          mode: 'shipping',
+          autocomplete: {
+            mode: 'google_maps_api',
+            apiKey: environment.googleMapsApi.apiKey
+          },
+          allowedCountries: ['US']
+        };
+        this.shippingAddressElement = elements.create('address', shippingOptions);
+
+        this.shippingAddressElement.mount('#shipping-address-element');
+    
+        this.listenForAddressElementComplete();
+      }
+    });
+  }
+
+  listenForAddressElementComplete(): void {
+    this.shippingAddressElement.on('change', (event: StripeAddressElementChangeEvent) => {
+      this.populateAddressInfo(event);
+    });
+  }
+
+  populateAddressInfo(addressChangeEvent: StripeAddressElementChangeEvent): void {
     this.shippingForm.setValue({
-      address: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'street_number')?.long_name} ${addressComponents.find((addressComponent) => addressComponent.types[0] == 'route')?.long_name}`,
-      address_line2: this.shippingForm.get('address_line2')?.value,
-      city: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'locality')?.long_name}`,
-      state: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'administrative_area_level_1')?.long_name}`,
-      zip: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'postal_code')?.long_name}`,
-      country: `US`,
-      fullName: this.shippingForm.get('fullName')?.value,
+      address: addressChangeEvent.value.address.line1,
+      address_line2: addressChangeEvent.value.address.line2,
+      city: addressChangeEvent.value.address.city,
+      state: addressChangeEvent.value.address.state,
+      zip: addressChangeEvent.value.address.postal_code,
+      country: addressChangeEvent.value.address.country,
+      fullName: addressChangeEvent.value.name,
       emailAddress: this.shippingForm.get('emailAddress')?.value
     });
-    this.addressLine1Selected = true;
     this.cd.detectChanges();
   }
 
-  getErrorMessage(formControlName: string, label: string) {
+  getErrorMessage(formControlName: string, label: string): string | undefined {
     if (this.shippingForm.get(formControlName) && (this.shippingForm.get(formControlName)?.hasError)) {
       return `You must enter ${label}`;
     } else 
       return;
   }
 
-  isFormControlError(formControlName: string ) {
+  isFormControlError(formControlName: string): boolean | undefined {
     return this.shippingForm.get(formControlName)?.invalid && this.shippingForm.get(formControlName)?.touched;
   }
 
-  submitShippingForm() {
+  submitShippingForm(): void {
     this.shippingService.validateAddress(this.shippingForm);
+    this.shippingAddressElement.unmount();
+  }
+
+  ngOnDestroy(): void {
+    this.shippingAddressElement.destroy();
   }
 
 }

@@ -16,7 +16,7 @@
         <mat-slide-toggle (change)="listenForBillingAddressSlideToggle()" class="mb-2 mt-2"
             [ngClass]="{'payment__billing-address-toggle--off': !isBillingAddressSameAsShipping}">Same as
             Shipping</mat-slide-toggle>
-        <div id="address-element" [ngClass]="{'d-none': isBillingAddressSameAsShipping}">
+        <div id="billing-address-element" [ngClass]="{'d-none': isBillingAddressSameAsShipping}">
             <!-- Billing Address elements will create form elements here -->
         </div>
     </form>

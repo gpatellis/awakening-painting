@@ -1,45 +1,16 @@
 <section class="address-form">
-<h2 class="address-form__form-name">Shipping Address</h2>
-<form [formGroup]="shippingForm" class="text-center m-auto">
-    <div class="w-100 address-form__field">
-        <label for="emailAddress">Email address</label>
-        <input id="email-Address" [ngClass]="{'address-form__field--error': isFormControlError('emailAddress')}" placeholder="Email" type="text" formControlName="emailAddress">
-        <p *ngIf="isFormControlError('emailAddress')">{{getErrorMessage('address', 'a valid email address')}}</p>
-    </div>
-    <div class="w-100 address-form__field">
-        <label for="fullName">Full name</label>
-        <input id="full-name" [ngClass]="{'address-form__field--error': isFormControlError('fullName')}" placeholder="First and last name" type="text" formControlName="fullName">
-        <p *ngIf="isFormControlError('fullName')">{{getErrorMessage('fullName', 'your first and last name')}}</p>
-    </div>
-    <div class="w-100 address-form__field">
-        <label for="country">Country or region</label>
-        <input id="country" type="text" formControlName="country">
-        <mat-hint>*Currently only shipping within the United States</mat-hint>
-    </div>
-    <ap-adress-typeahead (setAddress)="populateAddressInfo($event)"></ap-adress-typeahead>
-    <div [ngClass]="{'d-none': !addressLine1Selected}">
+    <h2 class="address-form__form-name">Shipping Address</h2>
+    <form class="mt-4 text-center m-auto" [formGroup]="shippingForm">
         <div class="w-100 address-form__field">
-            <label for="address_line2">Address line 2</label>
-            <input id="address_line2" placeholder="Apt., suite, unit number, etc. (optional)" type="text" formControlName="address_line2">
+            <label for="emailAddress">Email address</label>
+            <input id="email-Address" [ngClass]="{'address-form__field--error': isFormControlError('emailAddress')}"
+                placeholder="Email" type="text" formControlName="emailAddress">
+            <p *ngIf="isFormControlError('emailAddress')">{{getErrorMessage('address', 'a valid email address')}}</p>
         </div>
-        <div class="w-100 address-form__field">
-            <label for="city">City</label>
-            <input id="city" [ngClass]="{'address-form__field--error': isFormControlError('city')}" type="text" formControlName="city">
-            <p *ngIf="isFormControlError('city')">{{getErrorMessage('city', 'a city')}}</p>
+        <div id="shipping-address-element">
+            <!-- Shipping Address elements will create form elements here -->
         </div>
-        <div class="address-form__state-zip-container">
-        <div class="w-100 address-form__field">
-            <label for="state">State</label>
-            <input id="state" [ngClass]="{'address-form__field--error': isFormControlError('state')}" type="text" formControlName="state">
-            <p *ngIf="isFormControlError('state')">{{getErrorMessage('state', 'a state')}}</p>
-        </div>
-            <div class="w-100 address-form__field">
-                <label for="zip">ZIP</label>
-                <input id="zip" type="number" max="10" [ngClass]="{'address-form__field--error': isFormControlError('zip')}" type="text" formControlName="zip">
-                <p *ngIf="isFormControlError('zip')">{{getErrorMessage('zip', 'a valid ZIP')}}</p>
-            </div>
-        </div>
-    </div>
-  </form>
-  <button aria-label="Next to Payment" mat-raised-button [disabled]="!shippingForm.valid" (click)="submitShippingForm()" class="mt-5 address-form__next-button mb-5">Next</button>
+    </form>
+    <button aria-label="Next to Payment" mat-raised-button [disabled]="!shippingForm.valid"
+        (click)="submitShippingForm()" class="mt-5 address-form__next-button mb-5">Next</button>
 </section>
