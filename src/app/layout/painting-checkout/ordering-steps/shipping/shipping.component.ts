@@ -11,6 +11,7 @@ import { ShippingService } from './shipping.service';
 })
 export class ShippingComponent implements OnInit {
   shippingForm: FormGroup = this.shippingService.getShippingFormGroup();
+  addressLine1Selected: boolean;
 
   constructor(
     private cd: ChangeDetectorRef, 
@@ -24,16 +25,15 @@ export class ShippingComponent implements OnInit {
     let addressComponents = addressResponse.address_components;
     this.shippingForm.setValue({
       address: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'street_number')?.long_name} ${addressComponents.find((addressComponent) => addressComponent.types[0] == 'route')?.long_name}`,
-      address_line2: '',
+      address_line2: this.shippingForm.get('address_line2')?.value,
       city: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'locality')?.long_name}`,
       state: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'administrative_area_level_1')?.long_name}`,
       zip: `${addressComponents.find((addressComponent) => addressComponent.types[0] == 'postal_code')?.long_name}`,
       country: `US`,
-      phone: '',
-      firstName: '',
-      lastName: '',
-      emailAddress: ''
+      fullName: this.shippingForm.get('fullName')?.value,
+      emailAddress: this.shippingForm.get('emailAddress')?.value
     });
+    this.addressLine1Selected = true;
     this.cd.detectChanges();
   }
 
@@ -42,6 +42,10 @@ export class ShippingComponent implements OnInit {
       return `You must enter ${label}`;
     } else 
       return;
+  }
+
+  isFormControlError(formControlName: string ) {
+    return this.shippingForm.get(formControlName)?.invalid && this.shippingForm.get(formControlName)?.touched;
   }
 
   submitShippingForm() {

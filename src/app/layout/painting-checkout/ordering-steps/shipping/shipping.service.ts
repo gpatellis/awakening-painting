@@ -35,11 +35,9 @@ export class ShippingService {
     address_line2: new FormControl(''),
     city: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
-    zip: new FormControl('', Validators.required),
+    zip: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(5), Validators.pattern("^\\d{5}(-{0,1}\\d{4})?$")]),
     country: new FormControl({value: 'US', disabled: true}, Validators.required),
-    phone: new FormControl('', Validators.required),
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
+    fullName: new FormControl('', Validators.required),
     emailAddress: new FormControl('', [Validators.required, Validators.email])
     }); 
     return this.shippingFormGroup;
@@ -75,7 +73,7 @@ export class ShippingService {
     this.getAddressValidation(shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_RESPONSE) => {
       if (addressValidationResponse.body[0].status == "verified") {
         this.navigateToPaymentPage(addressValidationResponse.body[0].matched_address);
-      } else if (addressValidationResponse.body[0].status == "unverified") {
+      } else if (addressValidationResponse.body[0].status == "unverified" || addressValidationResponse.body[0].status == "error") {
         this.loadingIndicatorService.hide();
         this.errorDialogService.open(SHIPPING_SERVICE_INVALID_ADDRESS);
       }
@@ -90,7 +88,7 @@ export class ShippingService {
   }
 
   storeShippingAddressInSessionStorage(shippingAddress: ADDRESS) {
-    shippingAddress.name = `${this.shippingFormGroup.get('firstName')?.value} ${this.shippingFormGroup.get('lastName')?.value}`;
+    shippingAddress.name = `${this.shippingFormGroup.get('fullName')?.value}`;
     shippingAddress.phone = `${this.shippingFormGroup.get('phone')?.value}`
     sessionStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
   }
