@@ -19,27 +19,30 @@ export class OrderingStatusComponent implements OnInit{
     private router: Router) { }
 
   ngOnInit(): void {
-    this.checkRouteOnInit()
+    this.listenForRouteChange()
   }
 
-  checkRouteOnInit() {
-    switch(this.router.url) { 
-      case '/checkout/shipping': { 
-        this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.shipping)
-        break; 
-      } 
-      case '/checkout/payment': { 
-        this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment)
-         break; 
-      } 
-      case '/checkout/confirmation': { 
-        this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.confirmation)
-         break; 
-      } 
-      default: { 
-        this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.shipping)
-        break; 
-      } 
-   } 
+  listenForRouteChange() {
+    this.router.events.subscribe(() => {
+      switch(this.router.url) { 
+        case '/checkout/shipping': { 
+          this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.shipping)
+          break; 
+        } 
+        case '/checkout/payment': { 
+          this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment)
+           break; 
+        } 
+        case '/checkout/confirmation': { 
+          this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.confirmation)
+           break; 
+        } 
+        default: { 
+          this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.shipping)
+          break; 
+        } 
+     } 
+  });
+
   }
 }

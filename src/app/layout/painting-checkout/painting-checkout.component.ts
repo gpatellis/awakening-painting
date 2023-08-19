@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PaintingImageService } from '../gallery/painting-image-service/painting-image.service';
 import { Observable } from 'rxjs';
 import { StripeService } from './stripe/stripe.service';
+import { StripeElements } from '@stripe/stripe-js';
 
 @Component({
   selector: 'ap-painting-checkout',
@@ -25,8 +26,16 @@ export class PaintingCheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkForPaintingData();
-    this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
+    this.isStripeElementsCreated();
     this.paintingDataWithImage$ = this.paintingImageService.getSinglePaintingImage(this.paintingDataWithoutImage);
+  }
+
+  isStripeElementsCreated() {
+    this.stripeService.stripeElements$.subscribe((elements: StripeElements | undefined) => {
+      if(!elements) {
+        this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
+      }
+    });
   }
 
   checkForPaintingData(): void {
