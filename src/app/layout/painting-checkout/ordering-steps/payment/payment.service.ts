@@ -13,8 +13,6 @@ export class PaymentService {
   constructor() {
    }
 
-
-
   isPaymentFormCompleted() {
     return this.isCardInputElementComplete$.pipe(
       combineLatestWith(this.isAddressElementComplete$, this.carrierOptionSelected$)

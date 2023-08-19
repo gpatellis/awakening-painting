@@ -78,7 +78,6 @@ export class ShippingComponent implements OnInit, OnDestroy {
 
   submitShippingForm(): void {
     this.shippingService.validateAddress(this.shippingForm);
-    this.shippingAddressElement.unmount();
   }
 
   ngOnDestroy(): void {

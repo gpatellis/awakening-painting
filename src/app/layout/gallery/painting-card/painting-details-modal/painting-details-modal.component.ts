@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
-  isMobileOrTabletViewSubscription: Subscription;
+  isMobileOrTabletView$: Subscription;
   showBuyPaintingButtonAndPrice = environment.allowOnlineCheckout;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
@@ -25,7 +25,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-    this.isMobileOrTabletViewSubscription = this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
+    this.isMobileOrTabletView$ = this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
       this.isMobileOrTabletView = value;
     });
   }
@@ -74,7 +74,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   }
 
   ngOnDestroy(): void {
-    this.isMobileOrTabletViewSubscription.unsubscribe();
+    this.isMobileOrTabletView$.unsubscribe();
   }
 
 }

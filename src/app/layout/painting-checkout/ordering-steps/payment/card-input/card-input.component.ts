@@ -3,6 +3,7 @@ import { PaymentService } from '../payment.service';
 import { StripePaymentElement, StripeShippingAddressElement } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
 import { StripeService } from '../../../stripe/stripe.service';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class CardInputComponent implements OnInit, OnDestroy{
 
   constructor(
     private paymentService: PaymentService,
-    private stripeService: StripeService) {
+    private stripeService: StripeService,
+    private loadingIndicatorService: LoadingIndicatorService) {
   }
 
   ngOnInit(): void {
@@ -42,6 +44,8 @@ export class CardInputComponent implements OnInit, OnDestroy{
     
         this.listenForAddressElementComplete();
         this.listenForCardInputElementComplete();
+        
+        this.loadingIndicatorService.hide();
       }
     });
   }

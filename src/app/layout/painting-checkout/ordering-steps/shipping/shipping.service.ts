@@ -81,8 +81,8 @@ export class ShippingService {
   }
 
   navigateToPaymentPage(matchedAddress: ADDRESS): void {
-    this.storeShippingAddressInSessionStorage(matchedAddress);
     this.router.navigate(['/checkout','payment']);
+    this.storeShippingAddressInSessionStorage(matchedAddress);
     this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment);
     this.matchedAddress = matchedAddress;
   }
@@ -134,7 +134,6 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          this.loadingIndicatorService.hide();
           this.massageCarrierRatesTimeAndDay((response as CARRIER_RATES_RESPONSE).body);
           return (response as CARRIER_RATES_RESPONSE).body;
         }),

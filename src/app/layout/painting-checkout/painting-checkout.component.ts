@@ -30,7 +30,7 @@ export class PaintingCheckoutComponent implements OnInit {
     this.paintingDataWithImage$ = this.paintingImageService.getSinglePaintingImage(this.paintingDataWithoutImage);
   }
 
-  isStripeElementsCreated() {
+  isStripeElementsCreated(): void {
     this.stripeService.stripeElements$.subscribe((elements: StripeElements | undefined) => {
       if(!elements) {
         this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
