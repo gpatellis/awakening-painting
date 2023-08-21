@@ -58,7 +58,8 @@ export class CardInputComponent implements OnInit, OnDestroy{
 
   listenForAddressElementComplete(): void {
     this.billingAddressElement.on('change', (event) => {
-      this.paymentService.isAddressElementComplete$.next(event.complete);
+      if(!this.isBillingAddressSameAsShipping)
+        this.paymentService.isAddressElementComplete$.next(event.complete);
     });
   }
 
