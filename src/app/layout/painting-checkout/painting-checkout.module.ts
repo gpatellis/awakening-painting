@@ -20,7 +20,6 @@ import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indica
 import { ShippingOptionsComponent } from './ordering-steps/payment/shipping-options/shipping-options.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { CardInputComponent } from './ordering-steps/payment/card-input/card-input.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -62,8 +61,7 @@ const paintingCheckoutRoute: Routes = [
     FormsModule,
     ErrorDialogModule,
     LoadingIndicatorModule,
-    MatRadioModule,
-    MatSlideToggleModule
+    MatRadioModule
   ],
   providers: [
     ErrorDialogService,

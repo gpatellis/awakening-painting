@@ -19,25 +19,9 @@
         margin-top: 24px !important;
     }
 
-    &__billing-address-toggle--off {
-        float: left;
-    }
-
     &__billing-address {
         @include stripe-form;
         margin-top: 0 !important;
     }
-
 }
 
-::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::before {
-    background: $black-2 !important;
-}
-
-::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::after {
-    background: $light-blue !important;
-}
-
-::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
-    background-color: $dark-blue !important;
-}

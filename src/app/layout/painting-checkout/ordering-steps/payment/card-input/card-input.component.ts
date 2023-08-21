@@ -12,7 +12,6 @@ import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicat
   styleUrls: ['./card-input.component.scss']
 })
 export class CardInputComponent implements OnInit, OnDestroy{
-  isBillingAddressSameAsShipping: boolean = false;
   cardInputElement: StripePaymentElement;
   billingAddressElement: StripeShippingAddressElement;
 
@@ -50,15 +49,10 @@ export class CardInputComponent implements OnInit, OnDestroy{
     });
   }
 
-  listenForBillingAddressSlideToggle(): void {
-    this.isBillingAddressSameAsShipping = !this.isBillingAddressSameAsShipping;
-    this.paymentService.isAddressElementComplete$.next(this.isBillingAddressSameAsShipping);
-    this.billingAddressElement.clear();
-  }
+
 
   listenForAddressElementComplete(): void {
     this.billingAddressElement.on('change', (event) => {
-      if(!this.isBillingAddressSameAsShipping)
         this.paymentService.isAddressElementComplete$.next(event.complete);
     });
   }
