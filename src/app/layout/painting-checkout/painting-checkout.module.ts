@@ -43,7 +43,9 @@ const paintingCheckoutRoute: Routes = [
         path: 'confirmation',
         component: ConfirmationComponent,
         canActivate: [confirmationGuard]
-      }
+      },
+      { path: '', pathMatch: 'full', redirectTo: 'shipping' },
+      { path: '**', redirectTo: 'shipping' }
     ]
   }
 ];
