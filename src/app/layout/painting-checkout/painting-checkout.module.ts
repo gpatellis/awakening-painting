@@ -20,6 +20,7 @@ import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indica
 import { ShippingOptionsComponent } from './ordering-steps/payment/shipping-options/shipping-options.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { CardInputComponent } from './ordering-steps/payment/card-input/card-input.component';
+import { StripeService } from './stripe/stripe.service';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -65,7 +66,8 @@ const paintingCheckoutRoute: Routes = [
   ],
   providers: [
     ErrorDialogService,
-    ShippingService
+    ShippingService,
+    StripeService
   ]
 })
 export class PaintingCheckoutModule { }

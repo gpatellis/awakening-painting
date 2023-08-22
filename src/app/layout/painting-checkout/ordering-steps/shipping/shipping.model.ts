@@ -44,6 +44,3 @@ export interface ADDRESS {
     country_code: string;
     address_residential_indicator: string;
 }
-
-export const SHIPPING_SERVICE_ERROR = "The shipping service is currently unavailable. Please try again later.";
-export const SHIPPING_SERVICE_INVALID_ADDRESS = "The address you have entered is invalid. Please try again.";

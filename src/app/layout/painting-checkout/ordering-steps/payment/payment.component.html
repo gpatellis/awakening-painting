@@ -3,5 +3,5 @@
         (carrierOptionSelected)='listenForCarrierOptionSelected($event)'></ap-shipping-options>
     <ap-card-input class="w-50"></ap-card-input>
     <button aria-label="Next to Payment" mat-raised-button [disabled]="!isPaymentFormComplete"
-        class="mt-4 mb-5 next-button">Next</button>
+        class="mt-4 mb-5 next-button" (click)="processPaymentData()">Next</button>
 </section>

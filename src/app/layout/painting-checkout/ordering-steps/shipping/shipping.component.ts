@@ -37,7 +37,6 @@ export class ShippingComponent implements OnInit, OnDestroy {
           allowedCountries: ['US']
         };
         this.shippingAddressElement = elements.create('address', shippingOptions);
-
         this.shippingAddressElement.mount('#shipping-address-element');
     
         this.listenForAddressElementComplete();
@@ -81,7 +80,8 @@ export class ShippingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.shippingAddressElement.destroy();
+    if(this.shippingAddressElement)
+      this.shippingAddressElement.destroy();
   }
 
 }

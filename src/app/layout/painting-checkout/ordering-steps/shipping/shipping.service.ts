@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, catchError, map, pipe, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ADDRESS, ADDRESS_VALIDATION_RESPONSE, CARRIER_RATE, CARRIER_RATES_RESPONSE, SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from './shipping.model';
+import { ADDRESS, ADDRESS_VALIDATION_RESPONSE, CARRIER_RATE, CARRIER_RATES_RESPONSE } from './shipping.model';
 import { Router } from '@angular/router';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
@@ -11,6 +11,7 @@ import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-car
 import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { OrderingStatusService } from '../../ordering-status/ordering-status.service';
 import { ORDERING_STATUS } from '../../painting-checkout.model';
+import { SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from 'src/app/api-error-messages.constants';
 
 @Injectable({
   providedIn: 'root'
