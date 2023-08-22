@@ -46,8 +46,8 @@ export class PaymentComponent implements OnInit {
   }
 
   checkForPaymentFormCompletion() {
-    this.paymentService.isPaymentFormCompleted().subscribe(([isCardInputElementComplete, isAddressElementComplete, carrierRateSelected]) => {
-        this.isPaymentFormComplete = isCardInputElementComplete && isAddressElementComplete && (carrierRateSelected !== undefined);
+    this.paymentService.isPaymentFormCompleted().subscribe((isComplete: boolean) => {
+        this.isPaymentFormComplete = isComplete;
     });
   }
 

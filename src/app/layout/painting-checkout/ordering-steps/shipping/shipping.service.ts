@@ -44,6 +44,12 @@ export class ShippingService {
     return this.shippingFormGroup;
   }
 
+  isShippingFormValid() {
+    if(this.shippingFormGroup)
+      return this.shippingFormGroup.valid;
+    return false;
+  }
+
   getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
     const requestBody =  JSON.parse(`[
       {

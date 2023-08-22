@@ -22,6 +22,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CardInputComponent } from './ordering-steps/payment/card-input/card-input.component';
 import { StripeService } from './stripe/stripe.service';
 import { ConfirmationComponent } from './ordering-steps/confirmation/confirmation.component';
+import { paymentGuard } from './ordering-steps/payment/payment.guard';
+import { confirmationGuard } from './ordering-steps/confirmation/confirmation.guard';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -34,11 +36,13 @@ const paintingCheckoutRoute: Routes = [
       },
       {
         path: 'payment', 
-        component: PaymentComponent, 
+        component: PaymentComponent,
+        canActivate: [paymentGuard]
       },
       {
         path: 'confirmation',
-        component: ConfirmationComponent
+        component: ConfirmationComponent,
+        canActivate: [confirmationGuard]
       }
     ]
   }
