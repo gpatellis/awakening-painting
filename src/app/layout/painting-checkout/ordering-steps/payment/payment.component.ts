@@ -9,7 +9,6 @@ import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 
-
 @Component({
   selector: 'ap-payment',
   templateUrl: './payment.component.html',
@@ -53,10 +52,7 @@ export class PaymentComponent implements OnInit {
   }
 
   processPaymentData() {
-    let updatedStripePrice = (this.carrierOptionSelected.shipping_amount.amount + this.paintingDataWithoutImage.price) * 100;
-    this.stripeService.updatePaymentIntent(updatedStripePrice, this.paintingDataWithoutImage.image).subscribe((value)=> {
-          console.log(value);
-    });
+    this.stripeService.proccessPaymentData(this.carrierOptionSelected.shipping_amount.amount, this.paintingDataWithoutImage);
   }
 
 }

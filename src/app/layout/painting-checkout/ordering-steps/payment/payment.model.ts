@@ -15,6 +15,11 @@ export interface UPDATE_PAYMENT_INTENT_RESPONSE {
 
 export interface PAYMENT_INTENT_UPDATE {
     status: string;
-    amount: string;
+    amount: number;
 }
 
+export interface PAYMENT_CONFRIMATION_DATA {
+    carrierOptionPrice: number,
+    paintingPrice: number,
+    totalAmount: number
+}

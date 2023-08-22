@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { StripeElements, loadStripe } from '@stripe/stripe-js';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_INTENT, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
+import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { Router } from '@angular/router';
 import { CHECKOUT_ERROR, PAYMENT_SERVICE_ERROR } from 'src/app/api-error-messages.constants';
+import { PaintingData } from '../../gallery/gallery-interfaces';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +17,12 @@ export class StripeService {
   elements: StripeElements | undefined;
   stripeElements$ = new BehaviorSubject<StripeElements | undefined>(undefined);
   private paymentIntent: PAYMENT_INTENT;
+  paymentConfirmationData: PAYMENT_CONFRIMATION_DATA
 
   constructor(private httpClient: HttpClient,
     private errorDialogService: ErrorDialogService,
-    private router: Router) { }
+    private router: Router,
+    private loadingIndicatorService: LoadingIndicatorService) { }
 
   createPaymentIntent(price: number, paintingImageName: string): Observable<string> {
     let requestBody = {
@@ -54,12 +58,12 @@ export class StripeService {
         appearance: appearance
       };
       let stripe = await loadStripe(environment.stripe.publicKey);
-      let elements = stripe?.elements(paymentOptions);
-      this.stripeElements$.next(elements);
+      this.elements = stripe?.elements(paymentOptions);
+      this.stripeElements$.next(this.elements);
     })
   }
 
-  updatePaymentIntent(price: number, paintingImageName: string) {
+  updatePaymentIntent(price: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE> {
     let requestBody = {
       "painting": paintingImageName,
       "updatedPrice": price,
@@ -71,7 +75,7 @@ export class StripeService {
     return this.httpClient.post(
       environment.updatePaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          return response as UPDATE_PAYMENT_INTENT_RESPONSE;
+          return (response as UPDATE_PAYMENT_INTENT_RESPONSE).body;
         }),
         catchError( error => {
           this.errorDialogService.open(PAYMENT_SERVICE_ERROR);
@@ -80,4 +84,36 @@ export class StripeService {
         })
     )
   }
+
+  async proccessPaymentData(carrierOptionPrice: number, paintingDataWithoutImage: PaintingData): Promise<void> {
+    this.loadingIndicatorService.show();
+    let updatedStripePrice = Number(((carrierOptionPrice + paintingDataWithoutImage.price) * 100).toFixed(0));
+    this.updatePaymentIntent(updatedStripePrice, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
+      if (paymentIntentResponse.status === 'requires_payment_method' && this.elements) {
+        const {error} = await this.elements.fetchUpdates();
+        if (error) {
+          this.paymentServiceError(error);
+          this.loadingIndicatorService.hide();
+        } else {
+          this.paymentConfirmationData = {
+            carrierOptionPrice: carrierOptionPrice,
+            paintingPrice: paintingDataWithoutImage.price,
+            totalAmount: paymentIntentResponse.amount
+          };
+          this.router.navigate(['/checkout','confirmation']);
+          this.loadingIndicatorService.hide();
+        }
+      } else {
+        this.paymentServiceError();
+        this.loadingIndicatorService.hide();
+      }
+    });
+  }
+
+  paymentServiceError(error?: any) {
+    this.errorDialogService.open(PAYMENT_SERVICE_ERROR);
+    this.router.navigate(['/checkout','payment']);
+    return throwError(() => error)
+  }
+
 }

@@ -21,6 +21,7 @@ import { ShippingOptionsComponent } from './ordering-steps/payment/shipping-opti
 import { MatRadioModule } from '@angular/material/radio';
 import { CardInputComponent } from './ordering-steps/payment/card-input/card-input.component';
 import { StripeService } from './stripe/stripe.service';
+import { ConfirmationComponent } from './ordering-steps/confirmation/confirmation.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -34,6 +35,10 @@ const paintingCheckoutRoute: Routes = [
       {
         path: 'payment', 
         component: PaymentComponent, 
+      },
+      {
+        path: 'confirmation',
+        component: ConfirmationComponent
       }
     ]
   }
@@ -48,7 +53,8 @@ const paintingCheckoutRoute: Routes = [
     AddressTypeaheadComponent,
     PaymentComponent,
     ShippingOptionsComponent,
-    CardInputComponent
+    CardInputComponent,
+    ConfirmationComponent
   ],
   imports: [
     CommonModule,
