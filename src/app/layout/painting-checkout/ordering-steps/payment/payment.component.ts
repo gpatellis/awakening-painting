@@ -16,7 +16,7 @@ import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-car
 })
 export class PaymentComponent implements OnInit {
   carrierRates$: Observable<CARRIER_RATE[]>;
-  carrierOptionSelected: CARRIER_RATE;
+  carrierRateSelected: CARRIER_RATE;
   isPaymentFormComplete: boolean = false;
   paintingDataWithoutImage: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
 
@@ -40,9 +40,9 @@ export class PaymentComponent implements OnInit {
     this.carrierRates$ = this.shippingService.getCarrierRates();
   }
 
-  listenForCarrierOptionSelected(carrierOption: CARRIER_RATE) {
-    this.carrierOptionSelected = carrierOption;
-    this.paymentService.carrierOptionSelected$.next(carrierOption);
+  listenForCarrierRateSelected(carrierOption: CARRIER_RATE) {
+    this.carrierRateSelected = carrierOption;
+    this.paymentService.carrierRateSelected$.next(carrierOption);
   }
 
   checkForPaymentFormCompletion() {
@@ -52,7 +52,7 @@ export class PaymentComponent implements OnInit {
   }
 
   processPaymentData() {
-    this.stripeService.proccessPaymentData(this.carrierOptionSelected.shipping_amount.amount, this.paintingDataWithoutImage);
+    this.stripeService.proccessPaymentData(this.carrierRateSelected, this.paintingDataWithoutImage);
   }
 
 }

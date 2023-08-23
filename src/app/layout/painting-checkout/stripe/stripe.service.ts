@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { StripeElements, loadStripe } from '@stripe/stripe-js';
+import { StripeAddressElementChangeEvent, StripeElements, loadStripe } from '@stripe/stripe-js';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CHECKOUT_ERROR, PAYMENT_SERVICE_ERROR } from 'src/app/api-error-messages.constants';
 import { PaintingData } from '../../gallery/gallery-interfaces';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { CARRIER_RATE } from '../ordering-steps/shipping/shipping.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class StripeService {
   elements: StripeElements | undefined;
   stripeElements$ = new BehaviorSubject<StripeElements | undefined>(undefined);
   private paymentIntent: PAYMENT_INTENT;
-  paymentConfirmationData: PAYMENT_CONFRIMATION_DATA
+  paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
 
   constructor(private httpClient: HttpClient,
     private errorDialogService: ErrorDialogService,
@@ -85,9 +86,9 @@ export class StripeService {
     )
   }
 
-  async proccessPaymentData(carrierOptionPrice: number, paintingDataWithoutImage: PaintingData): Promise<void> {
+  async proccessPaymentData(carrierRateSelected: CARRIER_RATE, paintingDataWithoutImage: PaintingData): Promise<void> {
     this.loadingIndicatorService.show();
-    let updatedStripePrice = Number(((carrierOptionPrice + paintingDataWithoutImage.price) * 100).toFixed(0));
+    let updatedStripePrice = Number(((carrierRateSelected.shipping_amount.amount + paintingDataWithoutImage.price) * 100).toFixed(0));
     this.updatePaymentIntent(updatedStripePrice, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
       if (paymentIntentResponse.status === 'requires_payment_method' && this.elements) {
         const {error} = await this.elements.fetchUpdates();
@@ -95,18 +96,25 @@ export class StripeService {
           this.paymentServiceError(error);
           this.loadingIndicatorService.hide();
         } else {
-          this.paymentConfirmationData = {
-            carrierOptionPrice: carrierOptionPrice,
-            paintingPrice: paintingDataWithoutImage.price,
-            totalAmount: paymentIntentResponse.amount
-          };
-          this.router.navigate(['/checkout','confirmation']);
-          this.loadingIndicatorService.hide();
+          this.navigateToConfirmationPage(carrierRateSelected, paintingDataWithoutImage.price, paymentIntentResponse);
         }
       } else {
         this.paymentServiceError();
         this.loadingIndicatorService.hide();
       }
+    });
+  }
+
+  navigateToConfirmationPage(carrierRateSelected: CARRIER_RATE, paintingPrice: number, paymentIntentResponse: PAYMENT_INTENT_UPDATE) {
+    this.elements?.getElement('address')?.getValue().then((billingAddress) => {
+      this.paymentConfirmationData = {
+        carrierRateSelected: carrierRateSelected,
+        paintingPrice: paintingPrice,
+        totalAmount: paymentIntentResponse.amount,
+        billingAddress: billingAddress as StripeAddressElementChangeEvent,
+      };
+      this.router.navigate(['/checkout','confirmation']);
+      this.loadingIndicatorService.hide();
     });
   }
 

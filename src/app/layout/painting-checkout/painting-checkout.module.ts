@@ -24,6 +24,7 @@ import { StripeService } from './stripe/stripe.service';
 import { ConfirmationComponent } from './ordering-steps/confirmation/confirmation.component';
 import { paymentGuard } from './ordering-steps/payment/payment.guard';
 import { confirmationGuard } from './ordering-steps/confirmation/confirmation.guard';
+import { ShippingSummaryComponent } from './ordering-steps/confirmation/shipping-summary/shipping-summary.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -60,7 +61,8 @@ const paintingCheckoutRoute: Routes = [
     PaymentComponent,
     ShippingOptionsComponent,
     CardInputComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ShippingSummaryComponent
   ],
   imports: [
     CommonModule,

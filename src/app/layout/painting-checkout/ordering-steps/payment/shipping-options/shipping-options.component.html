@@ -8,7 +8,7 @@
                 <span class="d-flex align-items-center">
                     <mat-radio-button [value]="rate.rate_id" (change)="shippingOptionChange(rate)"></mat-radio-button>
                     <div class="pe-2">{{rate.service_type}}</div>
-                    <div class="pe-2">${{rate.shipping_amount.amount}}</div>
+                    <div class="pe-2">{{rate.shipping_amount.amount | currency: ''}}</div>
                 </span>
                 <div class="shipping-options__option-deliver-date">Estimated Delivery Date:&nbsp;&nbsp;{{rate.estimated_delivery_date}}</div>
             </div>

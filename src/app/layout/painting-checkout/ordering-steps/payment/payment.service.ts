@@ -8,7 +8,7 @@ export class PaymentService {
 
   isAddressElementComplete$ = new Subject<boolean>();
   isCardInputElementComplete$ = new Subject<boolean>();
-  carrierOptionSelected$ = new Subject<CARRIER_RATE>();
+  carrierRateSelected$ = new Subject<CARRIER_RATE>();
   isPaymentFormComplete: boolean;
 
   constructor() {
@@ -16,7 +16,7 @@ export class PaymentService {
 
   isPaymentFormCompleted(): Observable<boolean> {
     return this.isCardInputElementComplete$.pipe(
-      combineLatestWith(this.isAddressElementComplete$, this.carrierOptionSelected$),
+      combineLatestWith(this.isAddressElementComplete$, this.carrierRateSelected$),
       map(([isCardInputElementComplete, isAddressElementComplete, carrierOptionSelected]) => {
         this.isPaymentFormComplete = (isCardInputElementComplete && isAddressElementComplete && (carrierOptionSelected !== undefined));
         return this.isPaymentFormComplete;
