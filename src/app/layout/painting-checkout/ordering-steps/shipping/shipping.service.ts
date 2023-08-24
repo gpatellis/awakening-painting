@@ -96,18 +96,18 @@ export class ShippingService {
 
   storeShippingAddressInSessionStorage(shippingAddress: ADDRESS) {
     shippingAddress.name = `${this.shippingFormGroup.get('fullName')?.value}`;
-    shippingAddress.phone = `${this.shippingFormGroup.get('phone')?.value}`
+    shippingAddress.emailAddress = `${this.shippingFormGroup.get('emailAddress')?.value}`
     sessionStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
   }
 
-  getShippingAddressFromSessionStorage() {
+  getShippingAddressFromSessionStorage(): ADDRESS | undefined {
     let shippingAddressString = sessionStorage.getItem('shippingAddress');
     if(shippingAddressString?.length) {
       let shippingAddress = JSON.parse(shippingAddressString as string);
       this.matchedAddress = shippingAddress as ADDRESS;
-      return true;
+      return this.matchedAddress;
     }
-    return false;
+    return;
   }
 
   getCarrierRates(): Observable<CARRIER_RATE[]> {

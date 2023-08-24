@@ -2,63 +2,113 @@
 
 @mixin shipping-input {
   input {
-      width: 100%;
-      font-size: 16px;
-      color: $form-input-black;
-      font-weight: 400;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    color: $form-input-black;
+    font-weight: 400;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
   }
+
   input:disabled {
     background-color: $white-7;
   }
+
   input::placeholder {
     font-size: 16px;
     color: $placeholder-grey
   }
+
   input:focus-visible {
     outline: none;
-  } 
-  input:focus {
-      border-color: rgba(5, 115, 225, 0.5) !important;
-      outline: 0px;
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 
-                  0px 3px 6px rgba(0, 0, 0, 0.02), 
-                  0 0 0 3px rgba(5, 115, 225, 0.25), 
-                  0 1px 1px 0 rgba(0, 0, 0, 0.08);
   }
+
+  input:focus {
+    border-color: rgba(5, 115, 225, 0.5) !important;
+    outline: 0px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03),
+      0px 3px 6px rgba(0, 0, 0, 0.02),
+      0 0 0 3px rgba(5, 115, 225, 0.25),
+      0 1px 1px 0 rgba(0, 0, 0, 0.08);
+  }
+
   label {
-      float: left;
-      color: $form-label-black;
-      margin-bottom: 4px;
+    float: left;
+    color: $form-label-black;
+    margin-bottom: 4px;
   }
 
 }
-  @mixin generic-button {
-    background-color: $light-blue;
-    border: none;
-    border-radius: 3px;
-    color: $white;
-    font-weight: 500;
-    &:disabled {
-        background-color: rgba($black, 0.3) !important;
-        color: $black-4;
-    }
+
+@mixin generic-button {
+  background-color: $light-blue;
+  border: none;
+  border-radius: 3px;
+  color: $white;
+  font-weight: 500;
+
+  &:disabled {
+    background-color: rgba($black, 0.3) !important;
+    color: $black-4;
   }
-  
-  @mixin box-shadow {
-    box-shadow: 
-      0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-      0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  }
-  
-  @mixin autofill-correction {
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
-    input:-webkit-autofill:active{
+}
+
+@mixin box-shadow {
+  box-shadow:
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+@mixin autofill-correction {
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px $white inset !important;
-    }
   }
+}
+
+@mixin summary-card {
+  width: fit-content;
+  @include box-shadow;
+  min-width: 616px;
+
+  @media screen and (max-width: 668px) {
+    width: 90% !important;
+    min-width: auto !important;
+  }
+
+  background-color: $white;
+  margin: auto;
+  font-weight: normal;
+  border-radius: 4px;
+
+  h4 {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    background-color: rgba($dark-blue, 0.35);
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    padding: 10px 10px 10px 16px;
+    margin-bottom: 0;
+  }
+
+  dl {
+    padding: 0px 0px 0px 16px;
+    margin-bottom: 0;
+  }
+
+  dt {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  dd {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+}

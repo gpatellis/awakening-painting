@@ -1,16 +1,16 @@
 <section class="shipping-summary mt-4">
-    <h4 class="shipping-summary__header">Shipping Summary</h4>
+    <h4>Shipping Summary</h4>
     <dl class="row">
         <div class="col-12 col-sm-4 p-3 shipping-summary__col--border">
             <dt>Address:</dt>
-            <dd>{{this.shippingData.address_line1}} {{this.shippingData.address_line2}}</dd>
-            <dd>{{this.shippingData.city_locality}}, {{this.shippingData.state_province}}</dd>
-            <dd>{{this.shippingData.postal_code}}, {{this.shippingData.country_code}}</dd>
+            <dd>{{this.shippingData?.address_line1}} {{this.shippingData?.address_line2}}</dd>
+            <dd>{{this.shippingData?.city_locality}}, {{this.shippingData?.state_province}}</dd>
+            <dd>{{this.shippingData?.postal_code}}, {{this.shippingData?.country_code}}</dd>
         </div>
         <div class="col-12 col-sm-4 p-3 pt-0 pt-sm-3 pb-0 pb-sm-3 shipping-summary__col--border">
             <dt>Contact Info:</dt>
-            <dd>{{this.shippingData.name}}</dd>
-            <dd>{{this.shippingService.shippingFormGroup.get('emailAddress')?.value}}</dd>
+            <dd>{{this.shippingData?.name}}</dd>
+            <dd>{{this.shippingData?.emailAddress}}</dd>
         </div>
         <div class="col-12 col-sm-4 p-3">
             <dt>Shipping Method:</dt>

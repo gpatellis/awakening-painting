@@ -1,0 +1,6 @@
+@import '../../../../../styles/mixins.scss';
+
+.confirm-order-button {
+    @include generic-button;
+    padding: 10px 20px; 
+}

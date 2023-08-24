@@ -1,0 +1,21 @@
+@import '../../../../../../styles/colors.scss';
+@import '../../../../../../styles/bootstrap.scss';
+@import '../../../../../../styles/mixins.scss';
+
+.payment-summary {
+    @include summary-card;
+    width: 616px !important;
+
+    dd {
+        margin: auto
+    }
+    dl {
+        padding: 16px !important;
+    }
+    dt {
+        width: 100px;
+    }
+    &__total {
+        border-top: 1px $black-2 solid;
+    }
+}

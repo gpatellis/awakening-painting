@@ -43,4 +43,5 @@ export interface ADDRESS {
     postal_code: number;
     country_code: string;
     address_residential_indicator: string;
+    emailAddress?: string;
 }

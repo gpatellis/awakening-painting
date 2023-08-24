@@ -11,8 +11,6 @@ import { ShippingService } from '../../shipping/shipping.service';
 export class ShippingSummaryComponent {
 
   @Input() paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
-  @Input() shippingData: ADDRESS;
-
-  constructor(public shippingService: ShippingService) {}
+  @Input() shippingData: ADDRESS | undefined;
 
 }
