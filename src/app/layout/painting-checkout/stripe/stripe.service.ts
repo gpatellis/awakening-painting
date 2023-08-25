@@ -1,29 +1,32 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { StripeAddressElementChangeEvent, StripeElements, loadStripe } from '@stripe/stripe-js';
+import { StripeElements, loadStripe } from '@stripe/stripe-js';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
+import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, PAYMENT_METHOD_RESPONSE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { Router } from '@angular/router';
 import { CHECKOUT_ERROR, PAYMENT_SERVICE_ERROR } from 'src/app/api-error-messages.constants';
 import { PaintingData } from '../../gallery/gallery-interfaces';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { CARRIER_RATE } from '../ordering-steps/shipping/shipping.model';
+import { ShippingService } from '../ordering-steps/shipping/shipping.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StripeService {
-  elements: StripeElements | undefined;
+  elements: StripeElements;
   stripeElements$ = new BehaviorSubject<StripeElements | undefined>(undefined);
   private paymentIntent: PAYMENT_INTENT;
   paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
+  stripe: any;
 
   constructor(private httpClient: HttpClient,
     private errorDialogService: ErrorDialogService,
     private router: Router,
-    private loadingIndicatorService: LoadingIndicatorService) { }
+    private loadingIndicatorService: LoadingIndicatorService,
+    private shippingService: ShippingService) { }
 
   createPaymentIntent(price: number, paintingImageName: string): Observable<string> {
     let requestBody = {
@@ -56,10 +59,22 @@ export class StripeService {
       };
       const paymentOptions = {
         clientSecret: client_secret,
-        appearance: appearance
+        appearance: appearance,
+        paymentMethodCreation: 'manual'
       };
+
       let stripe = await loadStripe(environment.stripe.publicKey);
-      this.elements = stripe?.elements(paymentOptions);
+      if(stripe)
+        this.stripe = stripe;
+      else
+        this.paymentServiceError('loadStripe() did not return stripe');
+
+      let elements = this.stripe?.elements(paymentOptions);
+      if (elements)
+        this.elements = elements;
+      else
+        this.paymentServiceError('stripe.elements() did not return elements');
+
       this.stripeElements$.next(this.elements);
     })
   }
@@ -81,6 +96,7 @@ export class StripeService {
         catchError( error => {
           this.errorDialogService.open(PAYMENT_SERVICE_ERROR);
           this.router.navigate(['/checkout','payment']);
+          this.loadingIndicatorService.hide();
           return throwError(() => error)
         })
     )
@@ -94,34 +110,68 @@ export class StripeService {
         const {error} = await this.elements.fetchUpdates();
         if (error) {
           this.paymentServiceError(error);
-          this.loadingIndicatorService.hide();
         } else {
-          this.navigateToConfirmationPage(carrierRateSelected, paintingDataWithoutImage.price, paymentIntentResponse);
+          this.createPaymentMethod(carrierRateSelected, paintingDataWithoutImage.price, paymentIntentResponse);
         }
       } else {
         this.paymentServiceError();
-        this.loadingIndicatorService.hide();
       }
-    });
-  }
-
-  navigateToConfirmationPage(carrierRateSelected: CARRIER_RATE, paintingPrice: number, paymentIntentResponse: PAYMENT_INTENT_UPDATE) {
-    this.elements?.getElement('address')?.getValue().then((billingAddress) => {
-      this.paymentConfirmationData = {
-        carrierRateSelected: carrierRateSelected,
-        paintingPrice: paintingPrice,
-        totalAmount: paymentIntentResponse.amount,
-        billingAddress: billingAddress as StripeAddressElementChangeEvent,
-      };
-      this.router.navigate(['/checkout','confirmation']);
-      this.loadingIndicatorService.hide();
     });
   }
 
   paymentServiceError(error?: any) {
     this.errorDialogService.open(PAYMENT_SERVICE_ERROR);
     this.router.navigate(['/checkout','payment']);
+    this.loadingIndicatorService.hide();
     return throwError(() => error)
+  }
+
+  async createPaymentMethod(carrierRateSelected: CARRIER_RATE, paintingPrice: number, paymentIntentResponse: PAYMENT_INTENT_UPDATE) {
+    const {error: submitError} = await this.elements.submit();
+    if (submitError) {
+      this.paymentServiceError(submitError);
+      return;
+    }
+    const {error, paymentMethod} = await this.stripe?.createPaymentMethod({ elements: this.elements });
+    
+    if (error) {
+      this.paymentServiceError(error);
+      return;
+    }
+    
+    this.navigateToConfirmationPage(carrierRateSelected, paintingPrice, paymentIntentResponse, paymentMethod as PAYMENT_METHOD_RESPONSE);
+  }
+
+  navigateToConfirmationPage(carrierRateSelected: CARRIER_RATE, paintingPrice: number, paymentIntentResponse: PAYMENT_INTENT_UPDATE, paymentMethodDetails: PAYMENT_METHOD_RESPONSE) {
+    this.paymentConfirmationData = {
+      carrierRateSelected: carrierRateSelected,
+      paintingPrice: paintingPrice,
+      totalAmount: paymentIntentResponse.amount,
+      paymentMethodDetails: paymentMethodDetails,
+    };
+    this.router.navigate(['/checkout','confirmation']);
+    this.loadingIndicatorService.hide();
+  }
+
+  submitPayment() {
+    if(this.stripe) {
+      this.stripe.confirmPayment({
+        clientSecret: this.paymentIntent.client_secret,
+        redirect: "if_required",
+        confirmParams: {
+          payment_method: this.paymentConfirmationData.paymentMethodDetails.id,
+          // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
+          return_url: 'https://awakeningPainting.com',
+          shipping: this.shippingService.getStripeFormattedShippingAddress()
+        },
+      })
+      .then(function(result: any) {
+        //HANDLE SUCCEDED OR OTHERWISE
+        if (result.error) {
+          // Inform the customer that there was an error.
+        }
+      });
+      }
   }
 
 }

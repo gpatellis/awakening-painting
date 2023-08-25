@@ -34,8 +34,8 @@ export class ConfirmationComponent implements OnInit {
     }
   }
 
-  processOrderData() {
-    
+  submitPayment() {
+    this.stripeSerivce.submitPayment();
   }
 
 }

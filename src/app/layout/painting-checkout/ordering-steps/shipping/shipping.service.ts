@@ -12,6 +12,7 @@ import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { OrderingStatusService } from '../../ordering-status/ordering-status.service';
 import { ORDERING_STATUS } from '../../painting-checkout.model';
 import { SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from 'src/app/api-error-messages.constants';
+import { SHIPPING_ADDRESS_STRIPE } from '../payment/payment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -157,5 +158,17 @@ export class ShippingService {
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
       rate.estimated_delivery_date = new Date(rate.estimated_delivery_date).toLocaleDateString('en-us', options);
     });
+  }
+
+  getStripeFormattedShippingAddress() {
+    return {
+      address: { city: this.matchedAddress.city_locality,
+      country: this.matchedAddress.country_code,
+      line1: this.matchedAddress.address_line1,
+      line2: this.matchedAddress.address_line2,
+      postal_code: String(this.matchedAddress.postal_code),
+      state: this.matchedAddress.state_province },
+      name: this.matchedAddress.name
+    } as SHIPPING_ADDRESS_STRIPE;
   }
 }
