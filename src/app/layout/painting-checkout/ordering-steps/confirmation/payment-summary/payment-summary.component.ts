@@ -10,4 +10,10 @@ export class PaymentSummaryComponent {
   
   @Input() paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
 
+  getExpirationDateMonth(month: number): number | string {
+    if(month < 10) {
+      return month.toString().padStart(2, '0');
+    }
+    return month;
+  }
 }

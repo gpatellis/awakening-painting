@@ -13,15 +13,22 @@
             <dt>Total:</dt>
             <dd>{{(paymentConfirmationData.totalAmount / 100) | currency: 'USD'}}</dd>
         </span>
-        <div class="mt-3">
-            <dt>Billing Address:</dt>
-            <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.name}}</dd>
-            <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.line1| uppercase}}
-                {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.line2 | uppercase}}</dd>
-            <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.city | uppercase}},
-                {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.state| uppercase}}</dd>
-            <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.postal_code}},
-                {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.country}}</dd>
+        <div class="d-sm-flex d-block justify-content-between">
+            <div class="mt-3">
+                <dt>Billing Address:</dt>
+                <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.name}}</dd>
+                <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.line1| uppercase}}
+                    {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.line2 | uppercase}}</dd>
+                <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.city | uppercase}},
+                    {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.state| uppercase}}</dd>
+                <dd>{{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.postal_code}},
+                    {{this.paymentConfirmationData.paymentMethodDetails.billing_details.address.country}}</dd>
+            </div>
+            <div class="mt-3 m-auto">
+                <dt>Payment Method:</dt>
+                <dd>{{this.paymentConfirmationData.paymentMethodDetails.card.brand | titlecase}} ending in {{this.paymentConfirmationData.paymentMethodDetails.card.last4}}</dd>
+                <dd>Expires in {{getExpirationDateMonth(paymentConfirmationData.paymentMethodDetails.card.exp_month)}}/{{this.paymentConfirmationData.paymentMethodDetails.card.exp_year}}</dd>
+            </div>
         </div>
     </dl>
 </section>
