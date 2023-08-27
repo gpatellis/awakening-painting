@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaintingData } from '../gallery/gallery-interfaces';
 import { PaintingDetailsModalService } from '../gallery/painting-card/painting-details-modal/painting-details-modal.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { StripeElements } from '@stripe/stripe-js';
   templateUrl: './painting-checkout.component.html',
   styleUrls: ['./painting-checkout.component.scss']
 })
-export class PaintingCheckoutComponent implements OnInit {
+export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   
   paintingDataWithoutImage: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
   paintingDataWithImage$: Observable<PaintingData>;
@@ -31,16 +31,16 @@ export class PaintingCheckoutComponent implements OnInit {
   }
 
   isStripeElementsCreated(): void {
-    this.stripeService.stripeElements$.subscribe((elements: StripeElements | undefined) => {
-      if(!elements) {
-        this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
-      }
-    });
+      this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
   }
 
   checkForPaintingData(): void {
     if(!this.paintingDataWithoutImage) {
       this.router.navigate(['/gallery']);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.stripeService.stripeElements$.next(undefined);
   }
 }

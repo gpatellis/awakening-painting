@@ -11,6 +11,7 @@ import { PaintingData } from '../../gallery/gallery-interfaces';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { CARRIER_RATE } from '../ordering-steps/shipping/shipping.model';
 import { ShippingService } from '../ordering-steps/shipping/shipping.service';
+import { ConfirmationService } from '../ordering-steps/confirmation/confirmation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class StripeService {
     private errorDialogService: ErrorDialogService,
     private router: Router,
     private loadingIndicatorService: LoadingIndicatorService,
-    private shippingService: ShippingService) { }
+    private shippingService: ShippingService,
+    private confirmationService: ConfirmationService) { }
 
   createPaymentIntent(price: number, paintingImageName: string): Observable<string> {
     let requestBody = {
@@ -64,6 +66,7 @@ export class StripeService {
       };
 
       let stripe = await loadStripe(environment.stripe.publicKey);
+
       if(stripe)
         this.stripe = stripe;
       else
@@ -154,6 +157,7 @@ export class StripeService {
   }
 
   submitPayment() {
+    let router = this.router;
     if(this.stripe) {
       this.stripe.confirmPayment({
         clientSecret: this.paymentIntent.client_secret,
@@ -167,11 +171,23 @@ export class StripeService {
       })
       .then(function(result: any) {
         //HANDLE SUCCEDED OR OTHERWISE
+        router.navigate(['/gallery']);
         if (result.error) {
           // Inform the customer that there was an error.
         }
       });
       }
+  }
+
+  getPaymentConfirmationData(): PAYMENT_CONFRIMATION_DATA {
+    if(!this.paymentConfirmationData && !(this.confirmationService.getPaymentDataFromSessionStorage())) {
+      this.router.navigate(['/checkout','payment']);
+    } else if (this.confirmationService.getPaymentDataFromSessionStorage() && !this.paymentConfirmationData) {
+      this.paymentConfirmationData = this.confirmationService.getPaymentDataFromSessionStorage();
+    } else {
+      this.confirmationService.setPaymentDataInSessionStorage(this.paymentConfirmationData);
+    }
+    return this.paymentConfirmationData;
   }
 
 }

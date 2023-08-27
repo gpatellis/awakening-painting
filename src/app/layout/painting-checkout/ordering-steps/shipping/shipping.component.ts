@@ -4,6 +4,7 @@ import { ShippingService } from './shipping.service';
 import { StripeService } from '../../stripe/stripe.service';
 import { StripeAddressElement, StripeAddressElementChangeEvent, StripeElements } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { environment } from 'src/environments/environment';
 export class ShippingComponent implements OnInit, OnDestroy {
   shippingForm: FormGroup = this.shippingService.getShippingFormGroup();
   shippingAddressElement: StripeAddressElement;
+  stripeElementsSubscription$: Subscription;
 
   constructor(
     private cd: ChangeDetectorRef, 
@@ -26,7 +28,7 @@ export class ShippingComponent implements OnInit, OnDestroy {
   }
 
   loadStripeShippingAddressElement(): void {
-    this.stripeService.stripeElements$.subscribe((elements: any) => {
+    this.stripeElementsSubscription$ = this.stripeService.stripeElements$.subscribe((elements: any) => {
       if(elements) {
         let shippingOptions = { 
           mode: 'shipping',
@@ -80,8 +82,10 @@ export class ShippingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.shippingAddressElement)
+    if(this.shippingAddressElement) {
       this.shippingAddressElement.destroy();
+    }
+    this.stripeElementsSubscription$.unsubscribe();
   }
 
 }

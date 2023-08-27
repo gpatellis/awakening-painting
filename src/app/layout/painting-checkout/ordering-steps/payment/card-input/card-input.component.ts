@@ -4,6 +4,7 @@ import { StripePaymentElement, StripeShippingAddressElement } from '@stripe/stri
 import { environment } from 'src/environments/environment';
 import { StripeService } from '../../../stripe/stripe.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicat
 export class CardInputComponent implements OnInit, OnDestroy{
   cardInputElement: StripePaymentElement;
   billingAddressElement: StripeShippingAddressElement;
+  stripeElementsSubscription$: Subscription;
 
   constructor(
     private paymentService: PaymentService,
@@ -26,7 +28,7 @@ export class CardInputComponent implements OnInit, OnDestroy{
   }
 
   loadStripeCardAndBillingAddressElements(): void {
-    this.stripeService.stripeElements$.subscribe((elements: any) => {
+    this.stripeElementsSubscription$ = this.stripeService.stripeElements$.subscribe((elements: any) => {
       if(elements) {
         let billingOptions = { 
           mode: 'billing',
@@ -67,5 +69,6 @@ export class CardInputComponent implements OnInit, OnDestroy{
       this.billingAddressElement.destroy();
       this.cardInputElement.destroy();
     }
+    this.stripeElementsSubscription$.unsubscribe();
   }
 }
