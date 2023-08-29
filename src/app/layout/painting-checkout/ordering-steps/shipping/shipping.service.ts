@@ -160,6 +160,26 @@ export class ShippingService {
     });
   }
 
+  populateShippingAddressToShippingForm() {
+    let shippingAddressFromSessionStorage = this.getShippingAddressFromSessionStorage();
+    if (shippingAddressFromSessionStorage) {
+      this.shippingFormGroup.patchValue({
+        address: shippingAddressFromSessionStorage.address_line1,
+        address_line2:  shippingAddressFromSessionStorage.address_line2,
+        city:  shippingAddressFromSessionStorage.city_locality,
+        state:  shippingAddressFromSessionStorage.state_province,
+        zip:  shippingAddressFromSessionStorage.postal_code,
+        country: shippingAddressFromSessionStorage.country_code,
+        fullName: shippingAddressFromSessionStorage.name,
+        emailAddress: shippingAddressFromSessionStorage.emailAddress
+      });
+    }
+  }
+
+  deleteShippingAddressFromSessionStorage() {
+    sessionStorage.removeItem('shippingAddress');
+  }
+
   getStripeFormattedShippingAddress() {
     return {
       address: { city: this.matchedAddress.city_locality,
