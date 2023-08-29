@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaymentService } from '../payment.service';
-import { StripePaymentElement, StripeShippingAddressElement } from '@stripe/stripe-js';
+import { StripePaymentElement, StripeShippingAddressElement, StripeShippingAddressElementChangeEvent } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
 import { StripeService } from '../../../stripe/stripe.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
@@ -29,13 +29,16 @@ export class CardInputComponent implements OnInit, OnDestroy{
 
   loadStripeCardAndBillingAddressElements(): void {
     this.stripeElementsSubscription$ = this.stripeService.stripeElements$.subscribe((elements: any) => {
+      let defaultValues: StripeShippingAddressElementChangeEvent | undefined = this.paymentService.getBillingAddressFromSessionStorage() ? 
+      this.paymentService.getBillingAddressFromSessionStorage() : undefined;
       if(elements) {
         let billingOptions = { 
           mode: 'billing',
           autocomplete: {
             mode: 'google_maps_api',
             apiKey: environment.googleMapsApi.apiKey
-          }
+          },
+          defaultValues: defaultValues?.value
         };
   
         this.cardInputElement = elements.create('payment');
@@ -55,6 +58,8 @@ export class CardInputComponent implements OnInit, OnDestroy{
   listenForAddressElementComplete(): void {
     this.billingAddressElement.on('change', (event) => {
         this.paymentService.isAddressElementComplete$.next(event.complete);
+        if (event.complete)
+          this.paymentService.storeBillingAddressInSessionStorage(event);
     });
   }
 

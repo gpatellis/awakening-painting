@@ -6,6 +6,7 @@ import { PaintingImageService } from '../gallery/painting-image-service/painting
 import { Observable } from 'rxjs';
 import { StripeService } from './stripe/stripe.service';
 import { ShippingService } from './ordering-steps/shipping/shipping.service';
+import { PaymentService } from './ordering-steps/payment/payment.service';
 
 @Component({
   selector: 'ap-painting-checkout',
@@ -23,7 +24,8 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
     private router: Router,
     private paintingImageService: PaintingImageService,
     private stripeService: StripeService,
-    private shippingService: ShippingService) { }
+    private shippingService: ShippingService,
+    private paymentService: PaymentService) { }
 
   ngOnInit(): void {
     this.checkForPaintingData();
@@ -44,5 +46,6 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stripeService.stripeElements$.next(undefined);
     this.shippingService.deleteShippingAddressFromSessionStorage();
+    this.paymentService.deleteBillingAddressFromSessionStorage();
   }
 }
