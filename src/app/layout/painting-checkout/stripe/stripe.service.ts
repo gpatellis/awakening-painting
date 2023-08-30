@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StripeElements, loadStripe } from '@stripe/stripe-js';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, PAYMENT_METHOD_RESPONSE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
@@ -30,7 +30,7 @@ export class StripeService {
     private shippingService: ShippingService,
     private confirmationService: ConfirmationService) { }
 
-  createPaymentIntent(price: number, paintingImageName: string): Observable<string> {
+  createPaymentIntent(price: number, paintingImageName: string): Observable<string | undefined> {
     let requestBody = {
         "painting": paintingImageName,
         "price": price
@@ -38,10 +38,15 @@ export class StripeService {
     
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    if(this.getPaymentIntentFromSessionStorage()) {
+      this.paymentIntent = this.getPaymentIntentFromSessionStorage();
+      return of(this.paymentIntent?.client_secret);
+    }
     return this.httpClient.post(
       environment.createPaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
           this.paymentIntent = (response as CREATE_PAYMENT_INTENT_RESPONSE).body;
+          this.storePaymentIntentInSessionStorage();
           return this.paymentIntent.client_secret;
         }),
         catchError( error => {
@@ -158,18 +163,19 @@ export class StripeService {
       paymentMethodDetails: paymentMethodDetails,
       paymentIntent: this.paymentIntent
     };
+    this.confirmationService.setPaymentDataInSessionStorage(this.paymentConfirmationData);
     this.router.navigate(['/checkout','confirmation']);
     this.loadingIndicatorService.hide();
   }
 
-  submitPayment() {
+  submitPayment(client_secret: string, paymentMethodId: string) {
     let router = this.router;
     if(this.stripe) {
       this.stripe.confirmPayment({
-        clientSecret: this.paymentConfirmationData.paymentIntent?.client_secret,
+        clientSecret: client_secret,
         redirect: "if_required",
         confirmParams: {
-          payment_method: this.paymentConfirmationData.paymentMethodDetails.id,
+          payment_method: paymentMethodId,
           // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
           return_url: 'https://awakeningPainting.com',
           shipping: this.shippingService.getStripeFormattedShippingAddress()
@@ -185,14 +191,20 @@ export class StripeService {
     }
   }
 
-  getPaymentConfirmationData(): PAYMENT_CONFRIMATION_DATA {
-    if(!this.paymentConfirmationData && !(this.confirmationService.getPaymentDataFromSessionStorage())) {
-      this.router.navigate(['/checkout','payment']);
-    } else if (this.confirmationService.getPaymentDataFromSessionStorage() && !this.paymentConfirmationData) {
-      this.paymentConfirmationData = this.confirmationService.getPaymentDataFromSessionStorage();
-    } else {
-      this.confirmationService.setPaymentDataInSessionStorage(this.paymentConfirmationData);
+  storePaymentIntentInSessionStorage() {
+    sessionStorage.setItem('paymentIntent', JSON.stringify(this.paymentIntent));
+  }
+
+  getPaymentIntentFromSessionStorage(): PAYMENT_INTENT | undefined {
+    let paymentIntentString = sessionStorage.getItem('paymentIntent');
+    if(paymentIntentString?.length) {
+      let paymentIntent = JSON.parse(paymentIntentString as string);
+      return paymentIntent as PAYMENT_INTENT;
     }
-    return this.paymentConfirmationData;
+    return;
+  }
+
+  deletePaymentIntentFromSessionStorage() {
+    sessionStorage.removeItem('paymentIntent');
   }
 }

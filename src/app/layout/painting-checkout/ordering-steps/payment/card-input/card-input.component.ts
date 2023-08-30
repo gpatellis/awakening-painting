@@ -29,8 +29,6 @@ export class CardInputComponent implements OnInit, OnDestroy{
 
   loadStripeCardAndBillingAddressElements(): void {
     this.stripeElementsSubscription$ = this.stripeService.stripeElements$.subscribe((elements: any) => {
-      let defaultValues: StripeShippingAddressElementChangeEvent | undefined = this.paymentService.getBillingAddressFromSessionStorage() ? 
-      this.paymentService.getBillingAddressFromSessionStorage() : undefined;
       if(elements) {
         let billingOptions = { 
           mode: 'billing',
@@ -38,7 +36,6 @@ export class CardInputComponent implements OnInit, OnDestroy{
             mode: 'google_maps_api',
             apiKey: environment.googleMapsApi.apiKey
           },
-          defaultValues: defaultValues?.value
         };
   
         this.cardInputElement = elements.create('payment');
@@ -58,8 +55,6 @@ export class CardInputComponent implements OnInit, OnDestroy{
   listenForAddressElementComplete(): void {
     this.billingAddressElement.on('change', (event) => {
         this.paymentService.isAddressElementComplete$.next(event.complete);
-        if (event.complete)
-          this.paymentService.storeBillingAddressInSessionStorage(event);
     });
   }
 

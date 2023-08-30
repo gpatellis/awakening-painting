@@ -36,8 +36,7 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   }
 
   isStripeElementsCreated(): void {
-    if(this.router.url !== '/checkout/confirmation')
-      this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
+    this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
   }
 
   checkForPaintingData(): void {
@@ -49,7 +48,7 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stripeService.stripeElements$.next(undefined);
     this.shippingService.deleteShippingAddressFromSessionStorage();
-    this.paymentService.deleteBillingAddressFromSessionStorage();
     this.confirmationService.deletePaymentDataFromSessionStorage();
+    this.stripeService.deletePaymentIntentFromSessionStorage();
   }
 }

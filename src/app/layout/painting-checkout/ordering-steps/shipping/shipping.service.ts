@@ -45,12 +45,6 @@ export class ShippingService {
     return this.shippingFormGroup;
   }
 
-  isShippingFormValid() {
-    if(this.shippingFormGroup)
-      return this.shippingFormGroup.valid;
-    return false;
-  }
-
   getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
     const requestBody =  JSON.parse(`[
       {
@@ -89,10 +83,10 @@ export class ShippingService {
   }
 
   navigateToPaymentPage(matchedAddress: ADDRESS): void {
-    this.router.navigate(['/checkout','payment']);
     this.storeShippingAddressInSessionStorage(matchedAddress);
     this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.payment);
     this.matchedAddress = matchedAddress;
+    this.router.navigate(['/checkout','payment']);
   }
 
   storeShippingAddressInSessionStorage(shippingAddress: ADDRESS) {
@@ -158,22 +152,6 @@ export class ShippingService {
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
       rate.estimated_delivery_date = new Date(rate.estimated_delivery_date).toLocaleDateString('en-us', options);
     });
-  }
-
-  populateShippingAddressToShippingForm() {
-    let shippingAddressFromSessionStorage = this.getShippingAddressFromSessionStorage();
-    if (shippingAddressFromSessionStorage) {
-      this.shippingFormGroup.patchValue({
-        address: shippingAddressFromSessionStorage.address_line1,
-        address_line2:  shippingAddressFromSessionStorage.address_line2,
-        city:  shippingAddressFromSessionStorage.city_locality,
-        state:  shippingAddressFromSessionStorage.state_province,
-        zip:  shippingAddressFromSessionStorage.postal_code,
-        country: shippingAddressFromSessionStorage.country_code,
-        fullName: shippingAddressFromSessionStorage.name,
-        emailAddress: shippingAddressFromSessionStorage.emailAddress
-      });
-    }
   }
 
   deleteShippingAddressFromSessionStorage() {

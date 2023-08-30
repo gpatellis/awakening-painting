@@ -24,7 +24,7 @@ export class ShippingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.checkShippingDataToPopulateForm();
+    this.shippingService.deleteShippingAddressFromSessionStorage();
     this.loadStripeShippingAddressElement();
   }
 
@@ -38,17 +38,6 @@ export class ShippingComponent implements OnInit, OnDestroy {
             apiKey: environment.googleMapsApi.apiKey
           },
           allowedCountries: ['US'],
-          defaultValues: {
-            name: this.shippingForm.get('fullName')?.value,
-            address: {
-              line1: this.shippingForm.get('address')?.value,
-              line2: this.shippingForm.get('address_line2')?.value,
-              city: this.shippingForm.get('city')?.value,
-              state: this.shippingForm.get('state')?.value,
-              postal_code: this.shippingForm.get('zip')?.value,
-              country: this.shippingForm.get('country')?.value,
-            },
-          },
         };
         this.shippingAddressElement = elements.create('address', shippingOptions);
         this.shippingAddressElement.mount('#shipping-address-element');
@@ -56,10 +45,6 @@ export class ShippingComponent implements OnInit, OnDestroy {
         this.listenForAddressElementComplete();
       }
     });
-  }
-
-  checkShippingDataToPopulateForm() {
-    this.shippingService.populateShippingAddressToShippingForm();
   }
 
   listenForAddressElementComplete(): void {

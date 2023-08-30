@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 export const paymentGuard: CanActivateFn = (route, state) => {
   const shippingService = inject(ShippingService);
   const router = inject(Router);
-  if(shippingService.isShippingFormValid()) {
+  if(shippingService.getShippingAddressFromSessionStorage()) {
     return true;
   }
   else {
