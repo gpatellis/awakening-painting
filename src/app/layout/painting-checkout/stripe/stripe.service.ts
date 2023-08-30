@@ -19,7 +19,7 @@ import { ConfirmationService } from '../ordering-steps/confirmation/confirmation
 export class StripeService {
   elements: StripeElements;
   stripeElements$ = new BehaviorSubject<StripeElements | undefined>(undefined);
-  private paymentIntent: PAYMENT_INTENT;
+  paymentIntent: PAYMENT_INTENT | undefined;
   paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
   stripe: any;
 
@@ -53,40 +53,45 @@ export class StripeService {
   };
 
   async getStripeElements(price: number, paintingImageName: string): Promise<void> {
-    this.createPaymentIntent(price,paintingImageName).subscribe(async (client_secret) => {
-      const appearance = {
-        variables: {
-          fontFamily: 'Gill Sans, sans-serif',
-        }
-      };
-      const paymentOptions = {
-        clientSecret: client_secret,
-        appearance: appearance,
-        paymentMethodCreation: 'manual'
-      };
+      this.createPaymentIntent(price,paintingImageName).subscribe(async (client_secret) => {
+        const appearance = {
+          variables: {
+            fontFamily: 'Gill Sans, sans-serif',
+          }
+        };
+        const paymentOptions = {
+          clientSecret: client_secret,
+          appearance: appearance,
+          paymentMethodCreation: 'manual'
+        };
+  
+        let stripe = await this.loadStripe();
+  
+        let elements = stripe?.elements(paymentOptions);
+        if (elements)
+          this.elements = elements;
+        else
+          this.paymentServiceError('stripe.elements() did not return elements');
+  
+        this.stripeElements$.next(this.elements);
+      })
+  }
 
-      let stripe = await loadStripe(environment.stripe.publicKey);
-
-      if(stripe)
-        this.stripe = stripe;
-      else
-        this.paymentServiceError('loadStripe() did not return stripe');
-
-      let elements = this.stripe?.elements(paymentOptions);
-      if (elements)
-        this.elements = elements;
-      else
-        this.paymentServiceError('stripe.elements() did not return elements');
-
-      this.stripeElements$.next(this.elements);
-    })
+  async loadStripe() {
+    let stripe = await loadStripe(environment.stripe.publicKey);
+    if(stripe) {
+      this.stripe = stripe;
+      return this.stripe;
+    }
+    else
+      this.paymentServiceError('loadStripe() did not return stripe');
   }
 
   updatePaymentIntent(price: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE> {
     let requestBody = {
       "painting": paintingImageName,
       "updatedPrice": price,
-      "paymentIntentId": this.paymentIntent.paymentIntentId
+      "paymentIntentId": this.paymentIntent?.paymentIntentId
   }
   
   let headers = new HttpHeaders();
@@ -151,6 +156,7 @@ export class StripeService {
       paintingPrice: paintingPrice,
       totalAmount: paymentIntentResponse.amount,
       paymentMethodDetails: paymentMethodDetails,
+      paymentIntent: this.paymentIntent
     };
     this.router.navigate(['/checkout','confirmation']);
     this.loadingIndicatorService.hide();
@@ -160,7 +166,7 @@ export class StripeService {
     let router = this.router;
     if(this.stripe) {
       this.stripe.confirmPayment({
-        clientSecret: this.paymentIntent.client_secret,
+        clientSecret: this.paymentConfirmationData.paymentIntent?.client_secret,
         redirect: "if_required",
         confirmParams: {
           payment_method: this.paymentConfirmationData.paymentMethodDetails.id,
@@ -176,7 +182,7 @@ export class StripeService {
           // Inform the customer that there was an error.
         }
       });
-      }
+    }
   }
 
   getPaymentConfirmationData(): PAYMENT_CONFRIMATION_DATA {
@@ -189,5 +195,4 @@ export class StripeService {
     }
     return this.paymentConfirmationData;
   }
-
 }

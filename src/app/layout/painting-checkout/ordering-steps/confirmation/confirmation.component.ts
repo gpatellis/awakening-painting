@@ -10,17 +10,22 @@ import { PAYMENT_CONFRIMATION_DATA } from '../payment/payment.model';
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss']
 })
-export class ConfirmationComponent {
+export class ConfirmationComponent implements OnInit {
   
   paymentConfirmationData: PAYMENT_CONFRIMATION_DATA = this.stripeSerivce.getPaymentConfirmationData();
   shippingData: ADDRESS | undefined = this.shippingService.matchedAddress ? this.shippingService.matchedAddress : this.shippingService.getShippingAddressFromSessionStorage();
 
   constructor(private stripeSerivce: StripeService,
-    private router: Router,
     public shippingService: ShippingService){}
 
   submitPayment() {
     this.stripeSerivce.submitPayment();
+  }
+
+  ngOnInit(): void {
+    if(!this.stripeSerivce.stripe) {
+      this.stripeSerivce.loadStripe();
+    }
   }
 
 }

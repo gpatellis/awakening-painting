@@ -9,13 +9,17 @@ export class ConfirmationService {
   
   constructor() { }
 
-  getPaymentDataFromSessionStorage() {
+  getPaymentDataFromSessionStorage(): PAYMENT_CONFRIMATION_DATA {
     let paymentConfirmationDataString = sessionStorage.getItem('paymentConfirmationData');
     let paymentConfirmationData = JSON.parse(paymentConfirmationDataString as string);
     return paymentConfirmationData;
   }
 
-  setPaymentDataInSessionStorage(paymentConfirmationData: PAYMENT_CONFRIMATION_DATA) {
+  setPaymentDataInSessionStorage(paymentConfirmationData: PAYMENT_CONFRIMATION_DATA): void {
     sessionStorage.setItem('paymentConfirmationData', JSON.stringify(paymentConfirmationData));
+  }
+
+  deletePaymentDataFromSessionStorage(): void {
+    sessionStorage.removeItem('paymentConfirmationData');
   }
 }

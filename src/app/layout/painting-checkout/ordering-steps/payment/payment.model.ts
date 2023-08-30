@@ -26,6 +26,7 @@ export interface PAYMENT_CONFRIMATION_DATA {
     paintingPrice: number;
     totalAmount: number;
     paymentMethodDetails: PAYMENT_METHOD_RESPONSE;
+    paymentIntent: PAYMENT_INTENT | undefined;
 }
 
 export interface PAYMENT_METHOD_RESPONSE {
