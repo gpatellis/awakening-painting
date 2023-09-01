@@ -1,11 +1,12 @@
 .menu-icon {
     height: 22px;
+    margin-bottom: 2.5px;
     cursor: pointer;
 }
 
 ::ng-deep .mat-menu-panel {
     width: 200px;
-    margin-top: 21px;
+    margin-top: 16px;
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;

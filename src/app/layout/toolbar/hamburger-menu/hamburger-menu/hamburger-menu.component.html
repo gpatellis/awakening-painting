@@ -1,4 +1,4 @@
-<img class="ps-sm-3 ps-2 menu-icon" aria-label="Open Menu" mat-button [matMenuTriggerFor]="menu" src="../../../assets/icons/hamburger-menu.png" alt="Hamburger Menu">
+<img class="ps-4 menu-icon" aria-label="Open Menu" mat-button [matMenuTriggerFor]="menu" src="../../../assets/icons/hamburger-menu.png" alt="Hamburger Menu">
 <mat-menu #menu="matMenu">
   <div *ngFor="let item of menuItems">
   <div routerLink={{item.route}} routerLinkActive="active" ariaCurrentWhenActive="page">
