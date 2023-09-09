@@ -30,10 +30,9 @@ export class StripeService {
     private shippingService: ShippingService,
     private confirmationService: ConfirmationService) { }
 
-  createPaymentIntent(price: number, paintingImageName: string): Observable<string | undefined> {
+  createPaymentIntent(paintingImageName: string): Observable<string | undefined> {
     let requestBody = {
-        "painting": paintingImageName,
-        "price": price
+        "paintingImage": paintingImageName
     }
     
     let headers = new HttpHeaders();
@@ -45,20 +44,31 @@ export class StripeService {
     return this.httpClient.post(
       environment.createPaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          this.paymentIntent = (response as CREATE_PAYMENT_INTENT_RESPONSE).body;
-          this.storePaymentIntentInSessionStorage();
-          return this.paymentIntent.client_secret;
+          let createPaymentIntentResponse = response as CREATE_PAYMENT_INTENT_RESPONSE;
+          console.log('createPaymentIntentResponse', createPaymentIntentResponse)
+          if (createPaymentIntentResponse.statusCode == 200) {
+            this.paymentIntent = createPaymentIntentResponse.body;
+            this.storePaymentIntentInSessionStorage();
+            return this.paymentIntent.client_secret;
+          } else {
+            this.checkoutError(createPaymentIntentResponse.body)
+            return undefined;
+          }
         }),
         catchError( error => {
-          this.errorDialogService.open(CHECKOUT_ERROR);
-          this.router.navigate(['/gallery']);
-          return throwError(() => error)
+          return this.checkoutError(error);
         })
     )
   };
 
-  async getStripeElements(price: number, paintingImageName: string): Promise<void> {
-      this.createPaymentIntent(price,paintingImageName).subscribe(async (client_secret) => {
+  checkoutError(error: any) {
+    this.errorDialogService.open(CHECKOUT_ERROR);
+    this.router.navigate(['/gallery']);
+    return throwError(() => error)
+  }
+
+  async getStripeElements(paintingImageName: string): Promise<void> {
+      this.createPaymentIntent(paintingImageName).subscribe(async (client_secret) => {
         const appearance = {
           variables: {
             fontFamily: 'Gill Sans, sans-serif',
@@ -79,6 +89,7 @@ export class StripeService {
           this.paymentServiceError('stripe.elements() did not return elements');
   
         this.stripeElements$.next(this.elements);
+        this.loadingIndicatorService.hide();
       })
   }
 

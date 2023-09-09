@@ -36,7 +36,7 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   }
 
   isStripeElementsCreated(): void {
-    this.stripeService.getStripeElements(this.paintingDataWithoutImage.price, this.paintingDataWithoutImage.image);
+    this.stripeService.getStripeElements(this.paintingDataWithoutImage.image);
   }
 
   checkForPaintingData(): void {

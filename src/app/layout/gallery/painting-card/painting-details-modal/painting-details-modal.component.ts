@@ -6,6 +6,7 @@ import { PaintingDetailsModalService } from './painting-details-modal.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'ap-painting-details-modal',
@@ -21,7 +22,8 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
   private screensizeListeningService: ScreensizeListeningService,
   private paintingDetailsModalService: PaintingDetailsModalService,
-  private router: Router) { }
+  private router: Router,
+  private loadingIndicatorService: LoadingIndicatorService) { }
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
@@ -68,6 +70,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   }
 
   buyPaintingClicked(): void {
+    this.loadingIndicatorService.show();
     this.paintingDetailsModalService.storePaintingSelectedForPurchaseToSessionStorage(this.paintingModalData.painting);
     this.closePaintingDetailsModal();
     this.router.navigate(['/checkout','shipping']);
