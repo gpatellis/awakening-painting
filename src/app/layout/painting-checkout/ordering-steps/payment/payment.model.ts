@@ -9,6 +9,7 @@ export interface CREATE_PAYMENT_INTENT_RESPONSE {
 export interface PAYMENT_INTENT {
     client_secret: string;
     paymentIntentId: string;
+    amount: number;
 }
 
 export interface UPDATE_PAYMENT_INTENT_RESPONSE {

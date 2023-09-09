@@ -19,7 +19,7 @@ import { ConfirmationService } from '../ordering-steps/confirmation/confirmation
 export class StripeService {
   elements: StripeElements;
   stripeElements$ = new BehaviorSubject<StripeElements | undefined>(undefined);
-  paymentIntent: PAYMENT_INTENT | undefined;
+  paymentIntent: PAYMENT_INTENT;
   paymentConfirmationData: PAYMENT_CONFRIMATION_DATA;
   stripe: any;
 
@@ -45,7 +45,6 @@ export class StripeService {
       environment.createPaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
           let createPaymentIntentResponse = response as CREATE_PAYMENT_INTENT_RESPONSE;
-          console.log('createPaymentIntentResponse', createPaymentIntentResponse)
           if (createPaymentIntentResponse.statusCode == 200) {
             this.paymentIntent = createPaymentIntentResponse.body;
             this.storePaymentIntentInSessionStorage();
@@ -128,14 +127,14 @@ export class StripeService {
 
   async proccessPaymentData(carrierRateSelected: CARRIER_RATE, paintingDataWithoutImage: PaintingData): Promise<void> {
     this.loadingIndicatorService.show();
-    let updatedStripePrice = Number(((carrierRateSelected.shipping_amount.amount + paintingDataWithoutImage.price) * 100).toFixed(0));
+    let updatedStripePrice = Number(((carrierRateSelected.shipping_amount.amount + this.paymentIntent.amount) * 100).toFixed(0));
     this.updatePaymentIntent(updatedStripePrice, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
       if (paymentIntentResponse.status === 'requires_payment_method' && this.elements) {
         const {error} = await this.elements.fetchUpdates();
         if (error) {
           this.paymentServiceError(error);
         } else {
-          this.createPaymentMethod(carrierRateSelected, paintingDataWithoutImage.price, paymentIntentResponse);
+          this.createPaymentMethod(carrierRateSelected, this.paymentIntent.amount, paymentIntentResponse);
         }
       } else {
         this.paymentServiceError();
@@ -206,13 +205,10 @@ export class StripeService {
     sessionStorage.setItem('paymentIntent', JSON.stringify(this.paymentIntent));
   }
 
-  getPaymentIntentFromSessionStorage(): PAYMENT_INTENT | undefined {
+  getPaymentIntentFromSessionStorage(): PAYMENT_INTENT {
     let paymentIntentString = sessionStorage.getItem('paymentIntent');
-    if(paymentIntentString?.length) {
-      let paymentIntent = JSON.parse(paymentIntentString as string);
-      return paymentIntent as PAYMENT_INTENT;
-    }
-    return;
+    let paymentIntent = JSON.parse(paymentIntentString as string);
+    return paymentIntent as PAYMENT_INTENT;
   }
 
   deletePaymentIntentFromSessionStorage() {
