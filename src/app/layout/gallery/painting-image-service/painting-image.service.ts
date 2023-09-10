@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { PaintingData, PaintingDataResponse } from '../gallery-interfaces';
+import { PaintingData } from '../gallery-interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 
@@ -17,9 +17,16 @@ export class PaintingImageService {
 
   getPaintingData(): Observable<PaintingData[]> {
     return this.httpClient.get(
-      `${environment.getImagesFromCloudFrontS3}paintingData.json`, { responseType: 'json' }
+      `${environment.getImagesFromCloudFrontS3}${environment.paintingData}`, { responseType: 'json' }
       ).pipe(
-        map((paintingData) => ((paintingData as PaintingDataResponse).paintings).reverse() as PaintingData[]),
+        map((paintingData: any) => {
+          let paintingDataArray: PaintingData[] = [];
+          Object.keys(paintingData).forEach((key) => {
+            paintingData[key].image = key;
+            paintingDataArray.push(paintingData[key])
+          });
+          return paintingDataArray.reverse() as PaintingData[];
+        }),
         catchError( error => {
           return throwError(() => error)
         })

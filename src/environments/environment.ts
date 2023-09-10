@@ -7,6 +7,7 @@ export const environment = {
   getAddressValidationEndpoint: 'https://w3bxzjfsxg.execute-api.us-east-1.amazonaws.com/v1/checkaddressvalidation/dev',
   getCarrierRatesEndpoint: 'https://is7633u508.execute-api.us-east-1.amazonaws.com/v1/getcarrierrates/dev',
   getImagesFromCloudFrontS3: 'https://dnxr70io2hu9r.cloudfront.net/',
+  paintingData: 'paintingData-Dev.json',
   createPaymentIntentEndpoint: "https://bjdx3cog18.execute-api.us-east-1.amazonaws.com/v1/createpaymentintent/dev",
   updatePaymentIntentEndpoint: 'https://eq1yd658df.execute-api.us-east-1.amazonaws.com/v1/updatepaymentintent/dev',
   allowOnlineCheckout: true,
