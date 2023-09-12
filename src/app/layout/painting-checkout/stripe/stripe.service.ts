@@ -102,10 +102,10 @@ export class StripeService {
       this.paymentServiceError('loadStripe() did not return stripe');
   }
 
-  updatePaymentIntent(price: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE> {
+  updatePaymentIntent(shippingAmount: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE> {
     let requestBody = {
-      "painting": paintingImageName,
-      "updatedPrice": price,
+      "paintingImage": paintingImageName,
+      "shippingAmount": shippingAmount,
       "paymentIntentId": this.paymentIntent?.paymentIntentId
   }
   
@@ -127,8 +127,7 @@ export class StripeService {
 
   async proccessPaymentData(carrierRateSelected: CARRIER_RATE, paintingDataWithoutImage: PaintingData): Promise<void> {
     this.loadingIndicatorService.show();
-    let updatedStripePrice = Number(((carrierRateSelected.shipping_amount.amount + this.paymentIntent.amount) * 100).toFixed(0));
-    this.updatePaymentIntent(updatedStripePrice, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
+    this.updatePaymentIntent(carrierRateSelected.shipping_amount.amount, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
       if (paymentIntentResponse.status === 'requires_payment_method' && this.elements) {
         const {error} = await this.elements.fetchUpdates();
         if (error) {
