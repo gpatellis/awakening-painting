@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ADDRESS, ADDRESS_VALIDATION_RESPONSE, CARRIER_RATE, CARRIER_RATES_RESPONSE } from './shipping.model';
+import { ADDRESS, ADDRESS_VALIDATION_BODY, CARRIER_RATE } from './shipping.model';
 import { Router } from '@angular/router';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
@@ -45,7 +45,7 @@ export class ShippingService {
     return this.shippingFormGroup;
   }
 
-  getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_RESPONSE> {
+  getAddressValidation(shippingForm: FormGroup): Observable<ADDRESS_VALIDATION_BODY[]> {
     const requestBody =  JSON.parse(`[
       {
         "address_line1": "${shippingForm.get('address')?.value} ${shippingForm.get('address_line2')?.value}",
@@ -60,11 +60,13 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getAddressValidationEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          return response as ADDRESS_VALIDATION_RESPONSE;
+          let addressValidationResponse = response as ADDRESS_VALIDATION_BODY[];
+          return addressValidationResponse;
         }),
         catchError( error => {
           this.loadingIndicatorService.hide();
-          this.errorDialogService.open(SHIPPING_SERVICE_ERROR)
+          this.errorDialogService.open(SHIPPING_SERVICE_ERROR);
+          this.router.navigate(['/checkout','payment']);
           return throwError(() => error)
         })
       )
@@ -72,10 +74,10 @@ export class ShippingService {
 
   validateAddress(shippingForm: FormGroup): void {
     this.loadingIndicatorService.show();
-    this.getAddressValidation(shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_RESPONSE) => {
-      if (addressValidationResponse.body[0].status == "verified") {
-        this.navigateToPaymentPage(addressValidationResponse.body[0].matched_address);
-      } else if (addressValidationResponse.body[0].status == "unverified" || addressValidationResponse.body[0].status == "error") {
+    this.getAddressValidation(shippingForm).subscribe((addressValidationResponse: ADDRESS_VALIDATION_BODY[]) => {
+      if (addressValidationResponse[0].status == "verified") {
+        this.navigateToPaymentPage(addressValidationResponse[0].matched_address);
+      } else if (addressValidationResponse[0].status == "unverified" || addressValidationResponse[0].status == "error") {
         this.loadingIndicatorService.hide();
         this.errorDialogService.open(SHIPPING_SERVICE_INVALID_ADDRESS);
       }
@@ -136,8 +138,8 @@ export class ShippingService {
     return this.httpClient.post(
       environment.getCarrierRatesEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          this.massageCarrierRatesTimeAndDay((response as CARRIER_RATES_RESPONSE).body);
-          return (response as CARRIER_RATES_RESPONSE).body;
+          this.massageCarrierRatesTimeAndDay(response as CARRIER_RATE[]);
+          return response as CARRIER_RATE[];
         }),
         catchError( error => {
           this.errorDialogService.open(SHIPPING_SERVICE_ERROR);

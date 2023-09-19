@@ -1,15 +1,3 @@
-export interface ADDRESS_VALIDATION_RESPONSE {
-    statusCode: number;
-    shipEngineStatusCode: number;
-    body: ADDRESS_VALIDATION_BODY[]
-}
-
-export interface CARRIER_RATES_RESPONSE {
-    statusCode: number;
-    shipEngineStatusCode: number;
-    body: CARRIER_RATE[]
-}
-
 export interface CARRIER_RATE {
     rate_id: string;
     rate_type: string;

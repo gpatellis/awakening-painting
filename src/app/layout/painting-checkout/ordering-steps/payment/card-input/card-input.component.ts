@@ -36,6 +36,7 @@ export class CardInputComponent implements OnInit, OnDestroy{
             mode: 'google_maps_api',
             apiKey: environment.googleMapsApi.apiKey
           },
+          allowedCountries: ['US']
         };
   
         this.cardInputElement = elements.create('payment');

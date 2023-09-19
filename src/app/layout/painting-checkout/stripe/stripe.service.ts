@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { StripeElements, loadStripe } from '@stripe/stripe-js';
 import { BehaviorSubject, Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CREATE_PAYMENT_INTENT_RESPONSE, PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, PAYMENT_METHOD_RESPONSE, UPDATE_PAYMENT_INTENT_RESPONSE } from '../ordering-steps/payment/payment.model';
+import { PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_INTENT_UPDATE, PAYMENT_METHOD_RESPONSE } from '../ordering-steps/payment/payment.model';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { Router } from '@angular/router';
 import { CHECKOUT_ERROR, PAYMENT_SERVICE_ERROR } from 'src/app/api-error-messages.constants';
@@ -44,15 +44,9 @@ export class StripeService {
     return this.httpClient.post(
       environment.createPaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          let createPaymentIntentResponse = response as CREATE_PAYMENT_INTENT_RESPONSE;
-          if (createPaymentIntentResponse.statusCode == 200) {
-            this.paymentIntent = createPaymentIntentResponse.body;
+            this.paymentIntent = response as PAYMENT_INTENT;;
             this.storePaymentIntentInSessionStorage();
             return this.paymentIntent.client_secret;
-          } else {
-            this.checkoutError(createPaymentIntentResponse.body)
-            return undefined;
-          }
         }),
         catchError( error => {
           return this.checkoutError(error);
@@ -102,7 +96,7 @@ export class StripeService {
       this.paymentServiceError('loadStripe() did not return stripe');
   }
 
-  updatePaymentIntent(shippingAmount: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE> {
+  updatePaymentIntent(shippingAmount: number, paintingImageName: string): Observable<PAYMENT_INTENT_UPDATE | undefined> {
     let requestBody = {
       "paintingImage": paintingImageName,
       "shippingAmount": shippingAmount,
@@ -114,7 +108,8 @@ export class StripeService {
     return this.httpClient.post(
       environment.updatePaymentIntentEndpoint, requestBody, {'headers':headers}).pipe(
         map((response) => {
-          return (response as UPDATE_PAYMENT_INTENT_RESPONSE).body;
+          let updatePaymentIntentReponse = response as PAYMENT_INTENT_UPDATE;
+          return updatePaymentIntentReponse;
         }),
         catchError( error => {
           this.errorDialogService.open(PAYMENT_SERVICE_ERROR);
@@ -127,8 +122,8 @@ export class StripeService {
 
   async proccessPaymentData(carrierRateSelected: CARRIER_RATE, paintingDataWithoutImage: PaintingData): Promise<void> {
     this.loadingIndicatorService.show();
-    this.updatePaymentIntent(carrierRateSelected.shipping_amount.amount, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE)=> {
-      if (paymentIntentResponse.status === 'requires_payment_method' && this.elements) {
+    this.updatePaymentIntent(carrierRateSelected.shipping_amount.amount, paintingDataWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE | undefined)=> {
+      if (paymentIntentResponse?.status === 'requires_payment_method' && this.elements) {
         const {error} = await this.elements.fetchUpdates();
         if (error) {
           this.paymentServiceError(error);

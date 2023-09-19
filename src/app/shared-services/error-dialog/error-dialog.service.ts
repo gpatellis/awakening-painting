@@ -12,6 +12,7 @@ export class ErrorDialogService {
   constructor(public dialog: MatDialog) { }
 
   open(message: string) {
+    console.error(message);
     this.errorDialogRef = this.dialog.open(ErrorDialogComponent, {
       data: { 
         errorMessage: message
