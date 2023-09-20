@@ -5,6 +5,8 @@ import { map, catchError } from 'rxjs/operators';
 import { PaintingData } from '../gallery-interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,9 @@ import { environment } from 'src/environments/environment';
 export class PaintingImageService {
   constructor(
     private httpClient: HttpClient,
-    private sanitizer: DomSanitizer) 
+    private sanitizer: DomSanitizer,
+    private errorDialogService: ErrorDialogService,
+    private loadingIndicatorService: LoadingIndicatorService) 
   { }
 
   getPaintingData(): Observable<PaintingData[]> {
@@ -28,6 +32,8 @@ export class PaintingImageService {
           return paintingDataArray.reverse() as PaintingData[];
         }),
         catchError( error => {
+          this.errorDialogService.isPaintingDataError$.next(true);
+          this.loadingIndicatorService.hide();
           return throwError(() => error)
         })
       )
@@ -40,7 +46,9 @@ export class PaintingImageService {
         ).pipe(
           map((imageResponse) => imageResponse),
           catchError( error => {
-            return throwError(() => error)
+            this.loadingIndicatorService.hide();
+            this.errorDialogService.isPaintingDataError$.next(true);
+            return throwError(() => error);
           })
         ).subscribe((imageResponse) => {
           let objectURL = URL.createObjectURL(imageResponse as Blob);

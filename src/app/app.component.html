@@ -1,2 +1,3 @@
-<ap-layout></ap-layout>
+<ap-layout *ngIf="!(isPaintingDataLoadingError$ | async)"></ap-layout>
+<ap-error-page *ngIf="(isPaintingDataLoadingError$ | async)"></ap-error-page>
 <ap-loading-indicator [fullPageLoad]="true" *ngIf="showLoadingIndicator"></ap-loading-indicator>

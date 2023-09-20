@@ -5,6 +5,7 @@ import { PaintingImageService } from './layout/gallery/painting-image-service/pa
 import { LoadingIndicatorService } from './shared-services/loading-indicator/loading-indicator.service';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
+import { ErrorDialogService } from './shared-services/error-dialog/error-dialog.service';
 
 @Component({
   selector: 'ap-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnDestroy, OnInit{
   browserRefresh: boolean = false;
   isLoadingIndicatorShowingSubscription: Subscription;
   showLoadingIndicator: boolean;
+  isPaintingDataLoadingError$ = this.errorDialogService.isPaintingDataError$;
 
   constructor(
     private router: Router, 
@@ -24,7 +26,8 @@ export class AppComponent implements OnDestroy, OnInit{
     private loadingIndicatorService: LoadingIndicatorService,
     private cd: ChangeDetectorRef,
     private titleService: Title,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private errorDialogService: ErrorDialogService
     ) {
       this.handleRouteEvents();
       this.refreshSubscription = router.events.subscribe((event) => {

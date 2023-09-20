@@ -12,6 +12,8 @@ import { AboutComponent } from './layout/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingIndicatorModule } from './shared-components/loading-indicator/loading-indicator/loading-indicator.module';
 import { ContactComponent } from './layout/contact/contact.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { ContactComponent } from './layout/contact/contact.component';
     HamburgerMenuComponent,
     AboutComponent,
     ContactComponent,
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { ContactComponent } from './layout/contact/contact.component';
     MatMenuModule,
     MatIconModule,
     HttpClientModule,
-    LoadingIndicatorModule
+    LoadingIndicatorModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

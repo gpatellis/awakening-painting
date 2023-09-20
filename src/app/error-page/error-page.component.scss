@@ -1,0 +1,12 @@
+@import "../../styles/colors.scss";
+
+.error-page {
+    margin-top: 30vh;
+    text-align: center;
+
+    &__warn {
+        width: 100px;
+        filter: invert(41%) sepia(67%) saturate(506%) hue-rotate(168deg) brightness(87%) contrast(85%);
+        margin-bottom: 10px;
+    }
+}
