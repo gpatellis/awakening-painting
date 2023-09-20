@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './layout/about/about.component';
 import { paintingCheckoutGuard } from './layout/painting-checkout/painting-checkout.guard';
 import { ContactComponent } from './layout/contact/contact.component';
 
@@ -15,7 +14,6 @@ const routes: Routes = [
     canActivate: [paintingCheckoutGuard]
   },
   { path: 'contact', component: ContactComponent},
-  { path: 'about', component: AboutComponent },
   { path: '', pathMatch: 'full', redirectTo: 'gallery' },
   { path: '**', redirectTo: 'gallery' }
 ];

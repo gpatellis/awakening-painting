@@ -7,11 +7,6 @@ export const menuItems: MENU_ITEMS[] = [
         route: "gallery"
     },
     {
-        icon: "person",
-        name: "About",
-        route: "about"
-    },
-    {
         icon: "contact_mail",
         name: "Contact",
         route: "contact"
