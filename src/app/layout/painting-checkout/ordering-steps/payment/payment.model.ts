@@ -15,11 +15,11 @@ export interface PAYMENT_CONFRIMATION_DATA {
     carrierRateSelected: CARRIER_RATE;
     paintingPrice: number;
     totalAmount: number;
-    paymentMethodDetails: PAYMENT_METHOD_RESPONSE;
-    paymentIntent: PAYMENT_INTENT | undefined;
+    paymentMethodDetails: PAYMENT_METHOD;
+    paymentIntent: PAYMENT_INTENT;
 }
 
-export interface PAYMENT_METHOD_RESPONSE {
+export interface PAYMENT_METHOD {
     billing_details: BILLING_DETAILS;
     card: BILLING_CARD;
     id: string;
@@ -53,4 +53,17 @@ export interface BILLING_CARD {
 export interface SHIPPING_ADDRESS_STRIPE {
     address: ADDRESS_STRIPE;
     name: string;
+}
+
+export interface STRIPE_CONFIRMATION_RESPONSE {
+    status?: string;
+    error?: STRIPE_CHARGE_ERROR;
+}
+
+export interface STRIPE_CHARGE_ERROR {
+    charge: string;
+    code: string;
+    decline_code: string;
+    doc_url: string;
+    message: string;
 }

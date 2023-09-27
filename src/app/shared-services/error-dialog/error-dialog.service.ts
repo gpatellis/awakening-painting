@@ -13,7 +13,9 @@ export class ErrorDialogService {
 
   constructor(public dialog: MatDialog) { }
 
-  open(message: string) {
+  open(message: string, error?: any) {
+    if (error)
+      console.error(error);
     console.error(message);
     this.errorDialogRef = this.dialog.open(ErrorDialogComponent, {
       data: { 

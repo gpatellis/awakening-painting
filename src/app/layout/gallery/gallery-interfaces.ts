@@ -1,6 +1,6 @@
 import { SafeUrl } from "@angular/platform-browser";
 
-export interface PaintingData { // create enums
+export interface PaintingData {
     name: string;
     paintType: string;
     image: string;
@@ -19,10 +19,6 @@ export interface PaintingData { // create enums
     distanceUnit: string;
     weight:	number;
     weightUnit:	string;
-}
-
-export interface PaintingDataResponse {
-    paintings: PaintingData[];
 }
 
 export interface PaintingModalData {

@@ -6,8 +6,7 @@ import { PaintingImageService } from '../gallery/painting-image-service/painting
 import { Observable } from 'rxjs';
 import { StripeService } from './stripe/stripe.service';
 import { ShippingService } from './ordering-steps/shipping/shipping.service';
-import { PaymentService } from './ordering-steps/payment/payment.service';
-import { ConfirmationService } from './ordering-steps/confirmation/confirmation.service';
+import { PaintingCheckoutService } from './painting-checkout.service';
 
 @Component({
   selector: 'ap-painting-checkout',
@@ -26,8 +25,7 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
     private paintingImageService: PaintingImageService,
     private stripeService: StripeService,
     private shippingService: ShippingService,
-    private paymentService: PaymentService,
-    private confirmationService: ConfirmationService) { }
+    private paintingCheckoutService: PaintingCheckoutService) { }
 
   ngOnInit(): void {
     this.checkForPaintingData();
@@ -42,13 +40,16 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
   checkForPaintingData(): void {
     if(!this.paintingDataWithoutImage) {
       this.router.navigate(['/gallery']);
+    } else {
+      this.paintingCheckoutService.setPaintingDataForCheckout(this.paintingDataWithoutImage);
     }
   }
 
   ngOnDestroy(): void {
     this.stripeService.stripeElements$.next(undefined);
     this.shippingService.deleteShippingAddressFromSessionStorage();
-    this.confirmationService.deletePaymentDataFromSessionStorage();
+    this.stripeService.deletePaymentDataFromSessionStorage();
     this.stripeService.deletePaymentIntentFromSessionStorage();
+    this.paintingDetailsModalService.deletePaintingSelectedForPurchaseFromSessionStorage();
   }
 }

@@ -7,12 +7,11 @@ import { ADDRESS, ADDRESS_VALIDATION_BODY, CARRIER_RATE } from './shipping.model
 import { Router } from '@angular/router';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
-import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
-import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
 import { OrderingStatusService } from '../../ordering-status/ordering-status.service';
 import { ORDERING_STATUS } from '../../painting-checkout.model';
 import { SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from 'src/app/api-error-messages.constants';
 import { SHIPPING_ADDRESS_STRIPE } from '../payment/payment.model';
+import { PaintingCheckoutService } from '../../painting-checkout.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +19,14 @@ import { SHIPPING_ADDRESS_STRIPE } from '../payment/payment.model';
 export class ShippingService {
   matchedAddress: ADDRESS;
   shippingFormGroup: FormGroup;
-  paintingChosenForPurchase: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
 
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private loadingIndicatorService: LoadingIndicatorService,
     private errorDialogService: ErrorDialogService,
-    private paintingDetailsModalService: PaintingDetailsModalService,
-    private orderingStatusService: OrderingStatusService) {
+    private orderingStatusService: OrderingStatusService,
+    private paintingCheckoutService: PaintingCheckoutService) {
      }
 
   getShippingFormGroup(): FormGroup {
@@ -121,14 +119,14 @@ export class ShippingService {
         "packages": [
           {
             "weight": {
-              "value": ${Number(this.paintingChosenForPurchase.weight)},
-              "unit": "${this.paintingChosenForPurchase.weightUnit}"
+              "value": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weight)},
+              "unit": "${this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weightUnit}"
             },
             "dimensions": {
-              "length": ${Number(this.paintingChosenForPurchase.length)},
-              "width": ${Number(this.paintingChosenForPurchase.width)},
-              "height": ${Number(this.paintingChosenForPurchase.height)},
-              "unit": "${this.paintingChosenForPurchase.distanceUnit}"
+              "length": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.length)},
+              "width": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.width)},
+              "height": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.height)},
+              "unit": "${this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.distanceUnit}"
             }
           }
         ]
@@ -161,6 +159,9 @@ export class ShippingService {
   }
 
   getStripeFormattedShippingAddress() {
+    if(!this.matchedAddress) {
+      this.getShippingAddressFromSessionStorage();
+    }
     return {
       address: { city: this.matchedAddress.city_locality,
       country: this.matchedAddress.country_code,

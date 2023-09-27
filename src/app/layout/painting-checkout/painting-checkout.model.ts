@@ -2,6 +2,7 @@ export enum ORDERING_STATUS {
     shipping = "shipping",
 	payment = "payment",
 	confirmation = "confirmation",
+	complete = "complete"
 }
 
 export interface GOOGLE_ADDRESS_RESPONSE {

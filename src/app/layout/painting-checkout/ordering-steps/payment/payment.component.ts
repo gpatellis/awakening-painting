@@ -5,8 +5,6 @@ import { CARRIER_RATE } from '../shipping/shipping.model';
 import { Observable } from 'rxjs';
 import { PaymentService } from './payment.service';
 import { StripeService } from '../../stripe/stripe.service';
-import { PaintingData } from 'src/app/layout/gallery/gallery-interfaces';
-import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 
 @Component({
@@ -18,14 +16,12 @@ export class PaymentComponent implements OnInit {
   carrierRates$: Observable<CARRIER_RATE[]>;
   carrierRateSelected: CARRIER_RATE;
   isPaymentFormComplete: boolean = false;
-  paintingDataWithoutImage: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
 
   constructor(
     private shippingService: ShippingService,
     private router: Router,
     private paymentService: PaymentService,
-    private stripeService: StripeService,
-    private paintingDetailsModalService: PaintingDetailsModalService) {}
+    private stripeService: StripeService) {}
 
   ngOnInit(): void {
     if(!this.shippingService.getShippingAddressFromSessionStorage()) {
@@ -52,7 +48,7 @@ export class PaymentComponent implements OnInit {
   }
 
   processPaymentData() {
-    this.stripeService.proccessPaymentData(this.carrierRateSelected, this.paintingDataWithoutImage);
+    this.stripeService.proccessPaymentData(this.carrierRateSelected);
   }
 
 }
