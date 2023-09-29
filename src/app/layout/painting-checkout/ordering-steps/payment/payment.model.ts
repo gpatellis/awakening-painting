@@ -4,6 +4,7 @@ export interface PAYMENT_INTENT {
     client_secret: string;
     paymentIntentId: string;
     amount: number;
+    status: string;
 }
 
 export interface PAYMENT_INTENT_UPDATE {

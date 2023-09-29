@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { StripeService } from '../../stripe/stripe.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, Subscription, catchError, map, of, throwError } from 'rxjs';
-import { STRIPE_PAYMENT_CONFIRMATION_ERROR, STRIPE_PAYMENT_CONFIRMATION_RESPONSE, UPDATE_SOLD_PAINTING_RESPONSE } from './confirmation.model';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_RESPONSE, STRIPE_PAYMENT_CONFIRMATION_ERROR, STRIPE_PAYMENT_CONFIRMATION_RESPONSE, UPDATE_SOLD_PAINTING_RESPONSE } from './confirmation.model';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
-import { CARD_DECLINED_ERROR, CARD_PROCESSING_ERROR, EXPIRED_CARD_ERROR, INCORRECT_CVC_ERROR, INCORRECT_NUMBER_ERROR, ORDER_ERROR, PAINTING_ALREADY_SOLD, PAYMENT_ERROR } from 'src/app/api-error-messages.constants';
+import { CARD_DECLINED_ERROR, CARD_PROCESSING_ERROR, EXPIRED_CARD_ERROR, INCORRECT_CVC_ERROR, INCORRECT_NUMBER_ERROR, PAYMENT_ERROR } from 'src/app/api-error-messages.constants';
 import { PaintingCheckoutService } from '../../painting-checkout.service';
+import { ShippingService } from '../shipping/shipping.service';
+import { SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_ERROR, SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_SUCCESS, STRIPE_PAYMENT_CONSOLE_ERROR, STRIPE_PAYMENT_SUCCESS } from './confirmation.constants';
+import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +21,18 @@ export class ConfirmationService {
     private httpClient: HttpClient,
     private stripeService: StripeService,
     private errorDialogService: ErrorDialogService,
-    private paintingCheckoutService: PaintingCheckoutService) { }
+    private paintingCheckoutService: PaintingCheckoutService,
+    private shippingService: ShippingService,
+    private loadingIndicatorService: LoadingIndicatorService,
+    private router: Router) { }
 
-  processOrder(stripePaymentConfirmationResponse: STRIPE_PAYMENT_CONFIRMATION_RESPONSE) {
-    if(stripePaymentConfirmationResponse.status == "succeeded") { //enums
-      this.updateSoldPainting().subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
-        if(response.update == "Successfull") {
-        } else if (response.update == "Painting Already Sold") {
-          this.errorDialogService.open(PAINTING_ALREADY_SOLD);
-        }
-      }); 
+  checkStripePaymentResponse(stripePaymentConfirmationResponse: STRIPE_PAYMENT_CONFIRMATION_RESPONSE) {
+    if(stripePaymentConfirmationResponse.paymentIntent?.status == STRIPE_PAYMENT_SUCCESS) { 
+      this.completeOrder();
     } else {
-      this.errorDialogService.open(PAYMENT_ERROR, 'stripePaymentConfirmationResponse.status does not say succeeded');
+      this.loadingIndicatorService.hide();
+      this.errorDialogService.open(PAYMENT_ERROR, STRIPE_PAYMENT_CONSOLE_ERROR);
     }
-  
   }
 
   processStripePaymentConfirmationError(error: STRIPE_PAYMENT_CONFIRMATION_ERROR) {
@@ -63,9 +65,9 @@ export class ConfirmationService {
   }
 
   updateSoldPainting(): Observable<UPDATE_SOLD_PAINTING_RESPONSE> {
-    const requestBody =  JSON.parse(`{
-      "paintingImage": "${this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.image}"
-    }`);
+    const requestBody =  {
+      "paintingImage": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.image
+    };
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post(
@@ -74,7 +76,42 @@ export class ConfirmationService {
           return response as UPDATE_SOLD_PAINTING_RESPONSE;
         }),
         catchError( error => {
-          this.errorDialogService.open(ORDER_ERROR, error);
+          this.loadingIndicatorService.hide();
+          this.errorDialogService.open(PAYMENT_ERROR, error);
+          return throwError(() => error)
+        })
+      )
+  }
+
+  completeOrder() {
+    this.createShippingLabelAndConfirmationEmail().subscribe((result: SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_RESPONSE) => {
+      if(result.status != SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_SUCCESS) {
+        console.error(SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_ERROR);
+      }
+      this.navigateToOrderSummaryPage();
+    });
+  }
+
+  navigateToOrderSummaryPage() {
+    this.router.navigate(['/checkout','order-summary']);
+    this.loadingIndicatorService.hide();
+  }
+
+  createShippingLabelAndConfirmationEmail() {
+    const requestBody = {
+      "paymentConfirmationData": this.stripeService.getPaymentDataFromSessionStorage(),
+      "shippingAddress": this.shippingService.getShippingAddressFromSessionStorage(),
+      "paintingName": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.name
+    }
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    return this.httpClient.post(
+      environment.createShippingLabelAndConfirmationEmailEndpoint, requestBody, {'headers':headers}).pipe(
+        map((response) => {
+          return response as SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_RESPONSE;
+        }),
+        catchError( error => {
+          this.navigateToOrderSummaryPage();
           return throwError(() => error)
         })
       )

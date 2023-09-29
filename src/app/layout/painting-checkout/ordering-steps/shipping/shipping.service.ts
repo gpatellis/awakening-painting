@@ -106,31 +106,31 @@ export class ShippingService {
   }
 
   getCarrierRates(): Observable<CARRIER_RATE[]> {
-    const requestBody = JSON.parse(`
+    const requestBody = 
       {
         "ship_to": {
-          "name": "${this.matchedAddress.name}",
-          "address_line1": "${this.matchedAddress.address_line1} ${this.matchedAddress.address_line2}",
-          "city_locality": "${this.matchedAddress.city_locality}",
-          "state_province": "${this.matchedAddress.state_province}",
-          "postal_code": "${this.matchedAddress.postal_code}",
-          "country_code": "${this.matchedAddress.country_code}"
+          "name": this.matchedAddress.name,
+          "address_line1": this.matchedAddress.address_line1 + ' ' + this.matchedAddress.address_line2,
+          "city_locality": this.matchedAddress.city_locality,
+          "state_province": this.matchedAddress.state_province,
+          "postal_code": this.matchedAddress.postal_code,
+          "country_code": this.matchedAddress.country_code
         },
         "packages": [
           {
             "weight": {
-              "value": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weight)},
-              "unit": "${this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weightUnit}"
+              "value": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weight),
+              "unit": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weightUnit
             },
             "dimensions": {
-              "length": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.length)},
-              "width": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.width)},
-              "height": ${Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.height)},
-              "unit": "${this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.distanceUnit}"
+              "length": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.length),
+              "width": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.width),
+              "height": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.height),
+              "unit": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.distanceUnit
             }
           }
         ]
-      }`);
+      }
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     return this.httpClient.post(

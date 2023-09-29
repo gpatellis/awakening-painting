@@ -5,7 +5,7 @@ export interface UPDATE_SOLD_PAINTING_RESPONSE {
 }
 
 export interface STRIPE_PAYMENT_CONFIRMATION_RESPONSE {
-    status: string;
+    paymentIntent?: PAYMENT_INTENT;
     error?: STRIPE_PAYMENT_CONFIRMATION_ERROR;
 }
 
@@ -19,4 +19,8 @@ export interface STRIPE_PAYMENT_CONFIRMATION_ERROR {
     payment_method: PAYMENT_METHOD;
     request_log_url: string;
     type: string;
+}
+
+export interface SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_RESPONSE {
+    status: string;
 }

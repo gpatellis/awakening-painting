@@ -11,6 +11,7 @@ export const environment = {
   createPaymentIntentEndpoint: "https://0uklap4ofa.execute-api.us-east-1.amazonaws.com/dev/createPaymentIntent",
   updatePaymentIntentEndpoint: "https://j7ve7kxn19.execute-api.us-east-1.amazonaws.com/dev/updatePaymentIntent",
   updateSoldPaintingEndpoint: "https://i9zyu57qsb.execute-api.us-east-1.amazonaws.com/dev/updateSoldPainting",
+  createShippingLabelAndConfirmationEmailEndpoint: 'https://py3576nqti.execute-api.us-east-1.amazonaws.com/dev/createShippingLabelAndConfirmationEmail',
   allowOnlineCheckout: true,
   googleMapsApi: {
     apiKey: "AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE"
