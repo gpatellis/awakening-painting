@@ -1,4 +1,4 @@
-import { PAYMENT_CONFRIMATION_DATA, PAYMENT_INTENT, PAYMENT_METHOD } from "../payment/payment.model";
+import { PAYMENT_INTENT, PAYMENT_METHOD } from "../payment/payment.model";
 
 export interface UPDATE_SOLD_PAINTING_RESPONSE {
     update: string;

@@ -5,7 +5,7 @@ import { ADDRESS } from '../shipping/shipping.model';
 import { PAYMENT_CONFRIMATION_DATA } from '../payment/payment.model';
 import { ConfirmationService } from './confirmation.service';
 import { STRIPE_PAYMENT_CONFIRMATION_RESPONSE, UPDATE_SOLD_PAINTING_RESPONSE } from './confirmation.model';
-import { UPDATE_SOLD_PAINTING, UPDATE_SOLD_PAINTING_CONSOLE_ERROR } from './confirmation.constants';
+import { UPDATE_SOLD_PAINTING, UPDATE_SOLD_PAINTING_CONSOLE_ERROR, UPDATE_SOLD_PAINTING_RESPONSES } from './confirmation.constants';
 import { PAINTING_ALREADY_SOLD, PAYMENT_ERROR } from 'src/app/api-error-messages.constants';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
@@ -28,10 +28,10 @@ export class ConfirmationComponent implements OnDestroy {
 
   processOrder() {
     this.loadingIndicatorService.show();
-    this.confirmationService.updateSoldPainting().subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
-      if(response.update == UPDATE_SOLD_PAINTING.successfull) {
+    this.confirmationService.updateSoldPainting(UPDATE_SOLD_PAINTING.sold).subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
+      if(response.update == UPDATE_SOLD_PAINTING_RESPONSES.successfull) {
         this.submitPaymentToStripe();
-      } else if (response.update == UPDATE_SOLD_PAINTING.paintingAlreadySold) {
+      } else if (response.update == UPDATE_SOLD_PAINTING_RESPONSES.paintingAlreadySold) {
         this.loadingIndicatorService.hide();
         this.errorDialogService.open(PAINTING_ALREADY_SOLD);
       } else {

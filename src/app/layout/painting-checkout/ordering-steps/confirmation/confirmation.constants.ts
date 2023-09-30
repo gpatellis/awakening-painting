@@ -1,9 +1,14 @@
 export const STRIPE_PAYMENT_SUCCESS = "succeeded"
 export const SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_SUCCESS = "succeeded"
 
-export enum UPDATE_SOLD_PAINTING {
+export enum UPDATE_SOLD_PAINTING_RESPONSES {
     successfull = "Successfull",
     paintingAlreadySold = "Painting Already Sold"
+}
+
+export enum UPDATE_SOLD_PAINTING {
+    sold = "Sold",
+    available = "Available"
 }
 
 export const STRIPE_PAYMENT_CONSOLE_ERROR = "stripePaymentConfirmationResponse.status does not say succeeded"
