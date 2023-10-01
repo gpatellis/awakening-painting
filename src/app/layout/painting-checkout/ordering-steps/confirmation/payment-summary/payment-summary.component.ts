@@ -17,7 +17,7 @@ export class PaymentSummaryComponent {
     return month;
   }
 
-  getTotalPaymentPrice(price: number): number {
-    return (price / 100);
+  getPriceWithDecimal(price: number | undefined): number | undefined {
+    return price ? (price / 100) : undefined;
   }
 }

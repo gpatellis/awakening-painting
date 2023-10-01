@@ -12,7 +12,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ul class="p-3 mb-0 text-start">
-            <li><b>Price: </b>${{paintingData?.price}}</li>
+            <li><b>Price: </b>{{getPaintingPrice(paintingData?.price) | currency:'USD':'symbol' }}</li>
             <li><b>Dimensions: </b>{{paintingData?.dimensions}}</li>
             <li><b>Edges Painted: </b>{{paintingData?.edgesPainted}}</li>
             <li><b>Surface Type: </b>{{paintingData?.surfaceType}}</li>

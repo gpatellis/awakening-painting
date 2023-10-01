@@ -12,4 +12,7 @@ export class MiniPaintingCardComponent {
 
   @Input() paintingData: PaintingData | null;
 
+  getPaintingPrice(price: number | undefined): number | undefined {
+    return price ? (price / 100) : undefined;
+  }
 }

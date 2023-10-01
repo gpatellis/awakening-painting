@@ -3,7 +3,7 @@
     <dl class="py-3">
         <span class="d-flex justify-content-between">
             <dt>Painting Price:</dt>
-            <dd>{{paymentConfirmationData?.paintingPrice | currency: 'USD'}}</dd>
+            <dd>{{getPriceWithDecimal(paymentConfirmationData?.paintingPrice) | currency: 'USD'}}</dd>
         </span>
         <span class="d-flex justify-content-between">
             <dt>{{paymentConfirmationData?.carrierRateSelected?.service_type}}:</dt>
@@ -11,7 +11,7 @@
         </span>
         <span class="d-flex payment-summary__total mt-1 justify-content-between">
             <dt>Total:</dt>
-            <dd>{{getTotalPaymentPrice(this.paymentConfirmationData.totalAmount) | currency: 'USD'}}</dd>
+            <dd>{{getPriceWithDecimal(this.paymentConfirmationData.totalAmount) | currency: 'USD'}}</dd>
         </span>
         <div class="d-sm-flex d-block justify-content-between">
             <div class="mt-3">
