@@ -51,5 +51,6 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
     this.stripeService.deletePaymentDataFromSessionStorage();
     this.stripeService.deletePaymentIntentFromSessionStorage();
     this.paintingDetailsModalService.deletePaintingSelectedForPurchaseFromSessionStorage();
+    location.reload();
   }
 }
