@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class OrderingStatusComponent implements OnInit{
 
-  orderingStatus: Observable<ORDERING_STATUS> = this.orderingStatusService.OrderingStatus$;
+  orderingStatus$: Observable<ORDERING_STATUS> = this.orderingStatusService.OrderingStatus$;
   ORDERING_STATUS = ORDERING_STATUS;
 
   constructor(
@@ -35,6 +35,10 @@ export class OrderingStatusComponent implements OnInit{
         } 
         case '/checkout/confirmation': { 
           this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.confirmation)
+           break; 
+        }
+        case '/checkout/order-complete': { 
+          this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.complete)
            break; 
         } 
         default: { 

@@ -26,7 +26,7 @@ import { paymentGuard } from './ordering-steps/payment/payment.guard';
 import { confirmationGuard } from './ordering-steps/confirmation/confirmation.guard';
 import { ShippingSummaryComponent } from './ordering-steps/confirmation/shipping-summary/shipping-summary.component';
 import { PaymentSummaryComponent } from './ordering-steps/confirmation/payment-summary/payment-summary.component';
-import { OrderSummaryComponent } from './ordering-steps/order-summary/order-summary.component';
+import { OrderCompleteComponent } from './ordering-steps/order-complete/order-complete.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -48,8 +48,8 @@ const paintingCheckoutRoute: Routes = [
         canActivate: [confirmationGuard]
       },
       {
-        path: 'order-summary',
-        component: OrderSummaryComponent,
+        path: 'order-complete',
+        component: OrderCompleteComponent,
         canActivate: []
       },
       { path: '', pathMatch: 'full', redirectTo: 'shipping' },

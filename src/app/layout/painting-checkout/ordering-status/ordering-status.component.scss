@@ -5,7 +5,7 @@
     border-radius: 6px;
     background: $white;
     text-align: center;
-    width: fit-content;
+    width: 351px;
     padding: 0px 17px 0px 17px;
     @media screen and (max-width: 360px) {
         padding: 0px 10px 0px 10px;
@@ -19,6 +19,10 @@
         &--active {
             color: rgba($dark-blue, 1);
         }
+    }
+
+    &__complete {
+        margin: auto;
     }
     mat-icon {
         transform: translateY(6.4px);

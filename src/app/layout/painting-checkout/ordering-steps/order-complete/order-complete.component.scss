@@ -1,0 +1,26 @@
+@import '../../../../../styles/colors.scss';
+@import '../../../../../styles/mixins.scss';
+
+.order-complete {
+    margin: auto;
+    text-align: center;
+    &__message {
+        text-align: left;
+        margin: auto;
+        background: $white;
+        border-radius: 4px;
+        @include box-shadow;
+        width: 620px;
+        p {
+            margin-bottom: 0;
+        }
+    }
+    &__contact-email:hover {
+        color: $dark-blue;
+    }
+    &__back-to-gallery-button {
+        @include generic-button;
+        padding: 10px 20px; 
+    }
+}
+

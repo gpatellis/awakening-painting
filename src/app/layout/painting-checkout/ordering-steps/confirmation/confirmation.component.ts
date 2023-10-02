@@ -24,9 +24,9 @@ export class ConfirmationComponent implements OnDestroy {
     private shippingService: ShippingService,
     private confirmationService: ConfirmationService,
     private errorDialogService: ErrorDialogService,
-    private loadingIndicatorService: LoadingIndicatorService){}
+    private loadingIndicatorService: LoadingIndicatorService) {}
 
-  processOrder() {
+  processOrder(): void {
     this.loadingIndicatorService.show();
     this.confirmationService.updateSoldPainting(UPDATE_SOLD_PAINTING.sold).subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
       if(response.update == UPDATE_SOLD_PAINTING_RESPONSES.successfull) {
@@ -41,7 +41,7 @@ export class ConfirmationComponent implements OnDestroy {
     });
   }
 
- submitPaymentToStripe() {
+ submitPaymentToStripe(): void {
   this.stripeService.submitPayment(this.paymentConfirmationData.paymentIntent.client_secret, this.paymentConfirmationData.paymentMethodDetails.id).then((result: STRIPE_PAYMENT_CONFIRMATION_RESPONSE) => {
     if (result.error) {
       this.loadingIndicatorService.hide();

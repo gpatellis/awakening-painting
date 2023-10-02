@@ -91,12 +91,12 @@ export class ConfirmationService {
       if(result.status != SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_SUCCESS) {
         console.error(SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_ERROR);
       }
-      this.navigateToOrderSummaryPage();
+      this.navigateToOrderCompletePage();
     });
   }
 
-  navigateToOrderSummaryPage(): void {
-    this.router.navigate(['/checkout','order-summary']);
+  navigateToOrderCompletePage(): void {
+    this.router.navigate(['/checkout','order-complete']);
     this.loadingIndicatorService.hide();
   }
 
@@ -114,7 +114,7 @@ export class ConfirmationService {
           return response as SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_RESPONSE;
         }),
         catchError( error => {
-          this.navigateToOrderSummaryPage();
+          this.navigateToOrderCompletePage();
           return throwError(() => error)
         })
       )
