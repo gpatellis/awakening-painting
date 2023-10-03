@@ -11,6 +11,7 @@ import { ShippingService } from '../shipping/shipping.service';
 import { SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_ERROR, SHIPPING_LABEL_AND_CONFIRMATION_EMAIL_SUCCESS, STRIPE_PAYMENT_CONSOLE_ERROR, STRIPE_PAYMENT_SUCCESS, UPDATE_SOLD_PAINTING } from './confirmation.constants';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { Router } from '@angular/router';
+import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,11 @@ export class ConfirmationService {
     private httpClient: HttpClient,
     private stripeService: StripeService,
     private errorDialogService: ErrorDialogService,
-    private paintingCheckoutService: PaintingCheckoutService,
+    private paintingDetailsModalService: PaintingDetailsModalService,
     private shippingService: ShippingService,
     private loadingIndicatorService: LoadingIndicatorService,
-    private router: Router) { }
+    private router: Router,
+    private paintingCheckoutService: PaintingCheckoutService) { }
 
   checkStripePaymentResponse(stripePaymentConfirmationResponse: STRIPE_PAYMENT_CONFIRMATION_RESPONSE): void {
     if(stripePaymentConfirmationResponse.paymentIntent?.status == STRIPE_PAYMENT_SUCCESS) { 
@@ -67,7 +69,7 @@ export class ConfirmationService {
 
   updateSoldPainting(update: UPDATE_SOLD_PAINTING): Observable<UPDATE_SOLD_PAINTING_RESPONSE> {
     const requestBody =  {
-      "paintingImage": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.image,
+      "paintingImage": this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.image,
       "update": update
     };
     let headers = new HttpHeaders();
@@ -96,6 +98,7 @@ export class ConfirmationService {
   }
 
   navigateToOrderCompletePage(): void {
+    this.paintingCheckoutService.orderComplete = true;
     this.router.navigate(['/checkout','order-complete']);
     this.loadingIndicatorService.hide();
   }
@@ -104,7 +107,7 @@ export class ConfirmationService {
     const requestBody = {
       "paymentConfirmationData": this.stripeService.getPaymentDataFromSessionStorage(),
       "shippingAddress": this.shippingService.getShippingAddressFromSessionStorage(),
-      "paintingName": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.name
+      "paintingName": this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.name
     }
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');

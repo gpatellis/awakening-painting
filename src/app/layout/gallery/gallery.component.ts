@@ -4,6 +4,7 @@ import { PaintingImageService } from './painting-image-service/painting-image.se
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening/screensize-listening.service';
 import { Observable } from 'rxjs';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { PaintingCheckoutService } from '../painting-checkout/painting-checkout.service';
 
 
 @Component({
@@ -21,20 +22,16 @@ export class GalleryComponent implements OnInit {
   constructor(
     private paintingImageService: PaintingImageService,
     private screensizeListeningService: ScreensizeListeningService,
-    private loadingIndicatorService: LoadingIndicatorService
+    private loadingIndicatorService: LoadingIndicatorService,
+    private paintingCheckoutService: PaintingCheckoutService
     ) { }
 
   ngOnInit(): void {
     this.loadingIndicatorService.show();
+    this.paintingCheckoutService.clearAllCheckoutData();
     this.listenForMobileView();
     this.listenForTableView();
-    let paintingData = JSON.parse(localStorage.getItem('paintingData') as string);
-    if (paintingData) {
-      this.paintingData = this.paintingImageService.getPaintingImagesFromStorage();
-      this.loadingIndicatorService.hide();
-    } else {
-      this.getPaintingData();
-    }
+    this.getPaintingData();
   }
 
   listenForMobileView(): void {

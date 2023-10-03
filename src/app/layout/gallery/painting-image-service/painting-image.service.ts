@@ -54,7 +54,6 @@ export class PaintingImageService {
           let objectURL = URL.createObjectURL(imageResponse as Blob);
           paintingDataSet.objectUrl = objectURL;
           paintingDataSet.renderedImage = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          this.storePaintingImagesInStorage(paintingData);
           }
       )});       
   }
@@ -74,20 +73,4 @@ export class PaintingImageService {
         })
       )
   };       
-
-  storePaintingImagesInStorage(paintingImages: PaintingData[]): void {
-    localStorage.setItem('paintingData', JSON.stringify(paintingImages));
-  }
-
-  getPaintingImagesFromStorage(): PaintingData[] {
-    let paintingData = JSON.parse(localStorage.getItem('paintingData') as string);
-    paintingData.forEach((painting: PaintingData) => {
-      painting.renderedImage =  this.sanitizer.bypassSecurityTrustResourceUrl(painting.objectUrl);
-    });
-    return paintingData;
-  }
-
-  removePaintingImagesFromLocalStorage(): void {
-    localStorage.removeItem('paintingData');
-  }
 }

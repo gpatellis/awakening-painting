@@ -11,7 +11,7 @@ import { OrderingStatusService } from '../../ordering-status/ordering-status.ser
 import { ORDERING_STATUS } from '../../painting-checkout.model';
 import { SHIPPING_SERVICE_ERROR, SHIPPING_SERVICE_INVALID_ADDRESS } from 'src/app/api-error-messages.constants';
 import { SHIPPING_ADDRESS_STRIPE } from '../payment/payment.model';
-import { PaintingCheckoutService } from '../../painting-checkout.service';
+import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class ShippingService {
     private loadingIndicatorService: LoadingIndicatorService,
     private errorDialogService: ErrorDialogService,
     private orderingStatusService: OrderingStatusService,
-    private paintingCheckoutService: PaintingCheckoutService) {
+    private paintingDetailsModalService: PaintingDetailsModalService) {
      }
 
   getShippingFormGroup(): FormGroup {
@@ -119,14 +119,14 @@ export class ShippingService {
         "packages": [
           {
             "weight": {
-              "value": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weight),
-              "unit": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.weightUnit
+              "value": Number(this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.weight),
+              "unit": this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.weightUnit
             },
             "dimensions": {
-              "length": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.length),
-              "width": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.width),
-              "height": Number(this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.height),
-              "unit": this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.distanceUnit
+              "length": Number(this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.length),
+              "width": Number(this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.width),
+              "height": Number(this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.height),
+              "unit": this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.distanceUnit
             }
           }
         ]

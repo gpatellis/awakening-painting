@@ -10,7 +10,7 @@ import { CHECKOUT_ERROR, CREDIT_CARD_ERROR, PAYMENT_SERVICE_ERROR } from 'src/ap
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { CARRIER_RATE } from '../ordering-steps/shipping/shipping.model';
 import { ShippingService } from '../ordering-steps/shipping/shipping.service';
-import { PaintingCheckoutService } from '../painting-checkout.service';
+import { PaintingDetailsModalService } from '../../gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class StripeService {
     private router: Router,
     private loadingIndicatorService: LoadingIndicatorService,
     private shippingService: ShippingService,
-    private paintingCheckoutService: PaintingCheckoutService) { }
+    private paintingDetailsModalService: PaintingDetailsModalService) { }
 
   createPaymentIntent(paintingImageName: string): Observable<string | undefined> {
     let requestBody = {
@@ -121,7 +121,7 @@ export class StripeService {
 
   async proccessPaymentData(carrierRateSelected: CARRIER_RATE): Promise<void> {
     this.loadingIndicatorService.show();
-    this.updatePaymentIntent(carrierRateSelected.shipping_amount.amount, this.paintingCheckoutService.paintingChosenForPurchaseWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE | undefined)=> {
+    this.updatePaymentIntent(carrierRateSelected.shipping_amount.amount, this.paintingDetailsModalService.paintingChosenForPurchaseWithoutImage.image).subscribe(async (paymentIntentResponse: PAYMENT_INTENT_UPDATE | undefined)=> {
       if (paymentIntentResponse?.status === 'requires_payment_method' && this.elements) {
         const {error} = await this.elements.fetchUpdates();
         if (error) {

@@ -7,7 +7,7 @@ import { ShippingService } from '../shipping/shipping.service';
   templateUrl: './order-complete.component.html',
   styleUrls: ['./order-complete.component.scss']
 })
-export class OrderCompleteComponent {
+export class OrderCompleteComponent{
   emailAddress: string | undefined = this.shippingService.matchedAddress ? this.shippingService.matchedAddress.emailAddress : this.shippingService.getShippingAddressFromSessionStorage()?.emailAddress;
 
   constructor(private router: Router,

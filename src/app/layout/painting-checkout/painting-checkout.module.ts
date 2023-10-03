@@ -11,7 +11,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AddressTypeaheadComponent } from './ordering-steps/shipping/address-typeahead/address-typeahead.component';
 import { PaymentComponent } from './ordering-steps/payment/payment.component';
 import { ErrorDialogModule } from 'src/app/shared-components/loading-indicator/loading-indicator/error-dialog/error-dialog/error-dialog.module';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
@@ -27,6 +26,8 @@ import { confirmationGuard } from './ordering-steps/confirmation/confirmation.gu
 import { ShippingSummaryComponent } from './ordering-steps/confirmation/shipping-summary/shipping-summary.component';
 import { PaymentSummaryComponent } from './ordering-steps/confirmation/payment-summary/payment-summary.component';
 import { OrderCompleteComponent } from './ordering-steps/order-complete/order-complete.component';
+import { shippingGuard } from './ordering-steps/shipping/shipping.guard';
+import { orderCompleteGuard } from './ordering-steps/order-complete/order-complete.guard';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -35,12 +36,13 @@ const paintingCheckoutRoute: Routes = [
     children: [
       {
         path: 'shipping', 
-        component: ShippingComponent, 
+        component: ShippingComponent,
+        canActivate: [shippingGuard]
       },
       {
         path: 'payment', 
         component: PaymentComponent,
-        canActivate: [paymentGuard]
+        canActivate: [paymentGuard],
       },
       {
         path: 'confirmation',
@@ -50,10 +52,10 @@ const paintingCheckoutRoute: Routes = [
       {
         path: 'order-complete',
         component: OrderCompleteComponent,
-        canActivate: []
+        canActivate: [orderCompleteGuard]
       },
-      { path: '', pathMatch: 'full', redirectTo: 'shipping' },
-      { path: '**', redirectTo: 'shipping' }
+      { path: '', pathMatch: 'full', redirectTo: 'gallery' },
+      { path: '**', redirectTo: 'gallery' }
     ]
   }
 ];
@@ -64,7 +66,6 @@ const paintingCheckoutRoute: Routes = [
     OrderingStatusComponent,
     ShippingComponent,
     MiniPaintingCardComponent,
-    AddressTypeaheadComponent,
     PaymentComponent,
     ShippingOptionsComponent,
     CardInputComponent,

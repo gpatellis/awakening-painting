@@ -1,8 +1,0 @@
-@import '../../../../../../styles/colors.scss';
-@import '../../../../../../styles/mixins.scss';
-
-.address-typeahead {
-    display: block;
-    margin-bottom: 16px;
-    @include shipping-input;
-}

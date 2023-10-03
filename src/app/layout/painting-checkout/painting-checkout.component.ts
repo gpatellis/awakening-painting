@@ -1,19 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PaintingData } from '../gallery/gallery-interfaces';
 import { PaintingDetailsModalService } from '../gallery/painting-card/painting-details-modal/painting-details-modal.service';
 import { Router } from '@angular/router';
 import { PaintingImageService } from '../gallery/painting-image-service/painting-image.service';
 import { Observable } from 'rxjs';
 import { StripeService } from './stripe/stripe.service';
-import { ShippingService } from './ordering-steps/shipping/shipping.service';
-import { PaintingCheckoutService } from './painting-checkout.service';
 
 @Component({
   selector: 'ap-painting-checkout',
   templateUrl: './painting-checkout.component.html',
   styleUrls: ['./painting-checkout.component.scss']
 })
-export class PaintingCheckoutComponent implements OnInit, OnDestroy {
+export class PaintingCheckoutComponent implements OnInit {
   
   paintingDataWithoutImage: PaintingData = this.paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage();
   paintingDataWithImage$: Observable<PaintingData>;
@@ -23,9 +21,7 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
     public paintingDetailsModalService: PaintingDetailsModalService,
     private router: Router,
     private paintingImageService: PaintingImageService,
-    private stripeService: StripeService,
-    private shippingService: ShippingService,
-    private paintingCheckoutService: PaintingCheckoutService) { }
+    private stripeService: StripeService) { }
 
   ngOnInit(): void {
     this.checkForPaintingData();
@@ -41,16 +37,8 @@ export class PaintingCheckoutComponent implements OnInit, OnDestroy {
     if(!this.paintingDataWithoutImage) {
       this.router.navigate(['/gallery']);
     } else {
-      this.paintingCheckoutService.setPaintingDataForCheckout(this.paintingDataWithoutImage);
+      this.paintingDetailsModalService.setPaintingDataForCheckout(this.paintingDataWithoutImage);
     }
   }
 
-  ngOnDestroy(): void {
-    this.stripeService.stripeElements$.next(undefined);
-    this.shippingService.deleteShippingAddressFromSessionStorage();
-    this.stripeService.deletePaymentDataFromSessionStorage();
-    this.stripeService.deletePaymentIntentFromSessionStorage();
-    this.paintingDetailsModalService.deletePaintingSelectedForPurchaseFromSessionStorage();
-    location.reload();
-  }
 }

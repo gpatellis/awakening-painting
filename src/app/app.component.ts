@@ -14,9 +14,8 @@ import { ErrorDialogService } from './shared-services/error-dialog/error-dialog.
 })
 export class AppComponent implements OnDestroy, OnInit{
   title = 'awakening-painting';
-  refreshSubscription: Subscription;
   browserRefresh: boolean = false;
-  isLoadingIndicatorShowingSubscription: Subscription;
+  isLoadingIndicatorShowingSubscription$: Subscription;
   showLoadingIndicator: boolean;
   isPaintingDataLoadingError$ = this.errorDialogService.isPaintingDataError$;
 
@@ -30,14 +29,6 @@ export class AppComponent implements OnDestroy, OnInit{
     private errorDialogService: ErrorDialogService
     ) {
       this.handleRouteEvents();
-      this.refreshSubscription = router.events.subscribe((event) => {
-          if (event instanceof NavigationStart) {
-            this.browserRefresh = !router.navigated;
-            if(this.browserRefresh) {
-              this.paintingImageService.removePaintingImagesFromLocalStorage();
-            }
-          }
-      });
   }
 
   ngOnInit(): void {
@@ -45,7 +36,7 @@ export class AppComponent implements OnDestroy, OnInit{
   }
 
   listenForLoadingIndicator(): void {
-    this.isLoadingIndicatorShowingSubscription = this.loadingIndicatorService.isLoadingIndicatorShowing$.subscribe((showLoadingIndicator: boolean) => {
+    this.isLoadingIndicatorShowingSubscription$ = this.loadingIndicatorService.isLoadingIndicatorShowing$.subscribe((showLoadingIndicator: boolean) => {
       this.showLoadingIndicator = showLoadingIndicator;
       this.cd.detectChanges();
     });
@@ -80,7 +71,6 @@ export class AppComponent implements OnDestroy, OnInit{
   //////////////////////////////////////
 
   ngOnDestroy(): void {
-    this.refreshSubscription.unsubscribe();
-    this.isLoadingIndicatorShowingSubscription.unsubscribe();
+    this.isLoadingIndicatorShowingSubscription$.unsubscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { PaintingData } from '../../gallery-interfaces';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { PaintingData } from '../../gallery-interfaces';
 export class PaintingDetailsModalService {
 
   public closePaintingDetailsModal$ = new BehaviorSubject<boolean>(false);
+  paintingChosenForPurchaseWithoutImage: PaintingData;
 
   constructor() { }
 
@@ -23,5 +24,9 @@ export class PaintingDetailsModalService {
 
   deletePaintingSelectedForPurchaseFromSessionStorage() {
     sessionStorage.removeItem('paintingDataChosenForPurchase');
+  }
+
+  setPaintingDataForCheckout(paintingDataWithoutImage: PaintingData) {
+    this.paintingChosenForPurchaseWithoutImage = paintingDataWithoutImage;
   }
 }

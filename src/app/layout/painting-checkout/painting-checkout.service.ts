@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
-import { PaintingData } from '../gallery/gallery-interfaces';
+import { StripeService } from './stripe/stripe.service';
+import { ShippingService } from './ordering-steps/shipping/shipping.service';
+import { PaintingDetailsModalService } from '../gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaintingCheckoutService {
-  paintingChosenForPurchaseWithoutImage: PaintingData;
+  orderComplete = false;
 
-  constructor() { }
+  constructor(private stripeService: StripeService,
+    private shippingService: ShippingService,
+    private paintingDetailsModalService: PaintingDetailsModalService) { }
 
-  setPaintingDataForCheckout(paintingDataWithoutImage: PaintingData) {
-    this.paintingChosenForPurchaseWithoutImage = paintingDataWithoutImage;
+  clearAllCheckoutData() {
+    this.stripeService.stripeElements$.next(undefined);
+    this.shippingService.deleteShippingAddressFromSessionStorage();
+    this.stripeService.deletePaymentDataFromSessionStorage();
+    this.stripeService.deletePaymentIntentFromSessionStorage();
+    this.paintingDetailsModalService.deletePaintingSelectedForPurchaseFromSessionStorage();
+    this.orderComplete = false;
   }
 }

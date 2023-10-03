@@ -11,6 +11,9 @@
         border-radius: 4px;
         @include box-shadow;
         width: 620px;
+        @media screen and (max-width: 668px) {
+            width: 90% !important;
+          }
         p {
             margin-bottom: 0;
         }
