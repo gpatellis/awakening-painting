@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ShippingService } from '../shipping/shipping.service';
 import { Router } from '@angular/router';
 import { CARRIER_RATE } from '../shipping/shipping.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PaymentService } from './payment.service';
 import { StripeService } from '../../stripe/stripe.service';
 
@@ -12,10 +12,11 @@ import { StripeService } from '../../stripe/stripe.service';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, OnDestroy {
   carrierRates$: Observable<CARRIER_RATE[]>;
   carrierRateSelected: CARRIER_RATE;
   isPaymentFormComplete: boolean = false;
+  isPaymentFormCompletedSubscription$: Subscription;
 
   constructor(
     private shippingService: ShippingService,
@@ -32,23 +33,27 @@ export class PaymentComponent implements OnInit {
     this.checkForPaymentFormCompletion();
   }
 
-  getCarrierRates() {
+  getCarrierRates(): void {
     this.carrierRates$ = this.shippingService.getCarrierRates();
   }
 
-  listenForCarrierRateSelected(carrierOption: CARRIER_RATE) {
+  listenForCarrierRateSelected(carrierOption: CARRIER_RATE): void {
     this.carrierRateSelected = carrierOption;
     this.paymentService.carrierRateSelected$.next(carrierOption);
   }
 
-  checkForPaymentFormCompletion() {
-    this.paymentService.isPaymentFormCompleted().subscribe((isComplete: boolean) => {
+  checkForPaymentFormCompletion(): void {
+    this.isPaymentFormCompletedSubscription$ = this.paymentService.isPaymentFormCompleted().subscribe((isComplete: boolean) => {
         this.isPaymentFormComplete = isComplete;
     });
   }
 
-  processPaymentData() {
+  processPaymentData(): void {
     this.stripeService.proccessPaymentData(this.carrierRateSelected);
+  }
+
+  ngOnDestroy(): void {
+    this.isPaymentFormCompletedSubscription$.unsubscribe();
   }
 
 }

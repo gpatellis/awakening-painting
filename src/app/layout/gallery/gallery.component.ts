@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PaintingData } from './gallery-interfaces';
 import { PaintingImageService } from './painting-image-service/painting-image.service';
 import { ScreensizeListeningService } from 'src/app/shared-services/screensize-listening/screensize-listening.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { PaintingCheckoutService } from '../painting-checkout/painting-checkout.service';
 
@@ -12,12 +12,13 @@ import { PaintingCheckoutService } from '../painting-checkout/painting-checkout.
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, OnDestroy {
   image: any;
   paintingData: PaintingData[] = [];
   browserRefresh: boolean = false;
   isMobileView$: Observable<boolean>;
   isTabletView$: Observable<boolean>;
+  getPaintingDataSubscription$: Subscription;
 
   constructor(
     private paintingImageService: PaintingImageService,
@@ -48,6 +49,10 @@ export class GalleryComponent implements OnInit {
       this.loadingIndicatorService.hide();
       this.paintingImageService.populatePaintingDataWithImages(this.paintingData);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.getPaintingDataSubscription$.unsubscribe();
   }
 
 }

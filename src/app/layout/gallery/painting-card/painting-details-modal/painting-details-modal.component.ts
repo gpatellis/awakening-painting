@@ -16,7 +16,7 @@ import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicat
 export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public paintingModalData!: PaintingModalData;
   isMobileOrTabletView: boolean = false;
-  isMobileOrTabletView$: Subscription;
+  isMobileOrTabletViewSubscription$: Subscription;
   showBuyPaintingButtonAndPrice = environment.allowOnlineCheckout;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaintingModalData,
@@ -27,7 +27,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
 
   ngOnInit(): void {
     this.paintingModalData = this.data;
-    this.isMobileOrTabletView$ = this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
+    this.isMobileOrTabletViewSubscription$ = this.screensizeListeningService.isMobileOrTabletView$.subscribe((value) => {
       this.isMobileOrTabletView = value;
     });
   }
@@ -77,7 +77,7 @@ export class PaintingDetailsModalComponent implements OnInit, AfterViewInit, OnD
   }
 
   ngOnDestroy(): void {
-    this.isMobileOrTabletView$.unsubscribe();
+    this.isMobileOrTabletViewSubscription$.unsubscribe();
   }
 
 }

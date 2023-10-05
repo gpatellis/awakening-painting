@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ORDERING_STATUS } from '../painting-checkout.model';
 import { OrderingStatusService } from './ordering-status.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,11 @@ import { Router } from '@angular/router';
   templateUrl: './ordering-status.component.html',
   styleUrls: ['./ordering-status.component.scss']
 })
-export class OrderingStatusComponent implements OnInit{
+export class OrderingStatusComponent implements OnInit, OnDestroy{
 
   orderingStatus$: Observable<ORDERING_STATUS> = this.orderingStatusService.OrderingStatus$;
   ORDERING_STATUS = ORDERING_STATUS;
+  routerEventsSubscription$: Subscription;
 
   constructor(
     private orderingStatusService: OrderingStatusService,
@@ -23,7 +24,7 @@ export class OrderingStatusComponent implements OnInit{
   }
 
   listenForRouteChange() {
-    this.router.events.subscribe(() => {
+    this.routerEventsSubscription$ = this.router.events.subscribe(() => {
       switch(this.router.url) { 
         case '/checkout/shipping': { 
           this.orderingStatusService.OrderingStatus$.next(ORDERING_STATUS.shipping)
@@ -46,7 +47,10 @@ export class OrderingStatusComponent implements OnInit{
           break; 
         } 
      } 
-  });
+    });
+  }
 
+  ngOnDestroy(): void {
+    this.routerEventsSubscription$.unsubscribe();
   }
 }

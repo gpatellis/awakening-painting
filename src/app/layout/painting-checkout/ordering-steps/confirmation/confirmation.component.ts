@@ -9,6 +9,7 @@ import { UPDATE_SOLD_PAINTING, UPDATE_SOLD_PAINTING_CONSOLE_ERROR, UPDATE_SOLD_P
 import { PAINTING_ALREADY_SOLD, PAYMENT_ERROR } from 'src/app/api-error-messages.constants';
 import { ErrorDialogService } from 'src/app/shared-services/error-dialog/error-dialog.service';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ap-confirmation',
@@ -19,7 +20,7 @@ export class ConfirmationComponent implements OnDestroy {
   
   paymentConfirmationData: PAYMENT_CONFRIMATION_DATA = this.stripeService.getPaymentDataFromSessionStorage();
   shippingData: ADDRESS | undefined = this.shippingService.matchedAddress ? this.shippingService.matchedAddress : this.shippingService.getShippingAddressFromSessionStorage();
-
+  updateSoldPaintingSubscription$: Subscription;
   constructor(private stripeService: StripeService,
     private shippingService: ShippingService,
     private confirmationService: ConfirmationService,
@@ -28,7 +29,7 @@ export class ConfirmationComponent implements OnDestroy {
 
   processOrder(): void {
     this.loadingIndicatorService.show();
-    this.confirmationService.updateSoldPainting(UPDATE_SOLD_PAINTING.sold).subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
+    this.updateSoldPaintingSubscription$ = this.confirmationService.updateSoldPainting(UPDATE_SOLD_PAINTING.sold).subscribe((response: UPDATE_SOLD_PAINTING_RESPONSE) => {
       if(response.update == UPDATE_SOLD_PAINTING_RESPONSES.successfull) {
         this.submitPaymentToStripe();
       } else if (response.update == UPDATE_SOLD_PAINTING_RESPONSES.paintingAlreadySold) {
@@ -54,5 +55,6 @@ export class ConfirmationComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.stripeService.deletePaymentDataFromSessionStorage();
+    this.updateSoldPaintingSubscription$.unsubscribe();
   }
 }

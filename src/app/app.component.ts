@@ -16,6 +16,7 @@ export class AppComponent implements OnDestroy, OnInit{
   title = 'awakening-painting';
   browserRefresh: boolean = false;
   isLoadingIndicatorShowingSubscription$: Subscription;
+  routerEventsSubscription$: Subscription;
   showLoadingIndicator: boolean;
   isPaintingDataLoadingError$ = this.errorDialogService.isPaintingDataError$;
 
@@ -44,7 +45,7 @@ export class AppComponent implements OnDestroy, OnInit{
   ///////// GOOGLE ANALYTICS ////////////
   
   handleRouteEvents() {
-    this.router.events.subscribe(event => {
+    this.routerEventsSubscription$ = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(this.router.routerState, this.router.routerState.root).join('-');
         this.titleService.setTitle(title);
@@ -72,5 +73,6 @@ export class AppComponent implements OnDestroy, OnInit{
 
   ngOnDestroy(): void {
     this.isLoadingIndicatorShowingSubscription$.unsubscribe();
+    this.routerEventsSubscription$.unsubscribe();
   }
 }
