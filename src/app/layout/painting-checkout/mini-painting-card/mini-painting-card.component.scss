@@ -1,5 +1,6 @@
 @import '../../../../styles/colors.scss';
 @import '../../../../styles/mixins.scss';
+@import '../../../../styles/bootstrap.scss';
 
 :host {
     display: flex;
@@ -9,6 +10,11 @@
 .mpc-container {
     width: fit-content;
     text-align: center;
+    width: 351px;
+    
+    @include media-breakpoint-down(sm){
+        width: 90% !important;
+    }
     &__painting-image {
         width: 50px;
     }
@@ -26,15 +32,14 @@
             width: 90vw;
         }
     }
+
+    mat-expansion-panel {
+        width: 100%;
+    }
    
     mat-expansion-panel-header {
         height: fit-content;
-        min-width: 350px;
         padding: 10px !important;
-        @media screen and (max-width: 360px) {
-            max-width: 338px;
-            min-width: 0px !important;
-        }
     }
 }
 

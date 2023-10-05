@@ -8,10 +8,10 @@
     font-weight: 400;
     font-size: 14.88px;
     width: 50%;
-    padding: 20px;
+    padding-top: 20px;
     margin: auto;
     @include  media-breakpoint-down(lg) {
-        width: 100% !important;
+        width: 90% !important;
     }
     @include shipping-input;
 
