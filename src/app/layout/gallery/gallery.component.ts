@@ -44,7 +44,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   getPaintingData(): void {
-    this.paintingImageService.getPaintingData().subscribe((paintingData) => {
+    this.getPaintingDataSubscription$ = this.paintingImageService.getPaintingData().subscribe((paintingData) => {
       this.paintingData = paintingData;
       this.loadingIndicatorService.hide();
       this.paintingImageService.populatePaintingDataWithImages(this.paintingData);
