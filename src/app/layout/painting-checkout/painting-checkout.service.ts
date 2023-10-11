@@ -7,7 +7,6 @@ import { PaintingDetailsModalService } from '../gallery/painting-card/painting-d
   providedIn: 'root'
 })
 export class PaintingCheckoutService {
-  orderComplete = false;
 
   constructor(private stripeService: StripeService,
     private shippingService: ShippingService,
@@ -19,6 +18,5 @@ export class PaintingCheckoutService {
     this.stripeService.deletePaymentDataFromSessionStorage();
     this.stripeService.deletePaymentIntentFromSessionStorage();
     this.paintingDetailsModalService.deletePaintingSelectedForPurchaseFromSessionStorage();
-    this.orderComplete = false;
   }
 }

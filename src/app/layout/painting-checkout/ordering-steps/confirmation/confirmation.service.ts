@@ -17,6 +17,7 @@ import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-car
   providedIn: 'root'
 })
 export class ConfirmationService {
+  orderComplete = false;
   
   constructor(
     private httpClient: HttpClient,
@@ -98,7 +99,7 @@ export class ConfirmationService {
   }
 
   navigateToOrderCompletePage(): void {
-    this.paintingCheckoutService.orderComplete = true;
+    this.orderComplete = true;
     this.router.navigate(['/checkout','order-complete']);
     this.loadingIndicatorService.hide();
   }

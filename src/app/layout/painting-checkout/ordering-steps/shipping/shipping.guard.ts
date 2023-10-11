@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
-import { PaintingCheckoutService } from '../../painting-checkout.service';
+import { PaintingDetailsModalService } from 'src/app/layout/gallery/painting-card/painting-details-modal/painting-details-modal.service';
 
 export const shippingGuard: CanActivateFn = (route, state) => {
-  const paintingCheckoutService = inject(PaintingCheckoutService);
-  return !paintingCheckoutService.orderComplete;
-};
+  const paintingDetailsModalService = inject(PaintingDetailsModalService)
+  return paintingDetailsModalService.getPaintingSelectedForPurchaseFromSessionStorage() ? true : false;
+}
