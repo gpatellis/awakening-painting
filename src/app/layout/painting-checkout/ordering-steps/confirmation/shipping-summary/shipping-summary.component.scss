@@ -6,6 +6,7 @@
     @include summary-card;
     @include media-breakpoint-down(sm) {
         min-width: none;
+        max-width: none;
     }
 
     &__col--border {

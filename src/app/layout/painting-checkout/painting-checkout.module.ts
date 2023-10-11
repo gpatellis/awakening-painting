@@ -28,6 +28,7 @@ import { PaymentSummaryComponent } from './ordering-steps/confirmation/payment-s
 import { OrderCompleteComponent } from './ordering-steps/order-complete/order-complete.component';
 import { shippingGuard } from './ordering-steps/shipping/shipping.guard';
 import { orderCompleteGuard } from './ordering-steps/order-complete/order-complete.guard';
+import { ReturnPolicyComponent } from './return-policy/return-policy.component';
 
 const paintingCheckoutRoute: Routes = [
   {
@@ -71,7 +72,8 @@ const paintingCheckoutRoute: Routes = [
     CardInputComponent,
     ConfirmationComponent,
     ShippingSummaryComponent,
-    PaymentSummaryComponent
+    PaymentSummaryComponent,
+    ReturnPolicyComponent
   ],
   imports: [
     CommonModule,

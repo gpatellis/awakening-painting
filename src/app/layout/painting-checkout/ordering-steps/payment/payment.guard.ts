@@ -6,7 +6,6 @@ import { PaintingCheckoutService } from '../../painting-checkout.service';
 export const paymentGuard: CanActivateFn = (route, state) => {
   const shippingService = inject(ShippingService);
   const paintingCheckoutService = inject(PaintingCheckoutService)
-  const router = inject(Router);
   if(shippingService.getShippingAddressFromSessionStorage() && !paintingCheckoutService.orderComplete) {
     return true;
   }

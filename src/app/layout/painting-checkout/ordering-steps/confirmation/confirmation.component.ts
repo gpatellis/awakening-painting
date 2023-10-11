@@ -55,6 +55,7 @@ export class ConfirmationComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.stripeService.deletePaymentDataFromSessionStorage();
-    this.updateSoldPaintingSubscription$.unsubscribe();
+    if(this.updateSoldPaintingSubscription$)
+      this.updateSoldPaintingSubscription$.unsubscribe();
   }
 }
