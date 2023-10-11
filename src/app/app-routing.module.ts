@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { paintingCheckoutGuard } from './layout/painting-checkout/painting-checkout.guard';
 import { ContactComponent } from './layout/contact/contact.component';
+import { HomeComponent } from './layout/home/home.component';
 
 const routes: Routes = [
+  { path: 'home', component: HomeComponent},
   { 
     path: 'gallery',
     loadChildren: () => import('./layout/gallery/gallery.module').then(m => m.GalleryModule) 
