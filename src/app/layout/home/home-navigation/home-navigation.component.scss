@@ -1,0 +1,19 @@
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/bootstrap.scss';
+
+.home-navigation {
+    border-radius: 4px;
+    width: 45%;
+    @include media-breakpoint-down(lg){
+        width: 80% !important;
+    }
+    @include media-breakpoint-down(md){
+        width: 90% !important;
+    }
+
+    &__button {
+        @include generic-button;
+        padding: 10px 15px 10px 15px;
+        margin: 5px;
+    }
+}

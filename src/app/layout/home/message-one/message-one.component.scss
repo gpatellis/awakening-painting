@@ -1,0 +1,6 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+.message-one {
+    @include home-message;
+}

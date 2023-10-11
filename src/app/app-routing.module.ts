@@ -16,8 +16,8 @@ const routes: Routes = [
     canActivate: [paintingCheckoutGuard]
   },
   { path: 'contact', component: ContactComponent},
-  { path: '', pathMatch: 'full', redirectTo: 'gallery' },
-  { path: '**', redirectTo: 'gallery' }
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
