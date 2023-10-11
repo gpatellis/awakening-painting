@@ -9,10 +9,11 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { HamburgerMenuComponent } from './layout/toolbar/hamburger-menu/hamburger-menu/hamburger-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { LoadingIndicatorModule } from './shared-components/loading-indicator/loading-indicator/loading-indicator.module';
+import { LoadingIndicatorModule } from './shared-components/loading-indicator/loading-indicator.module';
 import { ContactComponent } from './layout/contact/contact.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HomeComponent } from './layout/home/home.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     HamburgerMenuComponent,
     ContactComponent,
     ErrorPageComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

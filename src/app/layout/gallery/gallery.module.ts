@@ -6,7 +6,7 @@ import { PaintingDetailsModalComponent } from './painting-card/painting-details-
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
-import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator/loading-indicator.module';
+import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator.module';
 
 const galleryRoute: Routes = [
   {
