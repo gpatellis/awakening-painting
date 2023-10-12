@@ -1,11 +1,11 @@
 @import '../../../styles/colors.scss';
-
+@import '../../../styles/mixins.scss';
 .paintings-row {
     margin-bottom: 75px;
 }
 
-.gallery-title{
-    color: $dark-blue;
+.gallery-title {
+    @include page-name;
 }
 
 .painting-card-col-xxl {

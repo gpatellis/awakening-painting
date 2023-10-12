@@ -1,4 +1,4 @@
-<h5 class="ms-4 mt-3 mb-2 gallery-title">Gallery</h5>
+<h5 class="gallery-title">Gallery</h5>
 <div *ngIf="paintingData?.length" class="row mx-2 paintings-row">
     <div *ngFor="let painting of paintingData" class="col-12 col-md-6 col-xl-4 painting-card-col-xxl p-3">
         <ap-painting-card [painting]="painting" [isMobileView]="isMobileView$ | async"
