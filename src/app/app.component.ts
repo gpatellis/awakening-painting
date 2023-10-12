@@ -34,6 +34,7 @@ export class AppComponent implements OnDestroy, OnInit{
 
   ngOnInit(): void {
     this.listenForLoadingIndicator();
+    this.loadingIndicatorService.show();
   }
 
   listenForLoadingIndicator(): void {
