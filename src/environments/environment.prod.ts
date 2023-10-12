@@ -13,6 +13,6 @@ export const environment = {
     apiKey: "AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE"
   },
   stripe: {
-    publicKey: "pk_test_51NXQnKAFGO2wW8pWFNwPdMIGFRwXIHFRsKqOThn95bOAuxNsSuKBS6h3o7rSs7SSoS7NTPimqmKTdaJYVqVzcwG800GZh6hL3a",
+    publicKey: "pk_live_51NXQnKAFGO2wW8pWFyP20bM98fQyXLMrLJvOGzAXyANNHKRlkrfLeU6MJEDE0e14Jlddyb4rYWWTcceLazoz9cD4001JpBC1eE",
   }
 };
