@@ -2,6 +2,8 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { apiKeys } from "./api-keys/api-keys";
+
 export const environment = {
   production: false,
   getAddressValidationEndpoint: "https://7ht7ltoomd.execute-api.us-east-1.amazonaws.com/dev/checkAddressValidation",
@@ -14,10 +16,10 @@ export const environment = {
   createShippingLabelAndConfirmationEmailEndpoint: 'https://py3576nqti.execute-api.us-east-1.amazonaws.com/dev/createShippingLabelAndConfirmationEmail',
   allowOnlineCheckout: true,
   googleMapsApi: {
-    apiKey: "AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE"
+    apiKey: apiKeys.googleMapsApi.apiKey
   },
   stripe: {
-    publicKey: "pk_test_51NXQnKAFGO2wW8pWFNwPdMIGFRwXIHFRsKqOThn95bOAuxNsSuKBS6h3o7rSs7SSoS7NTPimqmKTdaJYVqVzcwG800GZh6hL3a",
+    publicKey: apiKeys.stripe.publicKey,
   }
 };
 

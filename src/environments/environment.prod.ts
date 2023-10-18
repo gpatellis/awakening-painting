@@ -1,3 +1,5 @@
+import { apiKeys } from "./api-keys/api-keys.prod";
+
 export const environment = {
   production: true,
   getAddressValidationEndpoint: "https://7ht7ltoomd.execute-api.us-east-1.amazonaws.com/v1/checkAddressValidation",
@@ -10,9 +12,9 @@ export const environment = {
   createShippingLabelAndConfirmationEmailEndpoint: 'https://py3576nqti.execute-api.us-east-1.amazonaws.com/v1/createShippingLabelAndConfirmationEmail',
   allowOnlineCheckout: true,
   googleMapsApi: {
-    apiKey: "AIzaSyC9s0coG4ziTZ9etSHtm_FWwrPRPX9c2eE"
+    apiKey: apiKeys.googleMapsApi.apiKey
   },
   stripe: {
-    publicKey: "pk_live_51NXQnKAFGO2wW8pWFyP20bM98fQyXLMrLJvOGzAXyANNHKRlkrfLeU6MJEDE0e14Jlddyb4rYWWTcceLazoz9cD4001JpBC1eE",
+    publicKey: apiKeys.stripe.publicKey,
   }
 };
