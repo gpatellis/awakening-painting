@@ -1,5 +1,6 @@
 @import '../../../styles/colors.scss';
 @import '../../../styles/mixins.scss';
+@import '../../../styles/bootstrap.scss';
 
 .gallery-title {
     @include page-name;
@@ -32,5 +33,18 @@
 
     .mat-mdc-paginator-container {
         justify-content: center !important;
+    }
+
+    @include media-breakpoint-down(sm){
+        .mat-mdc-paginator-range-actions {
+            display: block !important;
+            text-align: center;
+        }
+        .mat-mdc-paginator-container {
+            display: block !important;
+        }
+        .mat-mdc-paginator-page-size {
+            justify-content: center;
+        }
     }
 }
