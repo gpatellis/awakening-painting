@@ -1,8 +1,5 @@
 @import '../../../styles/colors.scss';
 @import '../../../styles/mixins.scss';
-.paintings-row {
-    margin-bottom: 75px;
-}
 
 .gallery-title {
     @include page-name;
@@ -12,5 +9,28 @@
     @media screen and (min-width: 1800px) {
         flex: 0 0 auto !important;
         width: 25% !important;
+    }
+}
+
+.paginator {
+    width: fit-content;
+    margin: auto;
+}
+
+::ng-deep {
+    .mat-mdc-paginator-container {
+        color: $dark-blue;
+    }
+
+    .mat-mdc-icon-button:disabled {
+        color: rgba($dark-blue, 0.35) !important;
+    }
+
+    .mdc-tooltip__surface {
+        color: $dark-blue !important
+    }
+
+    .mat-mdc-paginator-container {
+        justify-content: center !important;
     }
 }

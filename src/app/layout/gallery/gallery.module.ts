@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoadingIndicatorModule } from 'src/app/shared-components/loading-indicator/loading-indicator.module';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 const galleryRoute: Routes = [
   {
@@ -26,7 +27,8 @@ const galleryRoute: Routes = [
     MatIconModule,
     MatDialogModule,
     RouterModule.forChild(galleryRoute),
-    LoadingIndicatorModule
+    LoadingIndicatorModule,
+    MatPaginatorModule
   ],
   exports: [RouterModule]
 })

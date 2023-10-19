@@ -1,8 +1,17 @@
 <h5 class="gallery-title">Gallery</h5>
-<div *ngIf="paintingData?.length" class="row mx-2 paintings-row">
-    <div *ngFor="let painting of paintingData" class="col-12 col-md-6 col-xl-4 painting-card-col-xxl p-3">
+<div *ngIf="paintingData?.length" class="row mx-2 paintings-row mb-4">
+    <div *ngFor="let painting of paintingDataToDisplay" class="col-12 col-md-6 col-xl-4 painting-card-col-xxl p-3">
         <ap-painting-card [painting]="painting" [isMobileView]="isMobileView$ | async"
             [isTabletView]="isTabletView$ | async"></ap-painting-card>
     </div>
 
 </div>
+<mat-paginator class="paginator mb-3"
+    (page)="handlePageEvent($event)"
+    [length]="totalNumberOfPaintings"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="false"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+</mat-paginator>
