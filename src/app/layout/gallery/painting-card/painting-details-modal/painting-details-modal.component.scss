@@ -36,6 +36,9 @@
     &:focus-visible {
         outline:none;
     }
+    &:hover {
+        background-color: $dark-orange;
+    }
     &:disabled {
         background-color: rgba($black, 0.3) !important;
         color: $black-4;
