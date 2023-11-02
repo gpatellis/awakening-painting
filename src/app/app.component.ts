@@ -48,7 +48,7 @@ export class AppComponent implements OnDestroy, OnInit{
 
   setMetaTagsForSEO() {
     this.metaTagService.addTags([
-      { name: 'keywords', content: 'Awakening, Painting, Awakening Painting, Awakening Art, Art, Painting, awakeningpainting, awakeningpainting.com'},
+      { name: 'keywords', content: 'Awakening, Painting, Awakening Painting, Awakening Art, Art, Painting, awakeningpainting, awakeningpainting.com, awakening painting'},
       { name: 'robots', content: 'index, follow'},
       { name: 'author', content: 'Greg Patellis'},
       { name: 'viewport', content: 'width=device-width, initial-scale=1'},
