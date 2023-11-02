@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { LoadingIndicatorService } from 'src/app/shared-services/loading-indicator/loading-indicator.service';
 import { PaintingCheckoutService } from '../painting-checkout/painting-checkout.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Meta, Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements OnInit, OnDestroy {
+  title = 'Gallery - Awakening Painting';
+
   image: any;
   paintingData: PaintingData[] = [];
   paintingDataToDisplay: PaintingData[] = [];
@@ -32,15 +35,25 @@ export class GalleryComponent implements OnInit, OnDestroy {
     private paintingImageService: PaintingImageService,
     private screensizeListeningService: ScreensizeListeningService,
     private loadingIndicatorService: LoadingIndicatorService,
-    private paintingCheckoutService: PaintingCheckoutService
+    private paintingCheckoutService: PaintingCheckoutService,
+    private titleService: Title,
+    private metaTagService: Meta
     ) { }
 
   ngOnInit(): void {
+    this.setTitleAndMetaTag();
     this.loadingIndicatorService.show();
     this.paintingCheckoutService.clearAllCheckoutData();
     this.listenForMobileView();
     this.listenForTableView();
     this.getPaintingData();
+  }
+
+  setTitleAndMetaTag() {
+    this.titleService.setTitle(this.title);
+    this.metaTagService.updateTag(
+      {name: 'description', content: 'Gallery'}
+    );
   }
 
   listenForMobileView(): void {

@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterState } f
 import { Subscription } from 'rxjs';
 import { PaintingImageService } from './layout/gallery/painting-image-service/painting-image.service';
 import { LoadingIndicatorService } from './shared-services/loading-indicator/loading-indicator.service';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { ErrorDialogService } from './shared-services/error-dialog/error-dialog.service';
 
@@ -27,12 +27,14 @@ export class AppComponent implements OnDestroy, OnInit{
     private cd: ChangeDetectorRef,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
-    private errorDialogService: ErrorDialogService
+    private errorDialogService: ErrorDialogService,
+    private metaTagService: Meta
     ) {
       this.handleRouteEvents();
   }
 
   ngOnInit(): void {
+    this.setMetaTagsForSEO();
     this.listenForLoadingIndicator();
     this.loadingIndicatorService.show();
   }
@@ -42,6 +44,17 @@ export class AppComponent implements OnDestroy, OnInit{
       this.showLoadingIndicator = showLoadingIndicator;
       this.cd.detectChanges();
     });
+  }
+
+  setMetaTagsForSEO() {
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Awakening, Painting, Awakening Painting, Awakening Art, Art, Painting, awakeningpainting, awakeningpainting.com'},
+      { name: 'robots', content: 'index, follow'},
+      { name: 'author', content: 'Greg Patellis'},
+      { name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      { name: 'date', content: '2023-11-02', scheme: 'YYYY-MM-DD'},
+      { name: 'charset', content: 'UTF-8'},
+    ])
   }
   ///////// GOOGLE ANALYTICS ////////////
   
